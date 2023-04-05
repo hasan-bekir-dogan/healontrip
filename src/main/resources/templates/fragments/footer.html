@@ -1,4 +1,4 @@
-<!-- Footer -->
+
 <footer class="footer">
 
     <!-- Footer Top -->
@@ -10,26 +10,26 @@
                     <!-- Footer Widget -->
                     <div class="footer-widget footer-about">
                         <div class="footer-logo">
-                            <img src="assets/img/footer-logo.png" alt="logo">
+                            <img th:src="@{assets/img/footer-logo.png}" alt="logo">
                         </div>
                         <div class="footer-about-content">
                             <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. </p>
                             <div class="social-icon">
                                 <ul>
                                     <li>
-                                        <a href="#" target="_blank"><i class="fab fa-facebook-f"></i> </a>
+                                        <a th:href="@{#}" target="_blank"><i class="fab fa-facebook-f"></i> </a>
                                     </li>
                                     <li>
-                                        <a href="#" target="_blank"><i class="fab fa-twitter"></i> </a>
+                                        <a th:href="@{#}" target="_blank"><i class="fab fa-twitter"></i> </a>
                                     </li>
                                     <li>
-                                        <a href="#" target="_blank"><i class="fab fa-linkedin-in"></i></a>
+                                        <a th:href="@{#}" target="_blank"><i class="fab fa-linkedin-in"></i></a>
                                     </li>
                                     <li>
-                                        <a href="#" target="_blank"><i class="fab fa-instagram"></i></a>
+                                        <a th:href="@{#}" target="_blank"><i class="fab fa-instagram"></i></a>
                                     </li>
                                     <li>
-                                        <a href="#" target="_blank"><i class="fab fa-dribbble"></i> </a>
+                                        <a th:href="@{#}" target="_blank"><i class="fab fa-dribbble"></i> </a>
                                     </li>
                                 </ul>
                             </div>
@@ -45,11 +45,11 @@
                     <div class="footer-widget footer-menu">
                         <h2 class="footer-title">For Patients</h2>
                         <ul>
-                            <li><a href="search.html">Search for Doctors</a></li>
-                            <li><a href="login.html">Login</a></li>
-                            <li><a href="register.html">Register</a></li>
-                            <li><a href="booking.html">Booking</a></li>
-                            <li><a href="patient-dashboard.html">Patient Dashboard</a></li>
+                            <li><a th:href="@{#}">Search for Doctors</a></li>
+                            <li><a th:href="@{/login}">Login</a></li>
+                            <li><a th:href="@{/register}">Register</a></li>
+                            <li><a th:href="@{#}">Booking</a></li>
+                            <li><a th:href="@{#}">Patient Dashboard</a></li>
                         </ul>
                     </div>
                     <!-- /Footer Widget -->
@@ -62,11 +62,11 @@
                     <div class="footer-widget footer-menu">
                         <h2 class="footer-title">For Doctors</h2>
                         <ul>
-                            <li><a href="appointments.html">Appointments</a></li>
-                            <li><a href="chat.html">Chat</a></li>
-                            <li><a href="login.html">Login</a></li>
-                            <li><a href="doctor-register.html">Register</a></li>
-                            <li><a href="doctor-dashboard.html">Doctor Dashboard</a></li>
+                            <li><a th:href="@{#}">Appointments</a></li>
+                            <li><a th:href="@{#}">Chat</a></li>
+                            <li><a th:href="@{/login}">Login</a></li>
+                            <li><a th:href="@{/register}">Register</a></li>
+                            <li><a th:href="@{#}">Doctor Dashboard</a></li>
                         </ul>
                     </div>
                     <!-- /Footer Widget -->
@@ -119,8 +119,8 @@
                         <!-- Copyright Menu -->
                         <div class="copyright-menu">
                             <ul class="policy-menu">
-                                <li><a href="term-condition.html">Terms and Conditions</a></li>
-                                <li><a href="privacy-policy.html">Policy</a></li>
+                                <li><a th:href="@{#}">Terms and Conditions</a></li>
+                                <li><a th:href="@{#}">Policy</a></li>
                             </ul>
                         </div>
                         <!-- /Copyright Menu -->
@@ -135,5 +135,4 @@
     <!-- /Footer Bottom -->
 
 </footer>
-<!-- /Footer -->
 
