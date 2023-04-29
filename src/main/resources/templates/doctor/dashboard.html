@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+
+    <th:block th:include="fragments/head"></th:block>
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" th:href="@{/assets/css/bootstrap.min.css}">
+
+    <!-- Fontawesome CSS -->
+    <link rel="stylesheet" th:href="@{/assets/plugins/fontawesome/css/fontawesome.min.css}">
+    <link rel="stylesheet" th:href="@{/assets/plugins/fontawesome/css/all.min.css}">
+
+    <!-- Feathericon CSS -->
+    <link rel="stylesheet" th:href="@{/assets/css/feather.css}">
+
+    <!-- Select2 CSS -->
+    <link rel="stylesheet" th:href="@{/assets/plugins/select2/css/select2.min.css}">
+
+    <!-- Owl carousel CSS -->
+    <link rel="stylesheet" th:href="@{/assets/css/owl.carousel.min.css}">
+
+    <!-- Apex Chart -->
+    <link rel="stylesheet" th:href="@{/assets/plugins/apex/apexcharts.css}">
+
+    <!-- Main CSS -->
+    <link rel="stylesheet" th:href="@{/assets/css/style.css}">
+
+</head>
+<body>
+
+    <div>
+        <h2>Welcome to Doctor Dashboard</h2>
+
+        <div sec:authorize="isAuthenticated()">Authenticated as <span sec:authentication="name"></span></div>
+
+        <a href="/">home</a>
+
+        <form th:action="@{/doctor/logout}" method="post">
+            <input type="submit" value="Logout" />
+        </form>
+    </div>
+
+
+    <!-- jQuery -->
+    <script th:src="@{/assets/js/jquery-3.6.0.min.js}"></script>
+
+    <!-- Bootstrap Core JS -->
+    <script th:src="@{/assets/js/bootstrap.bundle.min.js}"></script>
+
+    <!-- Sticky Sidebar JS -->
+    <script th:src="@{/assets/plugins/theia-sticky-sidebar/ResizeSensor.js}"></script>
+    <script th:src="@{/assets/plugins/theia-sticky-sidebar/theia-sticky-sidebar.js}"></script>
+
+    <!-- Circle Progress JS -->
+    <script th:src="@{/assets/js/circle-progress.min.js}"></script>
+
+    <!-- Feather Icon JS -->
+    <script th:src="@{/assets/js/feather.min.js}"></script>
+
+    <!-- Select2 JS -->
+    <script th:src="@{/assets/plugins/select2/js/select2.min.js}"></script>
+
+    <!-- Owl Carousel JS -->
+    <script th:src="@{/assets/js/owl.carousel.min.js}"></script>
+
+    <!-- Apex Chart -->
+    <script th:src="@{/assets/plugins/apex/apexcharts.min.js}"></script>
+
+    <!-- Custom Apex Chart -->
+    <script th:src="@{/assets/plugins/apex/chart-data.js}"></script>
+
+    <!-- Custom JS -->
+    <script th:src="@{/assets/js/script.js}"></script>
+
+</body>
+</html>

@@ -1,0 +1,16 @@
+.account-page .main-wrapper .content .container-fluid .account-content .col-md-12.col-lg-6.login-right form .form-error {
+  height: auto;
+}
+.account-page .main-wrapper .content .container-fluid .account-content .col-md-12.col-lg-6.login-right form .form-error .form-control.floating {
+  border-color: #ff0100;
+}
+.account-page .main-wrapper .content .container-fluid .account-content .col-md-12.col-lg-6.login-right form .form-error .text-danger {
+  margin-top: 4px;
+  padding-left: 1px;
+}
+
+.main {
+  background-color: red;
+}
+
+/*# sourceMappingURL=layout.css.map */

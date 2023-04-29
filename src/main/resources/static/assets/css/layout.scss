@@ -1,0 +1,19 @@
+$i: !important;
+$form-red-color: #ff0100;
+
+.account-page .main-wrapper .content .container-fluid .account-content .col-md-12.col-lg-6.login-right form .form-error{
+  height:auto;
+  .form-control.floating{
+    border-color: $form-red-color;
+  }
+  .text-danger{
+    margin-top:4px;
+    padding-left: 1px;
+  }
+}
+
+// error pages (begin)
+.main{
+  background-color: red;
+}
+// error pages (end)
