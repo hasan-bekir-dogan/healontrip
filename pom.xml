@@ -7,7 +7,7 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>2.6.4</version>
+        <version>2.6.4</version>    <!--2.6.4--> <!--3.0.0-->
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
 
@@ -62,6 +62,11 @@
             <artifactId>thymeleaf-extras-springsecurity5</artifactId>
         </dependency>
 
+        <!--<dependency>
+            <groupId>org.thymeleaf</groupId>
+            <artifactId>thymeleaf-spring5</artifactId>
+        </dependency>-->
+
         <!--MongoDB-->
         <!--<dependency>
             <groupId>org.springframework.boot</groupId>
@@ -93,34 +98,6 @@
             <artifactId>mysql-connector-java</artifactId>
             <scope>runtime</scope>
         </dependency>
-
-        <!-- mssql -->
-        <!--<dependency>
-            <groupId>com.microsoft.sqlserver</groupId>
-            <artifactId>mssql-jdbc</artifactId>
-            <scope>runtime</scope>
-        </dependency>-->
-
-        <!-- oracle -->
-        <!--<dependency>
-            <groupId>com.oracle.database.jdbc</groupId>
-            <artifactId>ojdbc8</artifactId>
-            <scope>runtime</scope>
-        </dependency>-->
-
-        <!-- mariadb -->
-        <!--<dependency>
-            <groupId>org.mariadb.jdbc</groupId>
-            <artifactId>mariadb-java-client</artifactId>
-            <scope>runtime</scope>
-        </dependency>-->
-
-        <!-- postgresql -->
-        <!--<dependency>
-            <groupId>org.postgresql</groupId>
-            <artifactId>postgresql</artifactId>
-            <scope>runtime</scope>
-        </dependency>-->
 
         <!--Junit Test-->
         <dependency>
@@ -165,6 +142,7 @@
         </dependency>
 
     </dependencies>
+
 
     <build>
         <plugins>

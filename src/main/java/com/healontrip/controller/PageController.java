@@ -11,13 +11,13 @@ public class PageController {
         return "index";
     }
 
-    @GetMapping("/login")
-    public String login() {
-        return "login";
+    @GetMapping("/doctor/booking")
+    public String booking() {
+        return "booking";
     }
 
-    @GetMapping("/register")
-    public String register() {
-        return "register";
+    @GetMapping("/patient/doctors")
+    public String doctors() {
+        return "doctors";
     }
 }
