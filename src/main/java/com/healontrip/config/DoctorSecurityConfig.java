@@ -6,6 +6,8 @@ import org.springframework.core.annotation.Order;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.logout.HeaderWriterLogoutHandler;
 import org.springframework.security.web.header.writers.ClearSiteDataHeaderWriter;
@@ -14,20 +16,27 @@ import static org.springframework.security.web.header.writers.ClearSiteDataHeade
 
 @Configuration
 @EnableWebSecurity
-@Order(2)
+@Order(1)
 public class DoctorSecurityConfig extends WebSecurityConfigurerAdapter {
+    @Autowired
+    public UserDetailsService userDetailsService;
+
+    @Autowired
+    public PasswordEncoder passwordEncoder;
 
     @Autowired
     AuthenticationSuccessHandler authenticationSuccessHandler;
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
+        http.authorizeRequests().antMatchers("/").permitAll();
         http.authorizeRequests().antMatchers("/doctor/register").permitAll();
+        http.authorizeRequests().antMatchers("/assets/**").permitAll();
+        http.authorizeRequests().antMatchers("/uploads/**").permitAll();
 
         http.antMatcher("/doctor/**")
             .authorizeRequests(
-                    (authorize) ->authorize
-                            .antMatchers("/").permitAll()
+                    (authorize) -> authorize
                             .anyRequest().hasAuthority("DOCTOR")
             ).formLogin(
                     form -> form

@@ -4,7 +4,6 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import javax.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
-import org.hibernate.annotations.CreationTimestamp;
 import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedBy;
@@ -13,11 +12,14 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.util.Date;
 
+// lombok
 @Getter
 @Setter
 
+// hibernate jpa
 @MappedSuperclass
 
+// Auditing
 @EntityListeners(AuditingEntityListener.class)
 @JsonIgnoreProperties(value = {"created_date,updated_date"}, allowGetters = true)
 public class BaseEntity {
@@ -30,7 +32,7 @@ public class BaseEntity {
     @CreatedBy
     private String createdBy;
 
-    @Column(name = "created_date")
+    @Column(name = "created_date", nullable = false)
     @CreatedDate
     private Date createdDate;
 
@@ -41,9 +43,4 @@ public class BaseEntity {
     @Column(name = "updated_date")
     @LastModifiedDate
     private Date updatedDate;
-
-    @Column(name = "system_auto_date")
-    @Temporal(TemporalType.TIMESTAMP)
-    @CreationTimestamp
-    private Date date;
 }

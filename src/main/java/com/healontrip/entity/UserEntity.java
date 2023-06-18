@@ -11,13 +11,15 @@ import java.io.Serializable;
 
 @Data
 @NoArgsConstructor
-@AllArgsConstructor
 @Builder
 @Log4j2
 
 @Entity
 @Table(name="users")
 public class UserEntity extends BaseEntity implements Serializable{
+    @Column(name = "profile_img_id")
+    private Long profileImgId;
+
     @Column(name = "name", nullable = false)
     private String name;
 
@@ -32,4 +34,13 @@ public class UserEntity extends BaseEntity implements Serializable{
 
     @Enumerated(EnumType.STRING)
     private Role role;
+
+    public UserEntity(Long profileImgId, String name, String phoneNumber, String email, String password, Role role){
+        this.profileImgId = profileImgId;
+        this.name = name;
+        this.phoneNumber = phoneNumber;
+        this.email = email;
+        this.password = password;
+        this.role = role;
+    }
 }

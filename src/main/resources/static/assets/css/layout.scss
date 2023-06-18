@@ -1,19 +1,57 @@
-$i: !important;
-$form-red-color: #ff0100;
+@import "function";
+@import "_variables";
 
-.account-page .main-wrapper .content .container-fluid .account-content .col-md-12.col-lg-6.login-right form .form-error{
-  height:auto;
-  .form-control.floating{
-    border-color: $form-red-color;
+.form-validation {
+  .form-error {
+    height: auto;
+    input.form-control, textarea.form-control {
+      border-color: $form-red-color;
+    }
+    select.form-control {
+      border: 1px solid $form-red-color $i;
+    }
+    .text-danger {
+      margin-top: 4px;
+      padding-left: 1px;
+    }
   }
-  .text-danger{
-    margin-top:4px;
+  .service-upload.image.form-error{
+    margin-bottom: 0;
+    border: 1px solid $form-red-color $i;
+    .custom-text-danger {
+      color: $form-red-color;
+    }
+  }
+  .custom-text-danger{
+    color:$form-red-color;
+    margin-top: 4px;
     padding-left: 1px;
   }
 }
 
+
+
 // error pages (begin)
 .main{
-  background-color: red;
+  background-color: $form-red-color;
 }
 // error pages (end)
+
+
+
+.dashboard-menu > ul > li > form > a {
+  color: #757575;
+  display: block;
+  padding: 16px 20px;
+}
+.dashboard-menu > ul > li:hover > form > a,
+.dashboard-menu > ul > li.active > form > a {
+  color: #0de0fe;
+}
+.dashboard-menu > ul > li:hover {
+  color: #0de0fe;
+  cursor: pointer;
+  > form > a {
+    cursor: pointer;
+  }
+}

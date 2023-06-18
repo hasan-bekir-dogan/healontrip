@@ -22,14 +22,14 @@ public class AuthController {
 
     @GetMapping("/login")
     public String login() {
-        return "patient/login";
+        return "patient/auth/login";
     }
 
     @GetMapping("/register")
     public String register(Model model) {
         UserDto userDto = new UserDto();
         model.addAttribute("user", userDto);
-        return "patient/register";
+        return "patient/auth/register";
     }
 
     @PostMapping("/register")
@@ -42,7 +42,7 @@ public class AuthController {
         }
         if(result.hasErrors()) {
             model.addAttribute("user", userDto);
-            return "patient/register";
+            return "patient/auth/register";
         }
 
         userDto.setRole(Role.PATIENT);

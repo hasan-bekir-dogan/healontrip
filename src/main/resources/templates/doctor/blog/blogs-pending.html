@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+
+    <th:block th:include="doctor/fragments/head"></th:block>
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" th:href="@{/assets/css/bootstrap.min.css}">
+
+    <!-- Fontawesome CSS -->
+    <link rel="stylesheet" th:href="@{/assets/plugins/fontawesome/css/fontawesome.min.css}">
+    <link rel="stylesheet" th:href="@{/assets/plugins/fontawesome/css/all.min.css}">
+
+    <!-- Feathericon CSS -->
+    <link rel="stylesheet" th:href="@{/assets/css/feather.css}">
+
+    <!-- Main CSS -->
+    <link rel="stylesheet" th:href="@{/assets/css/style.css}">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" th:href="@{/assets/css/layout.css}">
+
+</head>
+<body>
+
+<!-- Main Wrapper -->
+<div class="main-wrapper">
+
+    <!-- Header -->
+    <th:block th:include="fragments/header"></th:block>
+    <!-- /Header -->
+
+    <!-- Breadcrumb -->
+    <div class="breadcrumb-bar">
+        <div class="container-fluid">
+            <div class="row align-items-center">
+                <div class="col-md-12 col-12">
+                    <nav aria-label="breadcrumb" class="page-breadcrumb">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+                            <li class="breadcrumb-item active" aria-current="page">Doctor Pending Blog</li>
+                        </ol>
+                    </nav>
+                    <h2 class="breadcrumb-title">Doctor Pending Blog</h2>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- /Breadcrumb -->
+
+    <!-- Page Content -->
+    <div class="content">
+        <div class="container-fluid">
+
+            <div class="row">
+                <th:block th:include="doctor/fragments/left-sidebar"></th:block>
+
+                <div class="col-md-7 col-lg-8 col-xl-9">
+                    <div class="doc-review review-listing">
+
+                        <div class="row mb-5">
+                            <div class="col">
+                                <ul class="nav nav-tabs nav-tabs-solid">
+                                    <li class="nav-item">
+                                        <a class="nav-link" th:href="@{/doctor/blogs}">Active Blog</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link active" th:href="@{/doctor/blogs/pending}">Pending Blog</a>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="col-auto">
+                                <a class="btn btn-primary btn-sm" th:href="@{/doctor/blogs/add}"><i class="fas fa-plus me-1"></i> Add Blog</a>
+                            </div>
+                        </div>
+
+                        <!-- Blog -->
+                        <div class="row blog-grid-row">
+
+                            <th:block th:each="blog: ${blogs}">
+
+                                <div class="col-md-6 col-xl-4 col-sm-12">
+
+                                    <!-- Blog Post -->
+                                    <div class="blog grid-blog" th:data-id="${blog.id}">
+                                        <div class="blog-image">
+                                            <a th:href="@{'/doctor/blogs/edit/' + ${blog.id}}"><img class="img-fluid" th:src="${blog.blogImgSrc}" th:alt="${blog.blogImgAlt}"></a>
+                                        </div>
+                                        <div class="blog-content">
+                                            <ul class="entry-meta meta-item">
+                                                <li>
+                                                    <div class="post-author">
+                                                        <img th:src="${blog.userImgSrc}" th:alt="${blog.userImgAlt}"> <span th:text="${blog.userName}"></span>
+                                                    </div>
+                                                </li>
+                                                <li><i class="far fa-clock"></i> <x-text th:text="${blog.createdAt}"></x-text></li>
+                                            </ul>
+                                            <h3 class="blog-title"><a th:href="@{'/doctor/blogs/edit/' + ${blog.id}}"><x-text th:text="${blog.title}"></x-text></a></h3>
+                                            <p class="mb-0" th:text="${blog.description}"></p>
+                                        </div>
+                                        <div class="row pt-3">
+                                            <div class="col"><a th:href="@{'/doctor/blogs/edit/' + ${blog.id}}" class="text-success"><i class="far fa-edit"></i> Edit</a></div>
+
+                                            <div class="col text-end"><a href="javascript:void(0);" th:data-id="${blog.id}" class="text-warning activateBlogButton" data-bs-toggle="modal" data-bs-target="#activateBlogModal"><i class="fas fa-undo"></i> Active</a></div>
+                                        </div>
+                                    </div>
+                                    <!-- /Blog Post -->
+
+                                </div>
+
+                            </th:block>
+
+                        </div>
+
+                        <!-- Blog Pagination -->
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="blog-pagination">
+                                    <nav>
+                                        <ul class="pagination justify-content-center">
+                                            <li class="page-item disabled">
+                                                <a class="page-link" href="#" tabindex="-1"><i class="fas fa-angle-double-left"></i></a>
+                                            </li>
+                                            <li class="page-item">
+                                                <a class="page-link" href="#">1</a>
+                                            </li>
+                                            <li class="page-item active">
+                                                <a class="page-link" href="#">2 <span class="visually-hidden">(current)</span></a>
+                                            </li>
+                                            <li class="page-item">
+                                                <a class="page-link" href="#">3</a>
+                                            </li>
+                                            <li class="page-item">
+                                                <a class="page-link" href="#"><i class="fas fa-angle-double-right"></i></a>
+                                            </li>
+                                        </ul>
+                                    </nav>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- /Blog Pagination -->
+                        <!-- /Blog -->
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <!-- /Page Content -->
+
+    <!-- Footer -->
+    <th:block th:include="fragments/footer"></th:block>
+    <!-- /Footer -->
+
+</div>
+<!-- /Main Wrapper -->
+
+<!-- Model -->
+<div class="modal fade" id="activateBlogModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="acc_title">Active Blog?</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p id="acc_msg">Your blog will be active. Do you want to continue? You can inactivate again later.</p>
+            </div>
+            <div class="modal-footer">
+                <a href="javascript:void(0);" id="activateBlogYesButton" class="btn btn-success si_accept_confirm">Yes</a>
+                <button type="button" class="btn btn-danger si_accept_cancel" data-bs-dismiss="modal">Cancel</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- /Model -->
+
+<!-- jQuery -->
+<script th:src="@{/assets/js/jquery-3.6.0.min.js}"></script>
+
+<!-- Bootstrap Core JS -->
+<script th:src="@{/assets/js/bootstrap.bundle.min.js}"></script>
+
+<!-- Sticky Sidebar JS -->
+<script th:src="@{/assets/plugins/theia-sticky-sidebar/ResizeSensor.js}"></script>
+<script th:src="@{/assets/plugins/theia-sticky-sidebar/theia-sticky-sidebar.js}"></script>
+
+<!-- Feather Icon JS -->
+<script th:src="@{/assets/js/feather.min.js}"></script>
+
+<!-- Custom JS -->
+<script th:src="@{/assets/js/script.js}"></script>
+<script th:src="@{/assets/js/doctor/functions.js}"></script>
+<script th:src="@{/assets/js/doctor/custom.js}"></script>
+
+</body>
+</html>

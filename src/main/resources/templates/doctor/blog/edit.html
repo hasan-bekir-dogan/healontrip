@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+
+    <th:block th:include="doctor/fragments/head"></th:block>
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" th:href="@{/assets/css/bootstrap.min.css}">
+
+    <!-- Fontawesome CSS -->
+    <link rel="stylesheet" th:href="@{/assets/plugins/fontawesome/css/fontawesome.min.css}">
+    <link rel="stylesheet" th:href="@{/assets/plugins/fontawesome/css/all.min.css}">
+
+    <!-- Feathericon CSS -->
+    <link rel="stylesheet" th:href="@{/assets/css/feather.css}">
+
+    <!-- Main CSS -->
+    <link rel="stylesheet" th:href="@{/assets/css/style.css}">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" th:href="@{/assets/css/layout.css}">
+
+</head>
+<body>
+
+<!-- Main Wrapper -->
+<div class="main-wrapper">
+
+    <!-- Header -->
+    <th:block th:include="fragments/header"></th:block>
+    <!-- /Header -->
+
+    <!-- Breadcrumb -->
+    <div class="breadcrumb-bar">
+        <div class="container-fluid">
+            <div class="row align-items-center">
+                <div class="col-md-12 col-12">
+                    <nav aria-label="breadcrumb" class="page-breadcrumb">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+                            <li class="breadcrumb-item active" aria-current="page">Edit Blog</li>
+                        </ol>
+                    </nav>
+                    <h2 class="breadcrumb-title">Edit Blog</h2>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- /Breadcrumb -->
+
+    <!-- Page Content -->
+    <div class="content">
+        <div class="container-fluid">
+
+            <div class="row">
+                <th:block th:include="doctor/fragments/left-sidebar"></th:block>
+
+                <div class="col-md-7 col-lg-8 col-xl-9">
+                    <div class="doc-review review-listing custom-edit-service">
+
+                        <div class="row mb-5">
+                            <div class="col">
+                                <ul class="nav nav-tabs nav-tabs-solid">
+                                    <li class="nav-item">
+                                        <a class="nav-link" th:href="@{/doctor/blogs}">Active Blog</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" th:href="@{/doctor/blogs/pending}">Pending Blog</a>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="col-auto">
+                                <a class="btn btn-primary btn-sm" th:href="@{/doctor/blogs/add}"><i class="fas fa-plus me-1"></i> Add Blog</a>
+                            </div>
+                        </div>
+
+                        <!-- Edit Blog -->
+                        <div class="card">
+                            <div class="card-body">
+                                <h3 class="pb-3">Edit Blog</h3>
+
+                                <div th:if="${param.success}">
+                                    <div class="alert alert-info">You have successfully updated blog!</div>
+                                </div>
+
+                                <!-- Edit Blog Form -->
+                                <form method="post" enctype="multipart/form-data" role="form" autocomplete="off" class="form-validation doctor-add-blog" th:action="@{'/doctor/blogs/edit/' + ${id}}" th:object="${blog}">
+
+                                    <div class="service-fields mb-3">
+                                        <div class="row">
+                                            <div class="col-lg-6">
+                                                <div class="form-group" th:classappend="${#fields.hasErrors('title')} ? 'form-error'">
+                                                    <label>Blog Title <span class="text-danger">*</span></label>
+                                                    <input class="form-control" type="text" id="title" name="title" th:field="*{title}" th:value="${title}">
+                                                    <p th:errors="*{title}" class="text-danger"
+                                                       th:if="${#fields.hasErrors('title')}"></p>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-6">
+                                                <div class="form-group" th:classappend="${#fields.hasErrors('category')} ? 'form-error'">
+                                                    <label>Category <span class="text-danger">*</span></label>
+                                                    <select class="form-select form-control" id="category" name="category" th:field="*{category}">
+                                                        <option value="">Select</option>
+                                                        <th:block th:each="cat: ${categories}">
+                                                            <option th:value="${cat.id}" th:attrappend="selected=${category == cat.id} ? 'selected'"><x-text th:text="${cat.name}"></x-text></option>
+                                                        </th:block>
+                                                    </select>
+                                                    <p th:errors="*{category}" class="text-danger"
+                                                       th:if="${#fields.hasErrors('category')}"></p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="service-fields mb-3">
+                                        <div class="row">
+                                            <div class="col-lg-12">
+                                                <div class="form-group" th:classappend="${#fields.hasErrors('description')} ? 'form-error'">
+                                                    <label>Descriptions <span class="text-danger">*</span></label>
+                                                    <textarea class="form-control service-desc" id="description" name="description" th:field="*{description}"></textarea>
+                                                    <p th:errors="*{description}" class="text-danger"
+                                                       th:if="${#fields.hasErrors('description')}"></p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="service-fields mb-3">
+                                        <div class="row">
+                                            <div class="col-lg-12">
+                                                <div class="service-upload form-group image" th:classappend="${#fields.hasErrors('image')} ? 'form-error'">
+                                                    <i class="fas fa-cloud-upload-alt"></i>
+                                                    <span>Upload Blog Image <x-imp-text class="custom-text-danger">*</x-imp-text></span>
+                                                    <input class="form-control" type="file" id="image" name="image" accept="image/jpg, image/jpeg, image/png" th:field="*{image}" th:value="*{image}">
+                                                </div>
+                                                <p th:errors="*{image}" class="custom-text-danger"
+                                                   th:if="${#fields.hasErrors('image')}"></p>
+                                                <div id="uploadPreview">
+                                                    <ul class="upload-wrap">
+                                                        <li>
+                                                            <div class="upload-images">
+                                                                <img th:alt="${blog.blogImgAlt}" th:src="${blog.blogImgSrc}">
+                                                            </div>
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="submit-section">
+                                        <button class="btn btn-primary submit-btn" type="submit" name="form_submit" value="submit">Update</button>
+                                    </div>
+                                </form>
+                                <!-- /Edit Blog Form -->
+
+                            </div>
+                        </div>
+                        <!-- /Edit Blog -->
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <!-- /Page Content -->
+
+    <!-- Footer -->
+    <th:block th:include="fragments/footer"></th:block>
+    <!-- /Footer -->
+
+</div>
+<!-- /Main Wrapper -->
+
+<!-- Model -->
+<div class="modal fade" id="deleteConfirmModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="acc_title"></h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p id="acc_msg"></p>
+            </div>
+            <div class="modal-footer">
+                <a href="javascript:;" class="btn btn-success si_accept_confirm">Yes</a>
+                <button type="button" class="btn btn-danger si_accept_cancel" data-bs-dismiss="modal">Cancel</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="deleteNotConfirmModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" style="display: none;" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="acc_title">Active Service?</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p id="acc_msg">Service is Booked and Inprogress..</p>
+            </div>
+            <div class="modal-footer">
+
+                <button type="button" class="btn btn-danger si_accept_cancel" data-bs-dismiss="modal">OK</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- /Model -->
+
+<!-- jQuery -->
+<script th:src="@{/assets/js/jquery-3.6.0.min.js}"></script>
+
+<!-- Bootstrap Core JS -->
+<script th:src="@{/assets/js/bootstrap.bundle.min.js}"></script>
+
+<!-- Sticky Sidebar JS -->
+<script th:src="@{/assets/plugins/theia-sticky-sidebar/ResizeSensor.js}"></script>
+<script th:src="@{/assets/plugins/theia-sticky-sidebar/theia-sticky-sidebar.js}"></script>
+
+<!-- Feather Icon JS -->
+<script th:src="@{/assets/js/feather.min.js}"></script>
+
+<!-- Custom JS -->
+<script th:src="@{/assets/js/script.js}"></script>
+<script th:src="@{/assets/js/doctor/functions.js}"></script>
+<script th:src="@{/assets/js/doctor/custom.js}"></script>
+
+</body>
+</html>

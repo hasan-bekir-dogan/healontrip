@@ -22,18 +22,20 @@ public class AuthController {
 
     @GetMapping("/login")
     public String login() {
-        return "doctor/login";
+        return "doctor/auth/login";
     }
 
     @GetMapping("/register")
     public String register(Model model) {
         UserDto userDto = new UserDto();
         model.addAttribute("user", userDto);
-        return "doctor/register";
+        return "doctor/auth/register";
     }
 
     @PostMapping("/register")
-    public String registration(@Valid @ModelAttribute("user") UserDto userDto, BindingResult result, Model model) {
+    public String registration(@Valid @ModelAttribute("user") UserDto userDto,
+                               BindingResult result,
+                               Model model) {
 
         UserEntity existing = userService.findByEmail(userDto.getEmail());
 
@@ -42,7 +44,7 @@ public class AuthController {
         }
         if(result.hasErrors()) {
             model.addAttribute("user", userDto);
-            return "doctor/register";
+            return "doctor/auth/register";
         }
 
         userDto.setRole(Role.DOCTOR);
