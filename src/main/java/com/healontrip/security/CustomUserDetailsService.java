@@ -10,6 +10,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.stream.Collectors;
@@ -18,15 +19,21 @@ public class CustomUserDetailsService implements UserDetailsService {
     @Autowired
     private UserRepository userRepository;
 
+    @Autowired
+    HttpServletRequest request;
+
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
         UserEntity user = userRepository.findByEmail(email);
+        String endpoint = request.getRequestURI();
 
-        if(user == null) {
+        if ((user == null) ||
+            (user.getRole().toString().equals("DOCTOR") && !endpoint.equals("/doctor/login")) ||
+            (user.getRole().toString().equals("PATIENT") && !endpoint.equals("/patient/login"))) {
+
             throw new UsernameNotFoundException("Invalid email or password.");
         }
 
-        //return new CustomUserDetails(user);
         return new org.springframework.security.core.userdetails.User(
                 user.getEmail(),
                 user.getPassword(),

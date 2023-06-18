@@ -23,20 +23,55 @@
                 </a>
             </div>
             <ul class="main-nav">
-                <li class="has-submenu">
-                    <a th:href="@{/patient/dashboard}">Patient Dashboard</a>
+                <!-- Doctor navbar items -->
+                <li th:if="${session.userRole == 'DOCTOR'}" class="has-submenu" th:classappend="${#httpServletRequest.requestURI.startsWith('/doctor/dashboard')} ? 'active'">
+                    <a th:href="@{/doctor/dashboard}">Dashboard</a>
                 </li>
-                <li class="has-submenu">
-                    <a th:href="@{/doctor/dashboard}">Doctor Dashboard</a>
+                <li th:if="${session.userRole == 'DOCTOR'}" class="has-submenu">
+                    <a th:href="@{#}">Appointments</a>
                 </li>
+                <li th:if="${session.userRole == 'DOCTOR'}" class="has-submenu">
+                    <a th:href="@{#}">Schedule Timing</a>
+                </li>
+                <li th:if="${session.userRole == 'DOCTOR'}" class="has-submenu">
+                    <a th:href="@{#}">Patients</a>
+                </li>
+                <li th:if="${session.userRole == 'DOCTOR'}" class="has-submenu">
+                    <a th:href="@{#}">Invoices</a>
+                </li>
+                <li th:if="${session.userRole == 'DOCTOR'}" class="has-submenu">
+                    <a th:href="@{#}">Reviews</a>
+                </li>
+                <li th:if="${session.userRole == 'DOCTOR'}" class="has-submenu" th:classappend="${#httpServletRequest.requestURI.startsWith('/doctor/blogs')} ? 'active'">
+                    <a th:href="@{/doctor/blogs}">Blogs</a>
+                </li>
+                <!-- /Doctor navbar items -->
 
+
+                <!-- Patient navbar items -->
+                <li th:if="${session.userRole == 'PATIENT'}" class="has-submenu">
+                    <a th:href="@{#}">Dashboard</a>
+                </li>
+                <li th:if="${session.userRole == 'PATIENT'}" class="has-submenu">
+                    <a th:href="@{#}">Doctors</a>
+                </li>
+                <li th:if="${session.userRole == 'PATIENT'}" class="has-submenu">
+                    <a th:href="@{#}">Clinics</a>
+                </li>
+                <li th:if="${session.userRole == 'PATIENT'}" class="has-submenu">
+                    <a th:href="@{#}">Favourites</a>
+                </li>
+                <!-- /Patient navbar items -->
+
+
+                <!-- User profile -->
                 <li th:if="${session.userEmail == null}" class="login-link">
                     <a th:href="@{/patient/login}">Login / Signup</a>
                 </li>
                 <li th:unless="${session.userEmail == null}" class="login-link">
                     <b th:text="${session.userEmail}"></b>
                 </li>
-
+                <!-- /User profile -->
             </ul>
         </div>
         <ul class="nav header-navbar-rht">
