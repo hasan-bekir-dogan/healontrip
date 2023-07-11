@@ -9,10 +9,12 @@ import com.healontrip.repository.UserRepository;
 import com.healontrip.service.AuthService;
 import com.healontrip.service.FileService;
 import com.healontrip.service.UserService;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import jakarta.servlet.http.HttpSession;
 
 
 @Service
@@ -31,6 +33,9 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     private AuthService authService;
+
+    @Autowired
+    HttpSession session;
 
     @Override
     public void saveUser(UserDto userDto){
@@ -65,14 +70,38 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserBarDto getUser() {
-        Long userId = authService.getUserId();
-        UserEntity userEntity = findById(userId);
+        Long userId;
+        UserEntity userEntity = new UserEntity();
+        String userRole = "";
+
+        if(authService.isAuthenticated()) { // Authenticated
+            userId = authService.getUserId();
+            userEntity = findById(userId);
+            userRole = authService.getRole();
+        }
+        else if(!authService.isAuthenticated()) { // Not Authenticated
+            String userEmail = (String) session.getAttribute("userEmail");
+
+            if (userEmail == null)
+                return null;
+
+            userEntity = findByEmail(userEmail);
+            userRole = userEntity.getRole().toString();
+        }
+
         UserBarDto userBarDto = new UserBarDto();
 
-        String extendedName = ((authService.getRole().equals("DOCTOR")) ? RolePrefix.DOCTOR.getPre() : "") + userEntity.getName();
+        userBarDto.setRole(StringUtils.capitalize(userRole.toLowerCase()));
+
+        String extendedName = ((userRole.equals("DOCTOR")) ? RolePrefix.DOCTOR.getPre() : "") + userEntity.getName();
         userBarDto.setUserName(extendedName);
+
         String imgSrc = fileService.getFileSrc(userEntity.getProfileImgId());
         userBarDto.setProfileImgSrc(imgSrc);
+
+        FileEntity fileEntity = fileService.findById(userEntity.getProfileImgId());
+        userBarDto.setProfileImgAlt(fileEntity.getAlt());
+
 
         return userBarDto;
     }

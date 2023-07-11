@@ -33,7 +33,7 @@ public class FileServiceImpl implements FileService {
         String formattedTime = currentTime.format(formatter);
 
         FileEntity fileEntity = new FileEntity();
-        String longSrc = FileSource.BASE.getSrc() + fileDto.getSource();
+        String longSrc = /*FileSource.BASE.getSrc() + */fileDto.getSource();
 
         fileEntity.setAlt(fileDto.getAlt());
         fileEntity.setCode(fileDto.getCode());
@@ -56,7 +56,7 @@ public class FileServiceImpl implements FileService {
 
     @Override
     public void deleteFile(FileDto fileDto) throws IOException {
-        String longSrc = FileSource.BASE.getSrc() + fileDto.getSource();
+        String longSrc = /*FileSource.BASE.getSrc() + */fileDto.getSource();
         String fullExtendedName = fileDto.getName() + fileDto.getExtension();
 
         FileUploadUtil.deleteFile(longSrc, fullExtendedName);

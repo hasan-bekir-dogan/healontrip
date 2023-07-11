@@ -99,13 +99,18 @@ public class AuthServiceImpl implements AuthService {
     }
 
     @Override
-    public Boolean isAuthenticated() {
-        boolean authCheck;
+    public boolean isAuthenticated() {
+        boolean authCheck = false;
 
         try {
+
             Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 
-            authCheck = auth.isAuthenticated();
+            if (auth == null)
+                authCheck = false;
+            /*else
+                authCheck = auth.isAuthenticated();*/
+
         } catch (AuthenticationException noAuth) {
             throw new AuthenticationException("No Authentication!");
         }

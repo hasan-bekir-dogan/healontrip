@@ -3,8 +3,8 @@ package com.healontrip.constraint.validator;
 import com.healontrip.constraint.FileNotNullConstraint;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.validation.ConstraintValidator;
-import javax.validation.ConstraintValidatorContext;
+import jakarta.validation.ConstraintValidator;
+import jakarta.validation.ConstraintValidatorContext;
 
 public class FileNotNullValidator implements ConstraintValidator<FileNotNullConstraint, MultipartFile> {
     @Override
