@@ -10,7 +10,8 @@ import java.util.List;
 
 public interface BlogService {
     void saveBlog(BlogDto blogDto) throws IOException;
-    List<BlogsDto> getAllBlogs(String status);
+    List<BlogsDto> getAllBlogs(String status); // Gets all blogs according to status using auth
+    List<BlogsDto> getAllBlogs(); // Gets all active blogs without auth
     BlogsDto getBlogById(Long id);
     void updateBlog(BlogDto blogDto) throws IOException;
     void changeBlogStatus(Long id, String status) throws IOException;

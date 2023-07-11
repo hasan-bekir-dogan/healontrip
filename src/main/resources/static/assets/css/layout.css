@@ -47,4 +47,37 @@
   cursor: pointer;
 }
 
+.blog-view .blog.blog-single-post .blog-content {
+  border-top: 1px solid #f0f0f0;
+  padding-top: 25px;
+}
+
+blockquote {
+  box-shadow: inset 3px 0 0 0 #CCCCCC;
+  padding-left: 1.5rem;
+  margin-inline-start: 40px;
+  margin-inline-end: 40px;
+  font-family: source-serif-pro, Georgia, Cambria, "Times New Roman", Times, serif;
+  font-style: italic;
+}
+
+.main-wrapper header .navbar .nav.header-navbar-rht .nav-item .dropdown-menu .user-header .user-text h6 {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 129px;
+}
+
+.header-navbar-rht li .dropdown-menu .dropdown-item:last-child {
+  cursor: pointer;
+}
+
+.section-gray {
+  background-color: #f8f9fa;
+}
+
+.section-white {
+  background-color: #fff;
+}
+
 /*# sourceMappingURL=layout.css.map */

@@ -16,7 +16,8 @@ public class BlogsDto {
     private Long id;
     private String title;
     private Long category;
-    private String description;
+    private String preface;
+    private String detail;
     private MultipartFile image;
     private String blogImgSrc;
     private String blogImgAlt;

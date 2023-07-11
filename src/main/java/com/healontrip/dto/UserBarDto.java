@@ -14,5 +14,7 @@ import lombok.extern.log4j.Log4j2;
 public class UserBarDto {
     private String userName;
     private String profileImgSrc;
+    private String profileImgAlt;
+    private String role;
     private String department;
 }

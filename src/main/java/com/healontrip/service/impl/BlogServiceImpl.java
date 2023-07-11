@@ -2,7 +2,6 @@ package com.healontrip.service.impl;
 
 import com.healontrip.dto.*;
 import com.healontrip.entity.BlogEntity;
-import com.healontrip.entity.CategoryEntity;
 import com.healontrip.entity.FileEntity;
 import com.healontrip.entity.UserEntity;
 import com.healontrip.exception.ResourceNotFoundException;
@@ -46,7 +45,8 @@ public class BlogServiceImpl implements BlogService {
         BlogEntity blogEntity = new BlogEntity();
         blogEntity.setTitle(blogDto.getTitle());
         blogEntity.setCategoryId(blogDto.getCategory());
-        blogEntity.setDescription(blogDto.getDescription());
+        blogEntity.setPreface(blogDto.getPreface());
+        blogEntity.setDetail(blogDto.getDetail());
         blogEntity.setUserId(userId);
         blogEntity.setStatus(BlogStatus.ACTIVE);
 
@@ -70,6 +70,7 @@ public class BlogServiceImpl implements BlogService {
     }
 
     @Override
+    // Overloading
     public List<BlogsDto> getAllBlogs(String status) {
         Long userId = authService.getUserId();
 
@@ -85,7 +86,61 @@ public class BlogServiceImpl implements BlogService {
 
             blog.setId(blogEntity.getId());
             blog.setTitle(blogEntity.getTitle());
-            blog.setDescription(blogEntity.getDescription());
+            blog.setPreface(blogEntity.getPreface());
+            blog.setDetail(blogEntity.getDetail());
+
+            // Created time (begin)
+            LocalDateTime currentTime = blogEntity.getCreatedDate()
+                    .toInstant()
+                    .atZone(ZoneId.systemDefault())
+                    .toLocalDateTime();
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");    // dd MMM yyyy => 30 Jun 2023 || dd.MM.yyyy => 30.06.2023
+            String createdAtFormatted = currentTime.format(formatter);
+
+            blog.setCreatedAt(createdAtFormatted);
+            // Created time (end)
+
+            // Blog image (begin)
+            fileEntity = fileService.findById(blogEntity.getImgId());
+            imgSrc = fileService.getFileSrc(fileEntity.getId());
+
+            blog.setBlogImgSrc(imgSrc);
+            blog.setBlogImgAlt(fileEntity.getAlt());
+            // Blog image (end)
+
+            // User info (begin)
+            userEntity = userService.findById(blogEntity.getUserId());
+
+            fileEntity = fileService.findById(userEntity.getProfileImgId());
+            imgSrc = fileService.getFileSrc(fileEntity.getId());
+
+            blog.setUserImgSrc(imgSrc);
+            blog.setUserName(RolePrefix.DOCTOR.getPre() + userEntity.getName());
+            blog.setUserImgAlt(fileEntity.getAlt());
+            // User info (end)
+
+            blogs.add(blog);
+        }
+
+        return blogs;
+    }
+
+    @Override
+    // Overloading
+    public List<BlogsDto> getAllBlogs() {
+        List<BlogEntity> blogEntityList = blogRepository.findBlogByStatus(BlogStatus.ACTIVE.toString());
+
+        List<BlogsDto> blogs = new ArrayList<>();
+        FileEntity fileEntity;
+        UserEntity userEntity;
+        String imgSrc;
+
+        for (BlogEntity blogEntity : blogEntityList) {
+            BlogsDto blog = new BlogsDto();
+
+            blog.setId(blogEntity.getId());
+            blog.setTitle(blogEntity.getTitle());
+            blog.setPreface(blogEntity.getPreface());
 
             // Created time (begin)
             LocalDateTime currentTime = blogEntity.getCreatedDate()
@@ -135,7 +190,18 @@ public class BlogServiceImpl implements BlogService {
         blogsDto.setId(blogEntity.getId());
         blogsDto.setTitle(blogEntity.getTitle());
         blogsDto.setCategory(blogEntity.getCategoryId());
-        blogsDto.setDescription(blogEntity.getDescription());
+        blogsDto.setDetail(blogEntity.getDetail());
+
+        // Created time (begin)
+        LocalDateTime currentTime = blogEntity.getCreatedDate()
+                .toInstant()
+                .atZone(ZoneId.systemDefault())
+                .toLocalDateTime();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd MMM yyyy");    // dd MMM yyyy => 30 Jun 2023 || dd.MM.yyyy => 30.06.2023
+        String createdAtFormatted = currentTime.format(formatter);
+
+        blogsDto.setCreatedAt(createdAtFormatted);
+        // Created time (end)
 
         // Blog image (begin)
         fileEntity = fileService.findById(blogEntity.getImgId());
@@ -145,6 +211,20 @@ public class BlogServiceImpl implements BlogService {
         blogsDto.setBlogImgAlt(fileEntity.getAlt());
         // Blog image (end)
 
+        // User info (begin)
+        UserEntity userEntity = userService.findById(blogEntity.getUserId());
+
+        blogsDto.setUserName(RolePrefix.DOCTOR.getPre() + userEntity.getName());
+
+        // Profile Photo
+        fileEntity = fileService.findById(userEntity.getProfileImgId());
+
+        imgSrc = fileService.getFileSrc(fileEntity.getId());
+
+        blogsDto.setUserImgSrc(imgSrc);
+        blogsDto.setUserImgAlt(fileEntity.getAlt());
+        // User info (end)
+
         return blogsDto;
     }
 
@@ -153,7 +233,8 @@ public class BlogServiceImpl implements BlogService {
         BlogEntity blogEntity = blogRepository.getById(blogDto.getId());
 
         blogEntity.setTitle(blogDto.getTitle());
-        blogEntity.setDescription(blogDto.getDescription());
+        blogEntity.setPreface(blogDto.getPreface());
+        blogEntity.setDetail(blogDto.getDetail());
         blogEntity.setCategoryId(blogDto.getCategory());
 
         if (!blogDto.getImage().isEmpty()) {

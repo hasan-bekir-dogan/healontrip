@@ -3,11 +3,11 @@
     <nav class="navbar navbar-expand-lg header-nav">
         <div class="navbar-header">
             <a id="mobile_btn" href="javascript:void(0);">
-                            <span class="bar-icon bar-icon-one">
-                                <span></span>
-                                <span></span>
-                                <span></span>
-                            </span>
+                <span class="bar-icon bar-icon-one">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </span>
             </a>
             <a th:href="@{/}" class="navbar-brand logo">
                 <img th:src="@{/assets/img/logo.png}" class="img-fluid" alt="Logo">
@@ -23,66 +23,58 @@
                 </a>
             </div>
             <ul class="main-nav">
-                <!-- Doctor navbar items -->
-                <li th:if="${session.userRole == 'DOCTOR'}" class="has-submenu" th:classappend="${#httpServletRequest.requestURI.startsWith('/doctor/dashboard')} ? 'active'">
-                    <a th:href="@{/doctor/dashboard}">Dashboard</a>
-                </li>
-                <li th:if="${session.userRole == 'DOCTOR'}" class="has-submenu">
-                    <a th:href="@{#}">Appointments</a>
-                </li>
-                <li th:if="${session.userRole == 'DOCTOR'}" class="has-submenu">
-                    <a th:href="@{#}">Schedule Timing</a>
-                </li>
-                <li th:if="${session.userRole == 'DOCTOR'}" class="has-submenu">
-                    <a th:href="@{#}">Patients</a>
-                </li>
-                <li th:if="${session.userRole == 'DOCTOR'}" class="has-submenu">
-                    <a th:href="@{#}">Invoices</a>
-                </li>
-                <li th:if="${session.userRole == 'DOCTOR'}" class="has-submenu">
-                    <a th:href="@{#}">Reviews</a>
-                </li>
-                <li th:if="${session.userRole == 'DOCTOR'}" class="has-submenu" th:classappend="${#httpServletRequest.requestURI.startsWith('/doctor/blogs')} ? 'active'">
-                    <a th:href="@{/doctor/blogs}">Blogs</a>
-                </li>
-                <!-- /Doctor navbar items -->
-
-
-                <!-- Patient navbar items -->
-                <li th:if="${session.userRole == 'PATIENT'}" class="has-submenu">
-                    <a th:href="@{#}">Dashboard</a>
-                </li>
-                <li th:if="${session.userRole == 'PATIENT'}" class="has-submenu">
+                <!-- navbar items -->
+                <!--<li class="has-submenu" th:classappend="${#httpServletRequest.requestURI.startsWith('/doctors')} ? 'active'">
                     <a th:href="@{#}">Doctors</a>
+                </li>-->
+                <li class="has-submenu">
+                    <a th:href="@{#}">Help</a>
                 </li>
-                <li th:if="${session.userRole == 'PATIENT'}" class="has-submenu">
-                    <a th:href="@{#}">Clinics</a>
-                </li>
-                <li th:if="${session.userRole == 'PATIENT'}" class="has-submenu">
-                    <a th:href="@{#}">Favourites</a>
-                </li>
-                <!-- /Patient navbar items -->
+                <!-- /navbar items -->
 
 
                 <!-- User profile -->
-                <li th:if="${session.userEmail == null}" class="login-link">
+                <!--<li th:if="${session.userEmail == null}" class="login-link">
                     <a th:href="@{/patient/login}">Login / Signup</a>
-                </li>
-                <li th:unless="${session.userEmail == null}" class="login-link">
-                    <b th:text="${session.userEmail}"></b>
-                </li>
+                </li>-->
                 <!-- /User profile -->
             </ul>
         </div>
-        <ul class="nav header-navbar-rht">
 
+        <ul class="nav header-navbar-rht">
             <li th:if="${session.userEmail == null}" class="nav-item">
                 <a class="nav-link header-login btn-one-light" th:href="@{/patient/login}">login / Signup </a>
             </li>
-            <li th:unless="${session.userEmail == null}" class="nav-item">
-                <b th:text="${session.userEmail}"></b>
-            </li>
 
+            <th:block th:unless="${session.userEmail == null}">
+                <!-- User Menu -->
+                <li class="nav-item dropdown has-arrow logged-item">
+                    <a href="#" class="dropdown-toggle nav-link" data-bs-toggle="dropdown">
+                        <span class="user-img">
+                            <img class="rounded-circle" th:src="@{'/' + ${user.profileImgSrc}}" width="31" th:alt="${user.userName}">
+                        </span>
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-end">
+                        <div class="user-header">
+                            <div class="avatar avatar-sm">
+                                <img th:src="@{'/' + ${user.profileImgSrc}}" th:alt="${user.profileImgAlt}" class="avatar-img rounded-circle">
+                            </div>
+                            <div class="user-text">
+                                <h6 th:text="${user.userName}"></h6>
+                                <p class="text-muted mb-0" th:text="${user.role}"></p>
+                            </div>
+                        </div>
+                        <a class="dropdown-item" th:href="@{#}">Dashboard</a>
+                        <a class="dropdown-item" th:href="@{#}">Profile Settings</a>
+                        <form method="post" th:action="@{/doctor/logout}" role="form">
+                            <a class="dropdown-item" onclick="this.parentNode.submit();">
+                                Logout
+                            </a>
+                        </form>
+                    </div>
+                </li>
+                <!-- /User Menu -->
+            </th:block>
         </ul>
     </nav>
 </header>

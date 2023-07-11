@@ -1,6 +1,6 @@
 package com.healontrip.entity;
 
-import javax.persistence.*;
+import jakarta.persistence.*;
 
 import com.healontrip.dto.Role;
 import lombok.*;

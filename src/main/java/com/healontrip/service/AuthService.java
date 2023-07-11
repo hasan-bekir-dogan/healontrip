@@ -6,5 +6,5 @@ public interface AuthService {
     String getSessionId();
     String getIpAddress();
     Long getUserId();
-    Boolean isAuthenticated();
+    boolean isAuthenticated();
 }
