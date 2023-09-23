@@ -20,7 +20,7 @@ Version      : 1.0
 		}
 	});
 	
-	// Education Add More
+	/*// Education Add More
 	
     $(".education-info").on('click','.trash', function () {
 		$(this).closest('.education-cont').remove();
@@ -57,9 +57,9 @@ Version      : 1.0
 		
         $(".education-info").append(educationcontent);
         return false;
-    });
+    });*/
 	
-	// Experience Add More
+	/*// Experience Add More
 	
     $(".experience-info").on('click','.trash', function () {
 		$(this).closest('.experience-cont').remove();
@@ -102,9 +102,9 @@ Version      : 1.0
 		
         $(".experience-info").append(experiencecontent);
         return false;
-    });
+    });*/
 	
-	// Awards Add More
+	/*// Awards Add More
 	
     $(".awards-info").on('click','.trash', function () {
 		$(this).closest('.awards-cont').remove();
@@ -134,9 +134,9 @@ Version      : 1.0
 		
         $(".awards-info").append(regcontent);
         return false;
-    });
+    });*/
 	
-	// Membership Add More
+	/*// Membership Add More
 	
     $(".membership-info").on('click','.trash', function () {
 		$(this).closest('.membership-cont').remove();
@@ -160,9 +160,9 @@ Version      : 1.0
 		
         $(".membership-info").append(membershipcontent);
         return false;
-    });
+    });*/
 	
-	// Registration Add More
+	/*// Registration Add More
 	
     $(".registrations-info").on('click','.trash', function () {
 		$(this).closest('.reg-cont').remove();
@@ -192,6 +192,6 @@ Version      : 1.0
 		
         $(".registrations-info").append(regcontent);
         return false;
-    });
+    });*/
 	
 })(jQuery);

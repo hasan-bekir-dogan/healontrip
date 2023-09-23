@@ -3,6 +3,7 @@ package com.healontrip.config;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -24,20 +25,22 @@ public class SpringSecurity {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 
         http.authorizeHttpRequests((authorize) ->
-                        authorize.requestMatchers(
-                                        "/register",
-                                        "/doctor-register",
-                                        "/assets/**",
-                                        "/uploads/**",
-                                        "/blogs/**"
-                                ).permitAll()
-                                .anyRequest().authenticated()
+            authorize.requestMatchers(
+                            "/register",
+                            "/doctor-register",
+                            "/assets/**",
+                            "/uploads/**",
+                            "/blogs/**",
+                            "/doctors/**",
+                            "/search"
+                    ).permitAll()
+                    .anyRequest().authenticated()
             ).formLogin(
                     form -> form
                             .loginPage("/login")
                             .usernameParameter("email")
                             .loginProcessingUrl("/login")
-                            .defaultSuccessUrl("/dashboard")
+                            .defaultSuccessUrl("/dashboard", true)
                             .permitAll()
                             .failureUrl("/login?error=true")
             ).logout(

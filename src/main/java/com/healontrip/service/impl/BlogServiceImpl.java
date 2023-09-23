@@ -76,53 +76,7 @@ public class BlogServiceImpl implements BlogService {
 
         List<BlogEntity> blogEntityList = blogRepository.findBlogByUserId(userId, status);
 
-        List<BlogsDto> blogs = new ArrayList<>();
-        FileEntity fileEntity;
-        UserEntity userEntity;
-        String imgSrc;
-
-        for (BlogEntity blogEntity : blogEntityList) {
-            BlogsDto blog = new BlogsDto();
-
-            blog.setId(blogEntity.getId());
-            blog.setTitle(blogEntity.getTitle());
-            blog.setPreface(blogEntity.getPreface());
-            blog.setDetail(blogEntity.getDetail());
-
-            // Created time (begin)
-            LocalDateTime currentTime = blogEntity.getCreatedDate()
-                    .toInstant()
-                    .atZone(ZoneId.systemDefault())
-                    .toLocalDateTime();
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");    // dd MMM yyyy => 30 Jun 2023 || dd.MM.yyyy => 30.06.2023
-            String createdAtFormatted = currentTime.format(formatter);
-
-            blog.setCreatedAt(createdAtFormatted);
-            // Created time (end)
-
-            // Blog image (begin)
-            fileEntity = fileService.findById(blogEntity.getImgId());
-            imgSrc = fileService.getFileSrc(fileEntity.getId());
-
-            blog.setBlogImgSrc(imgSrc);
-            blog.setBlogImgAlt(fileEntity.getAlt());
-            // Blog image (end)
-
-            // User info (begin)
-            userEntity = userService.findById(blogEntity.getUserId());
-
-            fileEntity = fileService.findById(userEntity.getProfileImgId());
-            imgSrc = fileService.getFileSrc(fileEntity.getId());
-
-            blog.setUserImgSrc(imgSrc);
-            blog.setUserName(RolePrefix.DOCTOR.getPre() + userEntity.getName());
-            blog.setUserImgAlt(fileEntity.getAlt());
-            // User info (end)
-
-            blogs.add(blog);
-        }
-
-        return blogs;
+        return getAllBlogs(blogEntityList);
     }
 
     @Override
@@ -130,6 +84,19 @@ public class BlogServiceImpl implements BlogService {
     public List<BlogsDto> getAllBlogs() {
         List<BlogEntity> blogEntityList = blogRepository.findBlogByStatus(BlogStatus.ACTIVE.toString());
 
+        return getAllBlogs(blogEntityList);
+    }
+
+    @Override
+    // Overloading
+    public List<BlogsDto> getAllBlogs(int limit, int pageNumber) {
+        List<BlogEntity> blogEntityList = blogRepository.findBlogByStatusAndLimit(BlogStatus.ACTIVE.toString(), limit, pageNumber - 1);
+
+        return getAllBlogs(blogEntityList);
+    }
+
+    // Overloading
+    private List<BlogsDto> getAllBlogs(List<BlogEntity> blogEntityList) {
         List<BlogsDto> blogs = new ArrayList<>();
         FileEntity fileEntity;
         UserEntity userEntity;
@@ -147,7 +114,7 @@ public class BlogServiceImpl implements BlogService {
                     .toInstant()
                     .atZone(ZoneId.systemDefault())
                     .toLocalDateTime();
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");    // dd MMM yyyy => 30 Jun 2023 || dd.MM.yyyy => 30.06.2023
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd MMM yyyy");    // dd MMM yyyy => 30 Jun 2023 || dd.MM.yyyy => 30.06.2023
             String createdAtFormatted = currentTime.format(formatter);
 
             blog.setCreatedAt(createdAtFormatted);
@@ -180,8 +147,7 @@ public class BlogServiceImpl implements BlogService {
 
     @Override
     public BlogsDto getBlogById(Long id) {
-        BlogEntity blogEntity = blogRepository.findById(id).orElseThrow(() ->
-                                    new ResourceNotFoundException("Blog not exist with id: " + id));
+        BlogEntity blogEntity = findById(id);
 
         BlogsDto blogsDto = new BlogsDto();
         FileEntity fileEntity;
@@ -190,6 +156,7 @@ public class BlogServiceImpl implements BlogService {
         blogsDto.setId(blogEntity.getId());
         blogsDto.setTitle(blogEntity.getTitle());
         blogsDto.setCategory(blogEntity.getCategoryId());
+        blogsDto.setPreface(blogEntity.getPreface());
         blogsDto.setDetail(blogEntity.getDetail());
 
         // Created time (begin)
@@ -215,6 +182,7 @@ public class BlogServiceImpl implements BlogService {
         UserEntity userEntity = userService.findById(blogEntity.getUserId());
 
         blogsDto.setUserName(RolePrefix.DOCTOR.getPre() + userEntity.getName());
+        blogsDto.setBiography(userEntity.getBiography());
 
         // Profile Photo
         fileEntity = fileService.findById(userEntity.getProfileImgId());
@@ -230,7 +198,7 @@ public class BlogServiceImpl implements BlogService {
 
     @Override
     public void updateBlog(BlogDto blogDto) throws IOException {
-        BlogEntity blogEntity = blogRepository.getById(blogDto.getId());
+        BlogEntity blogEntity = findById(blogDto.getId());
 
         blogEntity.setTitle(blogDto.getTitle());
         blogEntity.setPreface(blogDto.getPreface());
@@ -267,9 +235,14 @@ public class BlogServiceImpl implements BlogService {
     }
 
     @Override
-    public void changeBlogStatus(Long id, String status) {
-        BlogEntity blogEntity = blogRepository.findById(id).orElseThrow(() ->
+    public BlogEntity findById(Long id) {
+        return blogRepository.findById(id).orElseThrow(() ->
                 new ResourceNotFoundException("Blog not found with id: " + id));
+    }
+
+    @Override
+    public void changeBlogStatus(Long id, String status) {
+        BlogEntity blogEntity = findById(id);
 
         blogEntity.setStatus(BlogStatus.valueOf(status));
 

@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+
+    <th:block th:include="fragments/head"></th:block>
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" th:href="@{/assets/css/bootstrap.min.css}">
+
+    <!-- Fontawesome CSS -->
+    <link rel="stylesheet" th:href="@{/assets/plugins/fontawesome/css/fontawesome.min.css}">
+    <link rel="stylesheet" th:href="@{/assets/plugins/fontawesome/css/all.min.css}">
+
+    <!-- Feathericon CSS -->
+    <link rel="stylesheet" th:href="@{/assets/css/feather.css}">
+
+    <!-- Select2 CSS -->
+    <link rel="stylesheet" th:href="@{/assets/plugins/select2/css/select2.min.css}">
+
+    <!-- Jquery CSS -->
+    <link rel="stylesheet" th:href="@{/assets/plugins/jquery-ui/jquery-ui.css}">
+
+    <!-- Main CSS -->
+    <link rel="stylesheet" th:href="@{/assets/css/custom.css}">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" th:href="@{/assets/css/layout.css}">
+
+</head>
+<body>
+
+    <!-- Main Wrapper -->
+    <div class="main-wrapper">
+
+        <!-- Header -->
+        <th:block th:include="fragments/header"></th:block>
+        <!-- /Header -->
+
+        <!-- Breadcrumb -->
+        <div class="breadcrumb-bar-two">
+            <div class="container">
+                <div class="row align-items-center inner-banner">
+                    <div class="col-md-12 col-12 text-center">
+                        <h2 class="breadcrumb-title">Search Doctors</h2>
+                        <nav aria-label="breadcrumb" class="page-breadcrumb">
+                            <ol class="breadcrumb">
+                                <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+                                <li class="breadcrumb-item" aria-current="page">Search Doctors</li>
+                            </ol>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- /Breadcrumb -->
+
+        <!-- Page Content -->
+        <div class="doctor-content content">
+            <div class="container">
+
+                <!-- Doctor Search List -->
+                <div class="row">
+                    <div class="col-xl-12 col-lg-12 map-view">
+                        <div class="row">
+                            <div class="col-lg-3 theiaStickySidebar search-left-side-bar">
+                                <div class="filter-contents search-filter">
+                                    <div class="filter-header">
+                                        <h4 class="filter-title">Filter</h4>
+                                    </div>
+                                    <div class="filter-details">
+
+                                        <!-- Filter Grid -->
+                                        <div id="gender" class="filter-grid">
+                                            <h4>
+                                                <a href="#collapseone" data-bs-toggle="collapse">Gender</a>
+                                            </h4>
+                                            <div id="collapseone" class="collapse show">
+                                                <div class="filter-collapse">
+                                                    <ul>
+
+                                                        <th:block th:each="gender: ${genderList}">
+
+                                                            <li>
+                                                                <label class="custom_check d-inline-flex">
+                                                                    <input type="checkbox" th:value="${gender.id}" th:if="${param.gen == null}">
+                                                                    <input type="checkbox" th:value="${gender.id}" th:if="${param.gen != null && #strings.contains(#strings.toUpperCase(param.gen), #strings.toUpperCase(gender.id))}" checked>
+                                                                    <input type="checkbox" th:value="${gender.id}" th:unless="${param.gen != null && #strings.contains(#strings.toUpperCase(param.gen), #strings.toUpperCase(gender.id))}">
+                                                                    <span class="checkmark"></span>
+                                                                    [[${gender.name}]] Gender
+                                                                </label>
+                                                            </li>
+
+                                                        </th:block>
+
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- /Filter Grid -->
+
+                                        <!-- Filter Grid -->
+                                        <div id="speciality" class="filter-grid">
+                                            <h4>
+                                                <a href="#collapsefour" data-bs-toggle="collapse">Speciality</a>
+                                            </h4>
+                                            <div id="collapsefour" class="collapse show">
+                                                <div class="filter-collapse">
+                                                    <ul>
+
+                                                        <th:block th:each="specialist: ${specialists}">
+
+                                                            <li>
+                                                                <label class="custom_check d-inline-flex">
+                                                                    <input type="checkbox" th:value="${specialist.id}" th:if="${param.spe == null}">
+                                                                    <input type="checkbox" th:value="${specialist.id}" th:if="${param.spe != null && #strings.contains(param.spe, specialist.id)}" checked>
+                                                                    <input type="checkbox" th:value="${specialist.id}" th:unless="${param.spe != null && #strings.contains(param.spe, specialist.id)}">
+                                                                    <span class="checkmark"></span>
+                                                                    [[${specialist.name}]]
+                                                                </label>
+                                                            </li>
+
+                                                        </th:block>
+
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- /Filter Grid -->
+
+                                        <!-- Filter Grid -->
+                                        <div id="experience" class="filter-grid">
+                                            <h4>
+                                                <a href="#collapsefive" data-bs-toggle="collapse">Experience</a>
+                                            </h4>
+                                            <div id="collapsefive" class=" collapse show">
+                                                <div class="filter-collapse">
+                                                    <ul>
+
+                                                        <th:block th:each="experience: ${experienceList}">
+
+                                                            <li>
+                                                                <label class="custom_check d-inline-flex">
+                                                                    <input type="checkbox" th:value="${experience.id}" th:if="${param.exp == null}">
+                                                                    <input type="checkbox" th:value="${experience.id}" th:if="${param.exp != null && #strings.contains(param.exp, experience.id)}" checked>
+                                                                    <input type="checkbox" th:value="${experience.id}" th:unless="${param.exp != null && #strings.contains(param.exp, experience.id)}">
+                                                                    <span class="checkmark"></span>
+                                                                    [[${experience.name}]]
+                                                                </label>
+                                                            </li>
+
+                                                        </th:block>
+
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- /Filter Grid -->
+
+                                        <!-- Filter Grid -->
+                                        <div id="rating" class="filter-grid">
+                                            <h4>
+                                                <a href="#collapseseven" data-bs-toggle="collapse">By Rating</a>
+                                            </h4>
+                                            <div id="collapseseven" class="collapse show">
+                                                <div class="filter-collapse">
+                                                    <ul>
+                                                        <li>
+                                                            <label class="custom_check rating_custom_check d-inline-flex">
+                                                                <input type="checkbox" value="1">
+                                                                <span class="checkmark"></span>
+                                                                <div class="rating">
+                                                                    <i class="fas fa-star filled"></i>
+                                                                    <i class="fas fa-star filled"></i>
+                                                                    <i class="fas fa-star filled"></i>
+                                                                    <i class="fas fa-star filled"></i>
+                                                                    <i class="fas fa-star filled"></i>
+                                                                    <span class="rating-count">(40)</span>
+                                                                </div>
+                                                            </label>
+                                                        </li>
+                                                        <li>
+                                                            <label class="custom_check rating_custom_check d-inline-flex">
+                                                                <input type="checkbox" value="2">
+                                                                <span class="checkmark"></span>
+                                                                <div class="rating">
+                                                                    <i class="fas fa-star filled"></i>
+                                                                    <i class="fas fa-star filled"></i>
+                                                                    <i class="fas fa-star filled"></i>
+                                                                    <i class="fas fa-star filled"></i>
+                                                                    <i class="fas fa-star"></i>
+                                                                    <span class="rating-count">(35)</span>
+                                                                </div>
+                                                            </label>
+                                                        </li>
+                                                        <li>
+                                                            <label class="custom_check rating_custom_check d-inline-flex">
+                                                                <input type="checkbox" value="3">
+                                                                <span class="checkmark"></span>
+                                                                <div class="rating">
+                                                                    <i class="fas fa-star filled"></i>
+                                                                    <i class="fas fa-star filled"></i>
+                                                                    <i class="fas fa-star filled"></i>
+                                                                    <i class="fas fa-star"></i>
+                                                                    <i class="fas fa-star"></i>
+                                                                    <span class="rating-count">(20)</span>
+                                                                </div>
+                                                            </label>
+                                                        </li>
+                                                        <li>
+                                                            <label class="custom_check rating_custom_check d-inline-flex">
+                                                                <input type="checkbox" value="4">
+                                                                <span class="checkmark"></span>
+                                                                <div class="rating">
+                                                                    <i class="fas fa-star filled"></i>
+                                                                    <i class="fas fa-star filled"></i>
+                                                                    <i class="fas fa-star"></i>
+                                                                    <i class="fas fa-star"></i>
+                                                                    <i class="fas fa-star"></i>
+                                                                    <span class="rating-count">(10)</span>
+                                                                </div>
+                                                            </label>
+                                                        </li>
+                                                        <li>
+                                                            <label class="custom_check rating_custom_check d-inline-flex">
+                                                                <input type="checkbox" value="5">
+                                                                <span class="checkmark"></span>
+                                                                <div class="rating">
+                                                                    <i class="fas fa-star filled"></i>
+                                                                    <i class="fas fa-star"></i>
+                                                                    <i class="fas fa-star"></i>
+                                                                    <i class="fas fa-star"></i>
+                                                                    <i class="fas fa-star"></i>
+                                                                    <span class="rating-count">(05)</span>
+                                                                </div>
+                                                            </label>
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- /Filter Grid -->
+
+                                        <!-- Filter Btn -->
+                                        <div class="filter-btn apply-btn">
+                                            <div class="row">
+                                                <div class="col-6">
+                                                    <a href="javascript:void(0);" id="apply-filter-btn" class="btn btn-primary">Apply</a>
+                                                </div>
+                                                <div class="col-6">
+                                                    <a href="javascript:void(0);" class="btn btn-outline-primary">Reset</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- /Filter Btn -->
+
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-9 search-body">
+                                <div class="doctor-filter-info">
+                                    <div class="doctor-filter-inner">
+                                        <div>
+                                            <div class="doctors-found">
+                                                <p><span>100 Doctors found</span></p>
+                                            </div>
+                                        </div>
+                                        <div class="doctor-filter-option">
+                                            <div class="doctor-filter-sort">
+                                                <p>Sort</p>
+                                                <div class="doctor-filter-select">
+                                                    <select class="select">
+                                                        <option>A to Z</option>
+                                                        <option>B to Z</option>
+                                                        <option>C to Z</option>
+                                                        <option>D to Z</option>
+                                                        <option>E to Z</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <th:block th:each="doctor: ${doctors}">
+
+                                    <div class="card doctor-card">
+                                        <div class="card-body">
+                                            <div class="doctor-widget-one">
+                                                <div class="doc-info-left">
+                                                    <div class="doctor-img">
+                                                        <a th:href="@{'/doctors/' + ${doctor.userId}}">
+                                                            <img th:src="@{'/' + ${doctor.userImgSrc}}" class="img-fluid" th:alt="${doctor.userImgAlt}">
+                                                        </a>
+                                                    </div>
+                                                    <div class="doc-info-cont">
+                                                        <h4 class="doc-name">
+                                                            <a th:href="@{#}" th:text="${doctor.userName}"></a>
+                                                            <i class="fas fa-circle-check"></i>
+                                                        </h4>
+                                                        <p class="doc-speciality">BDS, MDS - Oral & Maxillofacial Surgery</p>
+                                                        <div class="clinic-details">
+                                                            <p class="doc-location">
+                                                                <i class="feather-map-pin"></i>
+                                                                Newyork, USA
+                                                            </p>
+                                                            <p class="doc-location">
+                                                                <i class="feather-award"></i> 15 Years of Experience
+                                                            </p>
+                                                        </div>
+                                                        <div class="reviews-ratings">
+                                                            <p>
+                                                                <span><i class="fas fa-star"></i> 4.3</span> (22 Reviews)
+                                                            </p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="doc-info-right">
+                                                    <div class="clini-infos">
+                                                        <ul>
+                                                            <li><i class="feather-thumbs-up available-icon"></i> 90% <span class="votes">(380 Votes)</span></li>
+                                                        </ul>
+                                                    </div>
+                                                    <div class="clinic-booking book-appoint">
+                                                        <a class="btn btn-primary" href="booking.html">Book Appointment</a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </th:block>
+
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        <div class="blog-pagination rev-page">
+                                            <nav>
+                                                <ul class="pagination justify-content-center">
+                                                    <li class="page-item disabled">
+                                                        <a class="page-link page-prev" href="#" tabindex="-1"><i class="feather-chevrons-left me-1"></i> PREV</a>
+                                                    </li>
+                                                    <li class="page-item active">
+                                                        <a class="page-link" href="#">1</a>
+                                                    </li>
+                                                    <li class="page-item">
+                                                        <a class="page-link" href="#">2</a>
+                                                    </li>
+                                                    <li class="page-item">
+                                                        <a class="page-link" href="#">...</a>
+                                                    </li>
+                                                    <li class="page-item">
+                                                        <a class="page-link" href="#">10</a>
+                                                    </li>
+                                                    <li class="page-item">
+                                                        <a class="page-link page-next" href="#">NEXT <i class="feather-chevrons-right ms-1"></i></a>
+                                                    </li>
+                                                </ul>
+                                            </nav>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xl-3 col-lg-12 theiaStickySidebar map-right">
+                        <div id="map" class="map-listing"></div>
+                    </div>
+                </div>
+                <!-- /Doctor Search List -->
+
+            </div>
+        </div>
+        <!-- /Page Content -->
+
+        <!-- Footer -->
+        <th:block th:include="fragments/footer"></th:block>
+        <!-- /Footer -->
+
+    </div>
+    <!-- /Main Wrapper -->
+
+    <!-- jQuery -->
+    <script th:src="@{/assets/js/jquery-3.6.4.min.js}"></script>
+
+    <!-- Bootstrap Bundle JS -->
+    <script th:src="@{/assets/js/bootstrap.bundle.min.js}"></script>
+
+    <!-- Feather Icon JS -->
+    <script th:src="@{/assets/js/feather.min.js}"></script>
+
+    <!-- Select2 JS -->
+    <script th:src="@{/assets/plugins/select2/js/select2.min.js}"></script>
+
+    <!-- Jquery UI -->
+    <script th:src="@{/assets/plugins/jquery-ui/jquery-ui.min.js}"></script>
+
+    <!-- Sticky Sidebar JS -->
+    <script th:src="@{/assets/plugins/theia-sticky-sidebar/ResizeSensor.js}"></script>
+    <script th:src="@{/assets/plugins/theia-sticky-sidebar/theia-sticky-sidebar.js}"></script>
+
+    <!-- Custom JS -->
+    <script th:src="@{/assets/js/script.js}"></script>
+    <script th:src="@{/assets/js/custom/function.js}"></script>
+    <script th:src="@{/assets/js/custom/custom.js}"></script>
+
+</body>
+</html>

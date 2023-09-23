@@ -1,0 +1,606 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+
+    <th:block th:include="fragments/head"></th:block>
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" th:href="@{/assets/css/bootstrap.min.css}">
+
+    <!-- Fontawesome CSS -->
+    <link rel="stylesheet" th:href="@{/assets/plugins/fontawesome/css/fontawesome.min.css}">
+    <link rel="stylesheet" th:href="@{/assets/plugins/fontawesome/css/all.min.css}">
+
+    <!-- Feathericon CSS -->
+    <link rel="stylesheet" th:href="@{/assets/css/feather.css}">
+
+    <!-- Select2 CSS -->
+    <link rel="stylesheet" th:href="@{/assets/plugins/select2/css/select2.min.css}">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" th:href="@{/assets/plugins/bootstrap-tagsinput/css/bootstrap-tagsinput.css}">
+
+    <link rel="stylesheet" th:href="@{/assets/plugins/dropzone/dropzone.min.css}">
+
+    <!-- Main CSS -->
+    <link rel="stylesheet" th:href="@{/assets/css/custom.css}">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" th:href="@{/assets/css/layout.css}">
+
+</head>
+<body>
+
+<!-- Main Wrapper -->
+<div class="main-wrapper">
+
+    <!-- Header -->
+    <th:block th:include="fragments/header"></th:block>
+    <!-- /Header -->
+
+    <!-- Breadcrumb -->
+    <div class="breadcrumb-bar-two">
+        <div class="container">
+            <div class="row align-items-center inner-banner">
+                <div class="col-md-12 col-12 text-center">
+                    <h2 class="breadcrumb-title">Profile Settings</h2>
+                    <nav aria-label="breadcrumb" class="page-breadcrumb">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+                            <li class="breadcrumb-item" aria-current="page">Profile Settings</li>
+                        </ol>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- /Breadcrumb -->
+
+    <!-- Page Content -->
+    <div class="content profile">
+        <div class="container">
+
+            <div class="row">
+                <th:block th:include="crm/doctor/fragments/left-sidebar"></th:block>
+
+                <div class="col-md-7 col-lg-8 col-xl-9">
+
+                    <!-- Edit Profile Form -->
+                    <form method="post" id="profile-settings" enctype="multipart/form-data" role="form" autocomplete="off" class="form-validation" th:action="@{'/profile'}" th:object="${profile}">
+
+                        <!-- Basic Information -->
+                        <div class="card">
+                            <div class="card-body">
+                                <h4 id="basic-information-title" class="card-title">Basic Information</h4>
+                                <div class="row form-row">
+                                    <div class="col-md-12">
+                                        <div id="user-profile-photo" class="form-group">
+                                            <div class="change-avatar">
+                                                <div class="profile-img">
+                                                    <img th:src="@{'/' + ${profile.profileImgSrc}}" th:alt="${profile.profileImgAlt}">
+                                                </div>
+                                                <div class="upload-img">
+                                                    <div class="change-photo-btn">
+                                                        <span><i class="fa fa-upload"></i> Upload Photo</span>
+                                                        <input class="upload" type="file" accept="image/jpg, image/jpeg, image/png">
+                                                    </div>
+                                                    <small class="form-text text-muted">Allowed JPG, GIF or PNG. Max size of 2MB</small>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div id="user-email" class="form-group">
+                                            <label>Email <span class="text-danger">*</span></label>
+                                            <input type="email" class="form-control" th:field="*{email}" th:value="${email}" readonly>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div id="user-name" class="form-group">
+                                            <label>Name <span class="text-danger">*</span></label>
+                                            <input type="text" class="form-control" th:field="*{name}" th:value="${name}">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div id="user-phone-number" class="form-group">
+                                            <label>Phone Number</label>
+                                            <input type="number" class="form-control number-field" th:field="*{phone}" th:value="${phone}">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div id="user-gender" class="form-group">
+                                            <label>Gender</label>
+                                            <select class="form-select form-control" id="gender" th:field="*{gender}">
+                                                <option value="">Select</option>
+                                                <option value="MALE" th:attrappend="selected=${gender == 'MALE'} ? 'selected'">Male</option>
+                                                <option value="FEMALE" th:attrappend="selected=${gender == 'FEMALE'} ? 'selected'">Female</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div id="user-birth-date" class="form-group mb-0">
+                                            <label>Date of Birth</label>
+                                            <input type="date" class="form-control" th:field="*{dateOfBirth}" th:value="${dateOfBirth}">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- /Basic Information -->
+
+                        <!-- About Me -->
+                        <div class="card">
+                            <div class="card-body">
+                                <h4 class="card-title">About Me</h4>
+                                <div id="user-biography" class="form-group mb-0">
+                                    <label>Biography</label>
+                                    <textarea class="form-control" rows="5" th:field="*{biography}" th:text="${biography}"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- /About Me -->
+
+                        <!-- Clinic Info -->
+                        <div class="card">
+                            <div class="card-body">
+                                <h4 class="card-title">Clinic Info</h4>
+                                <div class="row form-row">
+                                    <div class="col-md-6">
+                                        <div id="user-clinic-name" class="form-group">
+                                            <label>Clinic Name</label>
+                                            <input type="text" class="form-control" th:field="*{clinicName}" th:value="${clinicName}">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div id="user-clinic-address" class="form-group">
+                                            <label>Clinic Address</label>
+                                            <input type="text" class="form-control" th:field="*{clinicAddress}" th:value="${clinicAddress}">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12 clinic-section">
+                                        <div id="user-clinic-images" class="form-group">
+                                            <label>Clinic Images</label>
+                                            <section class="image-upload">
+                                                <label>Drop files here to upload</label>
+                                                <input type="file" class="form-control" accept="image/jpeg, image/png" multiple="multiple">
+                                            </section>
+                                        </div>
+                                        <div class="upload-wrap clinic-images">
+
+                                            <th:block th:each="clinicImage: ${profileClinicImages}">
+
+                                                <div class="upload-images uploaded">
+                                                    <img th:src="@{'/' + ${clinicImage.imgSrc}}" th:alt="${clinicImage.imgAlt}">
+                                                    <a href="javascript:void(0);" th:data-id="${clinicImage.id}" onclick="setClinicImageDataIdToModal(this);" class="btn btn-icon btn-danger btn-sm deleteClinicImageButton" data-bs-toggle="modal" data-bs-target="#deleteClinicImageModal">
+                                                        <i class="far fa-trash-alt"></i>
+                                                    </a>
+                                                </div>
+
+                                            </th:block>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- /Clinic Info -->
+
+                        <!-- Contact Details -->
+                        <div class="card ">
+                            <div class="card-body">
+                                <h4 class="card-title">Contact Details</h4>
+                                <div class="row form-row">
+                                    <div class="col-md-6">
+                                        <div id="user-contact-city" class="form-group">
+                                            <label class="control-label">City</label>
+                                            <input type="text" class="form-control" th:field="*{city}" th:value="${city}">
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <div id="user-contact-state" class="form-group">
+                                            <label class="control-label">State / Province</label>
+                                            <input type="text" class="form-control" th:field="*{state}" th:value="${state}">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div id="user-contact-country" class="form-group">
+                                            <label class="control-label">Country</label>
+                                            <input type="text" class="form-control" th:field="*{country}" th:value="${country}">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div id="user-contact-postal-code" class="form-group">
+                                            <label class="control-label">Postal Code</label>
+                                            <input type="text" class="form-control" th:field="*{postalCode}" th:value="${postalCode}">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <div id="user-contact-address-line" class="form-group">
+                                            <label>Address Line</label>
+                                            <input type="text" class="form-control" th:field="*{addressLine}" th:value="${addressLine}">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- /Contact Details -->
+
+                        <!-- Services and Specialization -->
+                        <div class="card services-card">
+                            <div class="card-body">
+                                <h4 class="card-title">Services and Specialization</h4>
+                                <div id="user-service" class="form-group">
+                                    <label>Services</label>
+                                    <input type="text" class="input-tags form-control" th:field="*{service}" th:value="${service}" data-role="tagsinput" placeholder="Enter Services">
+                                    <small class="form-text text-muted">Note : Type & Press enter to add new services</small>
+                                </div>
+                                <div id="user-specialist" class="form-group mb-0">
+                                    <label>Specialization </label>
+                                    <input type="text" class="input-tags form-control" th:field="*{specialist}" th:value="${specialist}" data-role="tagsinput" placeholder="Enter Specialization">
+                                    <small class="form-text text-muted">Note : Type & Press  enter to add new specialization</small>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- /Services and Specialization -->
+
+                        <!-- Education -->
+                        <div class="card">
+                            <div class="card-body">
+                                <h4 class="card-title">Education</h4>
+                                <div class="education-info">
+
+                                    <th:block th:each="education: ${profileEducationList}">
+
+                                        <div class="row form-row education-cont saved">
+                                            <div class="col-12 col-md-10 col-lg-11">
+                                                <div class="row form-row">
+                                                    <div class="col-12 col-md-6">
+                                                        <div class="form-group">
+                                                            <label>Degree</label>
+                                                            <input type="text" class="form-control degree" th:value="${education.degree}" placeholder="BDS, MDS, etc.">
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-12 col-md-6">
+                                                        <div class="form-group">
+                                                            <label>College/Institute</label>
+                                                            <input type="text" class="form-control university" th:value="${education.university}">
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-12 col-md-6">
+                                                        <div class="form-group">
+                                                            <label>From</label>
+                                                            <input type="number" class="form-control from-date" th:value="${education.fromDate}" placeholder="Example: 2018">
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-12 col-md-6">
+                                                        <div class="form-group">
+                                                            <label>To</label>
+                                                            <input type="number" class="form-control to-date" th:value="${education.toDate}" placeholder="Example: 2022">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-12 col-md-2 col-lg-1 deleteEducationSection">
+                                                <label class="d-md-block d-sm-none d-none">&nbsp;</label>
+                                                <a href="javascript:void(0);" th:data-id="${education.id}" onclick="setEducationDataIdToModal(this);" class="btn btn-danger trash deleteEducationButton" data-bs-toggle="modal" data-bs-target="#deleteEducationModal">
+                                                    <i class="far fa-trash-alt"></i>
+                                                </a>
+                                            </div>
+                                        </div>
+
+                                    </th:block>
+
+                                </div>
+                                <div class="add-more">
+                                    <a href="javascript:void(0);" class="add-education">
+                                        <i class="fa fa-plus-circle"></i> Add More
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- /Education -->
+
+                        <!-- Experience -->
+                        <div class="card">
+                            <div class="card-body">
+                                <h4 class="card-title">Experience</h4>
+                                <div class="experience-info">
+
+                                    <th:block th:each="experience: ${profileExperienceList}">
+
+                                        <div class="row form-row experience-cont saved">
+                                            <div class="col-12 col-md-10 col-lg-11">
+                                                <div class="row form-row">
+                                                    <div class="col-12 col-md-6">
+                                                        <div class="form-group">
+                                                            <label>Hospital Name</label>
+                                                            <input type="text" class="form-control hospital-name" th:value="${experience.hospitalName}">
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-12 col-md-6">
+                                                        <div class="form-group">
+                                                            <label>Designation</label>
+                                                            <input type="text" class="form-control designation" th:value="${experience.designation}">
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-12 col-md-6">
+                                                        <div class="form-group">
+                                                            <label>From</label>
+                                                            <input type="number" class="form-control from-date" th:value="${experience.fromDate}" placeholder="Example: 2018">
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-12 col-md-6">
+                                                        <div class="form-group">
+                                                            <label>To</label>
+                                                            <input type="number" class="form-control to-date" th:value="${experience.toDate}" placeholder="Example: 2022">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-12 col-md-2 col-lg-1 deleteExperienceSection">
+                                                <label class="d-md-block d-sm-none d-none">&nbsp;</label>
+                                                <a href="javascript:void(0);" th:data-id="${experience.id}" onclick="setExperienceDataIdToModal(this);" class="btn btn-danger trash deleteExperienceButton" data-bs-toggle="modal" data-bs-target="#deleteExperienceModal">
+                                                    <i class="far fa-trash-alt"></i>
+                                                </a>
+                                            </div>
+                                        </div>
+
+                                    </th:block>
+
+                                </div>
+                                <div class="add-more">
+                                    <a href="javascript:void(0);" class="add-experience">
+                                        <i class="fa fa-plus-circle"></i> Add More
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- /Experience -->
+
+                        <!-- Award -->
+                        <div class="card">
+                            <div class="card-body">
+                                <h4 class="card-title">Awards</h4>
+                                <div class="awards-info">
+
+                                    <th:block th:each="award: ${profileAwardList}">
+
+                                        <div class="row form-row awards-cont saved">
+                                            <div class="col-12 col-md-10 col-lg-11">
+                                                <div class="row form-row">
+                                                    <div class="col-12 col-md-6">
+                                                        <div class="form-group">
+                                                            <label>Award</label>
+                                                            <input type="text" class="form-control award-name" th:value="${award.name}">
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-12 col-md-6">
+                                                        <div class="form-group">
+                                                            <label>Year</label>
+                                                            <input type="number" class="form-control award-year" th:value="${award.year}" placeholder="Example: 2022">
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-12 col-md-12">
+                                                        <div class="form-group">
+                                                            <label>Description</label>
+                                                            <textarea class="form-control award-description" th:text="${award.description}"></textarea>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-12 col-md-2 col-lg-1 deleteAwardSection">
+                                                <label class="d-md-block d-sm-none d-none">&nbsp;</label>
+                                                <a href="javascript:void(0);" th:data-id="${award.id}" onclick="setAwardDataIdToModal(this);" class="btn btn-danger trash deleteAwardButton" data-bs-toggle="modal" data-bs-target="#deleteAwardModal">
+                                                    <i class="far fa-trash-alt"></i>
+                                                </a>
+                                            </div>
+                                        </div>
+
+                                    </th:block>
+
+                                </div>
+                                <div class="add-more">
+                                    <a href="javascript:void(0);" class="add-award">
+                                        <i class="fa fa-plus-circle"></i> Add More
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- /Award -->
+
+                        <!-- Membership -->
+                        <div class="card">
+                            <div class="card-body">
+                                <h4 class="card-title">Memberships</h4>
+                                <div class="membership-info">
+
+                                    <th:block th:each="membership: ${profileMembershipList}">
+
+                                        <div class="row form-row membership-cont saved">
+                                            <div class="col-12 col-md-10 col-lg-11">
+                                                <div class="row form-row">
+                                                    <div class="col-12 col-md-12">
+                                                        <div class="form-group">
+                                                            <label>Membership</label>
+                                                            <input type="text" class="form-control membership-name" th:value="${membership.name}">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-12 col-md-2 col-lg-1 deleteMembershipSection">
+                                                <label class="d-md-block d-sm-none d-none">&nbsp;</label>
+                                                <a href="javascript:void(0);" th:data-id="${membership.id}" onclick="setMembershipDataIdToModal(this);" class="btn btn-danger trash deleteMembershipButton" data-bs-toggle="modal" data-bs-target="#deleteMembershipModal">
+                                                    <i class="far fa-trash-alt"></i>
+                                                </a>
+                                            </div>
+                                        </div>
+
+                                    </th:block>
+
+                                </div>
+                                <div class="add-more">
+                                    <a href="javascript:void(0);" class="add-membership">
+                                        <i class="fa fa-plus-circle"></i> Add More
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- /Membership -->
+
+                        <div class="submit-section submit-btn-bottom">
+                            <button type="submit" class="btn btn-primary prime-btn" name="form_submit">Save Changes</button>
+                        </div>
+
+                    </form>
+                    <!-- /Edit Profile Form -->
+
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+    <!-- /Page Content -->
+
+    <!-- Footer -->
+    <th:block th:include="fragments/footer"></th:block>
+    <!-- /Footer -->
+
+</div>
+<!-- /Main Wrapper -->
+
+<!-- Clinic image will be deleted. Are you sure? -->
+<!-- Model -->
+<div class="modal fade" id="deleteClinicImageModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" style="display: none;" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="acc_title">Delete Image?</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p id="acc_msg">Your clinic image will be deleted. Do you want to continue?</p>
+            </div>
+            <div class="modal-footer">
+                <a href="javascript:void(0);" id="deleteClinicImageYesButton" class="btn btn-success si_accept_confirm">Yes</a>
+                <button type="button" class="btn btn-danger si_accept_cancel" data-bs-dismiss="modal">Cancel</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- /Model -->
+
+<!-- Education will be deleted. Are you sure? -->
+<!-- Model -->
+<div class="modal fade" id="deleteEducationModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" style="display: none;" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="acc_education_title">Delete Education?</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p id="acc_education_msg">Your education will be deleted. Do you want to continue?</p>
+            </div>
+            <div class="modal-footer">
+                <a href="javascript:void(0);" id="deleteEducationYesButton" class="btn btn-success si_accept_confirm">Yes</a>
+                <button type="button" class="btn btn-danger si_accept_cancel" data-bs-dismiss="modal">Cancel</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- /Model -->
+
+<!-- Experience will be deleted. Are you sure? -->
+<!-- Model -->
+<div class="modal fade" id="deleteExperienceModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" style="display: none;" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="acc_experience_title">Delete Experience?</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p id="acc_experience_msg">Your experience will be deleted. Do you want to continue?</p>
+            </div>
+            <div class="modal-footer">
+                <a href="javascript:void(0);" id="deleteExperienceYesButton" class="btn btn-success si_accept_confirm">Yes</a>
+                <button type="button" class="btn btn-danger si_accept_cancel" data-bs-dismiss="modal">Cancel</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- /Model -->
+
+<!-- Award will be deleted. Are you sure? -->
+<!-- Model -->
+<div class="modal fade" id="deleteAwardModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" style="display: none;" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="acc_award_title">Delete Award?</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p id="acc_award_msg">Your award will be deleted. Do you want to continue?</p>
+            </div>
+            <div class="modal-footer">
+                <a href="javascript:void(0);" id="deleteAwardYesButton" class="btn btn-success si_accept_confirm">Yes</a>
+                <button type="button" class="btn btn-danger si_accept_cancel" data-bs-dismiss="modal">Cancel</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- /Model -->
+
+<!-- Membership will be deleted. Are you sure? -->
+<!-- Model -->
+<div class="modal fade" id="deleteMembershipModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" style="display: none;" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="acc_membership_title">Delete Membership?</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p id="acc_membership_msg">Your membership will be deleted. Do you want to continue?</p>
+            </div>
+            <div class="modal-footer">
+                <a href="javascript:void(0);" id="deleteMembershipYesButton" class="btn btn-success si_accept_confirm">Yes</a>
+                <button type="button" class="btn btn-danger si_accept_cancel" data-bs-dismiss="modal">Cancel</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- /Model -->
+
+<!-- jQuery -->
+<script th:src="@{/assets/js/jquery-3.6.4.min.js}"></script>
+
+<!-- Bootstrap Core JS -->
+<script th:src="@{/assets/js/bootstrap.bundle.min.js}"></script>
+
+<!-- Sticky Sidebar JS -->
+<script th:src="@{/assets/plugins/theia-sticky-sidebar/ResizeSensor.js}"></script>
+<script th:src="@{/assets/plugins/theia-sticky-sidebar/theia-sticky-sidebar.js}"></script>
+
+<!-- Select2 JS -->
+<script th:src="@{/assets/plugins/select2/js/select2.min.js}"></script>
+
+<!-- Dropzone JS -->
+<script th:src="@{/assets/plugins/dropzone/dropzone.min.js}"></script>
+
+<!-- Bootstrap Tagsinput JS -->
+<script th:src="@{/assets/plugins/bootstrap-tagsinput/js/bootstrap-tagsinput.js}"></script>
+
+<!-- Profile Settings JS -->
+<script th:src="@{/assets/js/profile-settings.js}"></script>
+
+<!-- Custom JS -->
+<script th:src="@{/assets/js/script.js}"></script>
+<script th:src="@{/assets/js/doctor/functions.js}"></script>
+<script th:src="@{/assets/js/doctor/custom.js}"></script>
+
+</body>
+</html>

@@ -51,7 +51,7 @@ public class AuthController {
         userDto.setRole(Role.PATIENT);
         userService.saveUser(userDto);
 
-        return "redirect:/register-patient?success";
+        return "redirect:/register?success";
     }
 
     @GetMapping("/doctor-register")
@@ -67,7 +67,6 @@ public class AuthController {
     public String registrationDoctor(@Valid @ModelAttribute("user") UserDto userDto,
                                      BindingResult result,
                                      Model model) {
-
         UserEntity existing = userService.findByEmail(userDto.getEmail());
 
         if(existing != null){
@@ -82,6 +81,6 @@ public class AuthController {
         userDto.setRole(Role.DOCTOR);
         userService.saveUser(userDto);
 
-        return "redirect:/register-doctor?success";
+        return "redirect:/doctor-register?success";
     }
 }

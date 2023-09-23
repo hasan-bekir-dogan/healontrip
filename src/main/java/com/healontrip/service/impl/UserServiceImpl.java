@@ -2,19 +2,27 @@ package com.healontrip.service.impl;
 
 import com.healontrip.dto.*;
 import com.healontrip.entity.FileEntity;
+import com.healontrip.entity.SpecialistEntity;
 import com.healontrip.entity.UserEntity;
 import com.healontrip.exception.ResourceNotFoundException;
 import com.healontrip.repository.FileRepository;
 import com.healontrip.repository.UserRepository;
-import com.healontrip.service.AuthService;
-import com.healontrip.service.FileService;
-import com.healontrip.service.UserService;
+import com.healontrip.service.*;
+import jakarta.transaction.Transactional;
 import org.apache.commons.lang3.StringUtils;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import jakarta.servlet.http.HttpSession;
+
+import java.io.IOException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.*;
 
 
 @Service
@@ -32,10 +40,33 @@ public class UserServiceImpl implements UserService {
     private FileService fileService;
 
     @Autowired
+    private ServiceService serviceService;
+
+    @Autowired
+    private SpecialistService specialistService;
+
+    @Autowired
+    private EducationService educationService;
+
+    @Autowired
+    private ExperienceService experienceService;
+
+    @Autowired
+    private AwardService awardService;
+
+    @Autowired
+    private MembershipService membershipService;
+
+    @Autowired
     private AuthService authService;
 
     @Autowired
+    private ModelMapper modelMapper;
+
+    @Autowired
     HttpSession session;
+
+    public final String dateOfBirthPattern = "yyyy-MM-dd";
 
     @Override
     public void saveUser(UserDto userDto){
@@ -46,10 +77,10 @@ public class UserServiceImpl implements UserService {
 
         userEntity.setPassword(passwordEncoder.encode(userDto.getPassword()));
 
-        // Save Default Profile Img (begin)
+        // Save Default Profile Img
         String alternateText = "Profile Image";
 
-        FileEntity fileEntity = fileService.findByCode(FileCode.PROFILE_IMG.getCode());
+        FileEntity fileEntity = fileService.findByCode(String.valueOf(FileCode.PROFILE_IMG));
 
         if (fileEntity == null) {
             fileEntity = new FileEntity();
@@ -61,7 +92,6 @@ public class UserServiceImpl implements UserService {
 
             fileRepository.save(fileEntity);
         }
-        // Save Default Profile Img (end)
 
         userEntity.setProfileImgId(fileEntity.getId());
 
@@ -69,29 +99,200 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public void updateProfile(ProfileDto profileDto) throws IOException, ParseException {
+        UserEntity userEntity = findByEmail(profileDto.getEmail());
+        Long userId = userEntity.getId();
+
+        userEntity.setName(profileDto.getName());
+        userEntity.setPhoneNumber(profileDto.getPhone());
+        userEntity.setGender(profileDto.getGender());
+
+        // date of birth
+        SimpleDateFormat format = new SimpleDateFormat(dateOfBirthPattern);
+        Date dateOfBirth = null;
+
+        if (userEntity.getDateOfBirth() != null)
+            dateOfBirth = format.parse(profileDto.getDateOfBirth());
+
+        userEntity.setDateOfBirth(dateOfBirth);
+
+        // update profile photo
+        if (!profileDto.getImage().isEmpty()) {
+            FileEntity fileEntityOld = fileService.findById(userEntity.getProfileImgId());
+            FileDto fileDtoOld = FileEntityToFileDto(fileEntityOld);
+
+            FileDto fileDtoNew = new FileDto();
+
+            String alternateText = "Profile Image";
+            fileDtoNew.setFile(profileDto.getImage());
+            fileDtoNew.setAlt(alternateText);
+            fileDtoNew.setSource(FileSource.UPLOADS.getSrc());
+            fileDtoNew.setExtension(FileExtension.JPG.getExt());
+
+            Long fileId = fileService.updateFile(fileDtoOld, fileDtoNew);
+
+            userEntity.setProfileImgId(fileId);
+        }
+
+        // biography
+        userEntity.setBiography(profileDto.getBiography());
+
+        // clinic
+        userEntity.setClinicName(profileDto.getClinicName());
+        userEntity.setClinicAddress(profileDto.getClinicAddress());
+
+        // delete the removed clinic images
+        if (profileDto.getDeletedClinicImageList().get(0) != -1) {
+            for (Long imageId: profileDto.getDeletedClinicImageList()) {
+                // delete from clinic images column of user table on db
+                String currentClinicImgIds = userEntity.getClinicImgIds();
+                String newClinicImgIds = currentClinicImgIds.replace((imageId + ","), "");
+                newClinicImgIds = newClinicImgIds.replace(("," + imageId), "");
+                newClinicImgIds = newClinicImgIds.replace(imageId + "", "");
+
+                userEntity.setClinicImgIds(newClinicImgIds);
+
+                // delete from file table and folder
+                FileEntity fileEntity = fileService.findById(imageId);
+
+                FileDto fileDto = FileEntitytoFileDto(fileEntity);
+
+                fileService.deleteFile(fileDto);
+            }
+        }
+
+        // save clinic images
+        if (!profileDto.getClinicImages()[0].isEmpty()) {
+            for (int i = 0; i < profileDto.getClinicImages().length; i++) {
+                if (profileDto.getClinicImages()[i] == null)
+                    continue;
+
+                // Save file
+                String alternateText = "Clinic Image";
+
+                FileDto fileDto = new FileDto();
+
+                fileDto.setFile(profileDto.getClinicImages()[i]);
+                fileDto.setAlt(alternateText);
+                fileDto.setSource(FileSource.UPLOADS.getSrc());
+                fileDto.setExtension(FileExtension.JPG.getExt());
+
+                Long fileId = fileService.saveFile(fileDto);
+
+                if (userEntity.getClinicImgIds() == "" || userEntity.getClinicImgIds() == null)
+                    userEntity.setClinicImgIds(String.valueOf(fileId));
+                else
+                    userEntity.setClinicImgIds(userEntity.getClinicImgIds() + "," + fileId);
+            }
+        }
+
+        // contact details
+        userEntity.setCity(profileDto.getCity());
+        userEntity.setState(profileDto.getState());
+        userEntity.setCountry(profileDto.getCountry());
+        userEntity.setPostalCode(profileDto.getPostalCode());
+        userEntity.setAddressLine(profileDto.getAddressLine());
+
+        // update service and specialist
+        profileDto.setId(userId);
+
+        serviceService.updateService(profileDto);
+        specialistService.updateSpecialist(profileDto);
+
+        // delete the removed educations
+        if (profileDto.getDeletedEducationList().get(0) != -1) {
+            for (Long educationId: profileDto.getDeletedEducationList()) {
+                educationService.deleteEducation(educationId);
+            }
+        }
+
+        // save educations
+        if (profileDto.getEducationList() != null) {
+            for (EducationDto educationDto: profileDto.getEducationList()) {
+                educationDto.setUserId(userId);
+
+                if (educationDto.getId() == -1) // create education
+                    educationService.createEducation(educationDto);
+                else if (educationDto.getId() != -1) // update education
+                    educationService.updateEducation(educationDto);
+            }
+        }
+
+        // delete the removed experiences
+        if (profileDto.getDeletedExperienceList().get(0) != -1) {
+            for (Long experienceId: profileDto.getDeletedExperienceList()) {
+                experienceService.deleteExperience(experienceId);
+            }
+        }
+
+        // save experiences
+        if (profileDto.getExperienceList() != null) {
+            for (ExperienceDto experienceDto: profileDto.getExperienceList()) {
+                experienceDto.setUserId(userId);
+
+                if (experienceDto.getId() == -1) // create experience
+                    experienceService.createExperience(experienceDto);
+                else if (experienceDto.getId() != -1) // update experience
+                    experienceService.updateExperience(experienceDto);
+            }
+        }
+
+        // delete the removed awards
+        if (profileDto.getDeletedAwardList().get(0) != -1) {
+            for (Long awardId: profileDto.getDeletedAwardList()) {
+                awardService.deleteAward(awardId);
+            }
+        }
+
+        // save awards
+        if (profileDto.getAwardList() != null) {
+            for (AwardDto awardDto: profileDto.getAwardList()) {
+                awardDto.setUserId(userId);
+
+                if (awardDto.getId() == -1) // create award
+                    awardService.createAward(awardDto);
+                else if (awardDto.getId() != -1) // update award
+                    awardService.updateAward(awardDto);
+            }
+        }
+
+        // delete the removed memberships
+        if (profileDto.getDeletedMembershipList().get(0) != -1) {
+            for (Long membershipId: profileDto.getDeletedMembershipList()) {
+                membershipService.deleteMembership(membershipId);
+            }
+        }
+
+        // save memberships
+        if (profileDto.getMembershipList() != null) {
+            for (MembershipDto membershipDto: profileDto.getMembershipList()) {
+                membershipDto.setUserId(userId);
+
+                if (membershipDto.getId() == -1) // create membership
+                    membershipService.createMembership(membershipDto);
+                else if (membershipDto.getId() != -1) // update membership
+                    membershipService.updateMembership(membershipDto);
+            }
+        }
+
+        // save the user
+        userRepository.save(userEntity);
+    }
+
+    @Override
     public UserBarDto getUser() {
-        Long userId;
-        UserEntity userEntity = new UserEntity();
-        String userRole = "";
-
-        if(authService.isAuthenticated()) { // Authenticated
-            userId = authService.getUserId();
-            userEntity = findById(userId);
-            userRole = authService.getRole();
-        }
-        else if(!authService.isAuthenticated()) { // Not Authenticated
-            String userEmail = (String) session.getAttribute("userEmail");
-
-            if (userEmail == null)
-                return null;
-
-            userEntity = findByEmail(userEmail);
-            userRole = userEntity.getRole().toString();
-        }
-
         UserBarDto userBarDto = new UserBarDto();
 
-        userBarDto.setRole(StringUtils.capitalize(userRole.toLowerCase()));
+        if(!authService.isAuthenticated()) { // Not Authenticated
+            return userBarDto;
+        }
+
+        Long userId = authService.getUserId();
+        UserEntity userEntity = findById(userId);
+        String userRole = authService.getRole();
+
+        userBarDto.setRole(userRole);
+        userBarDto.setRoleInitCap(StringUtils.capitalize(userRole.toLowerCase()));
 
         String extendedName = ((userRole.equals("DOCTOR")) ? RolePrefix.DOCTOR.getPre() : "") + userEntity.getName();
         userBarDto.setUserName(extendedName);
@@ -102,8 +303,109 @@ public class UserServiceImpl implements UserService {
         FileEntity fileEntity = fileService.findById(userEntity.getProfileImgId());
         userBarDto.setProfileImgAlt(fileEntity.getAlt());
 
-
         return userBarDto;
+    }
+
+    @Override
+    public ProfileDto getProfile() throws ParseException {
+        ProfileDto profileDto = new ProfileDto();
+
+        if(!authService.isAuthenticated()) { // Not Authenticated
+            return profileDto;
+        }
+
+        Long userId = authService.getUserId();
+        UserEntity userEntity = findById(userId);
+        String userRole = authService.getRole();
+
+        profileDto.setRole(StringUtils.capitalize(userRole.toLowerCase()));
+
+        profileDto.setName(userEntity.getName());
+        profileDto.setEmail(userEntity.getEmail());
+        profileDto.setPhone(userEntity.getPhoneNumber());
+        profileDto.setGender(userEntity.getGender());
+
+        // date of birth
+        SimpleDateFormat format = new SimpleDateFormat(dateOfBirthPattern);
+        String dateOfBirth = null;
+
+        if (userEntity.getDateOfBirth() != null) {
+            dateOfBirth = format.format(userEntity.getDateOfBirth());
+        }
+
+        profileDto.setDateOfBirth(dateOfBirth);
+
+        // img src
+        String imgSrc = fileService.getFileSrc(userEntity.getProfileImgId());
+        profileDto.setProfileImgSrc(imgSrc);
+
+        // img alt
+        FileEntity fileEntity = fileService.findById(userEntity.getProfileImgId());
+        profileDto.setProfileImgAlt(fileEntity.getAlt());
+
+        // biography
+        profileDto.setBiography(userEntity.getBiography());
+
+        // clinic
+        profileDto.setClinicName(userEntity.getClinicName());
+        profileDto.setClinicAddress(userEntity.getClinicAddress());
+
+        // clinic images
+        if (userEntity.getClinicImgIds() != null) {
+            String[] clinicImageIds = userEntity.getClinicImgIds().split(",");
+            List<ImgDto> clinicImageList = new ArrayList<>();
+
+            for (String imageId : clinicImageIds) {
+                ImgDto imgDto = new ImgDto();
+
+                // img src
+                String clinicImgSrc = fileService.getFileSrc(Long.valueOf(imageId));
+                imgDto.setImgSrc(clinicImgSrc);
+
+                // img alt
+                fileEntity = fileService.findById(Long.valueOf(imageId));
+                imgDto.setImgAlt(fileEntity.getAlt());
+
+                // img id
+                imgDto.setId(fileEntity.getId());
+
+                clinicImageList.add(imgDto);
+            }
+            profileDto.setClinicImageList(clinicImageList);
+        }
+
+        // contact details
+        profileDto.setCity(userEntity.getCity());
+        profileDto.setState(userEntity.getState());
+        profileDto.setCountry(userEntity.getCountry());
+        profileDto.setPostalCode(userEntity.getPostalCode());
+        profileDto.setAddressLine(userEntity.getAddressLine());
+
+        // service
+        String serviceList = serviceService.getServices(userId);
+        profileDto.setService(serviceList);
+
+        // specialist
+        String specialistList = specialistService.getSpecialists(userId);
+        profileDto.setSpecialist(specialistList);
+
+        // education
+        List<EducationDto> educationList = educationService.getEducationList(userId);
+        profileDto.setEducationList(educationList);
+
+        // experience
+        List<ExperienceDto> experienceList = experienceService.getExperienceList(userId);
+        profileDto.setExperienceList(experienceList);
+
+        // award
+        List<AwardDto> awardList = awardService.getAwardList(userId);
+        profileDto.setAwardList(awardList);
+
+        // membership
+        List<MembershipDto> membershipList = membershipService.getMembershipList(userId);
+        profileDto.setMembershipList(membershipList);
+
+        return profileDto;
     }
 
     @Override
@@ -115,5 +417,207 @@ public class UserServiceImpl implements UserService {
     public UserEntity findById(Long id) {
         return userRepository.findById(id).orElseThrow(() ->
                 new ResourceNotFoundException("User not found with id: " + id));
+    }
+
+    @Override
+    public List<DoctorsDto> getDoctors() {
+        List<UserEntity> userEntityList = userRepository.findUsersByRole(String.valueOf(Role.DOCTOR));
+        List<DoctorsDto> doctorsDtoList = new ArrayList<>();
+
+        for(UserEntity userEntity: userEntityList) {
+            DoctorsDto doctorsDto = new DoctorsDto();
+
+            doctorsDto.setUserId(userEntity.getId());
+
+            String userRole = String.valueOf(Role.DOCTOR);
+            String extendedName = ((userRole.equals("DOCTOR")) ? RolePrefix.DOCTOR.getPre() : "") + userEntity.getName();
+            doctorsDto.setUserName(extendedName);
+
+            // User image (begin)
+            FileEntity fileEntity = fileService.findById(userEntity.getProfileImgId());
+            String imgSrc = fileService.getFileSrc(fileEntity.getId());
+            // User image (end)
+
+            doctorsDto.setUserImgSrc(imgSrc);
+            doctorsDto.setUserImgAlt(fileEntity.getAlt());
+
+            doctorsDtoList.add(doctorsDto);
+        }
+
+        return doctorsDtoList;
+    }
+
+    @Override
+    public List<DoctorsDto> getDoctors(SearchFilterDto searchFilterDto) {
+        // check null
+        boolean genderNullCheck = false, specialistNullCheck = false, experienceYearNullCheck = false;
+
+        if (searchFilterDto.getGenderList() == null || searchFilterDto.getGenderList().isEmpty())
+            genderNullCheck = true;
+        if (searchFilterDto.getSpecialityList() == null || searchFilterDto.getSpecialityList().isEmpty())
+            specialistNullCheck = true;
+        if (searchFilterDto.getExperienceYearList() == null || searchFilterDto.getExperienceYearList().isEmpty())
+            experienceYearNullCheck = true;
+
+        // upper gender list
+        List<String> upperGenderList = new ArrayList<>();
+
+        if (searchFilterDto.getGenderList() != null && !searchFilterDto.getGenderList().isEmpty()) {
+            for (String gender : searchFilterDto.getGenderList())
+                if (gender.equals(GenderCode.MALE.getId()))
+                    upperGenderList.add(GenderCode.MALE.getName().toUpperCase());
+                else if (gender.equals(GenderCode.FEMALE.getId()))
+                    upperGenderList.add(GenderCode.FEMALE.getName().toUpperCase());
+        }
+
+        // get specialist name
+        List<String> specialityNameList = new ArrayList<>();
+
+        if (searchFilterDto.getSpecialityList() != null && !searchFilterDto.getSpecialityList().isEmpty()) {
+            for (Long id : searchFilterDto.getSpecialityList()) {
+                SpecialistEntity specialistEntity = specialistService.findById(id);
+                specialityNameList.add(specialistEntity.getName().toUpperCase());
+            }
+        }
+
+        // get filtered list
+        List<UserEntity> userEntityList = userRepository.findDoctorsByFilter(
+                String.valueOf(Role.DOCTOR),
+                upperGenderList,
+                genderNullCheck,
+                specialityNameList,
+                specialistNullCheck
+        );
+        List<DoctorsDto> doctorsDtoList = new ArrayList<>();
+
+        for(UserEntity userEntity: userEntityList) {
+            DoctorsDto doctorsDto = new DoctorsDto();
+
+            doctorsDto.setUserId(userEntity.getId());
+
+            String userRole = String.valueOf(Role.DOCTOR);
+            String extendedName = ((userRole.equals("DOCTOR")) ? RolePrefix.DOCTOR.getPre() : "") + userEntity.getName();
+            doctorsDto.setUserName(extendedName);
+
+            // User image (begin)
+            FileEntity fileEntity = fileService.findById(userEntity.getProfileImgId());
+            String imgSrc = fileService.getFileSrc(fileEntity.getId());
+            // User image (end)
+
+            doctorsDto.setUserImgSrc(imgSrc);
+            doctorsDto.setUserImgAlt(fileEntity.getAlt());
+
+            doctorsDtoList.add(doctorsDto);
+        }
+
+        return doctorsDtoList;
+    }
+
+    @Override
+    public DoctorDto getDoctor(Long id) {
+        UserEntity userEntity = findById(id);
+        DoctorDto doctorDto = new DoctorDto();
+
+        doctorDto.setUserId(id);
+
+        String extendedName = RolePrefix.DOCTOR.getPre() + userEntity.getName();
+        doctorDto.setUserName(extendedName);
+
+        // User image (begin)
+        FileEntity fileEntity = fileService.findById(userEntity.getProfileImgId());
+        String imgSrc = fileService.getFileSrc(fileEntity.getId());
+
+        doctorDto.setUserImgSrc(imgSrc);
+        doctorDto.setUserImgAlt(fileEntity.getAlt());
+        // User image (end)
+
+        // biography
+        doctorDto.setBiography(userEntity.getBiography());
+
+        // clinic images
+        if (userEntity.getClinicImgIds() != null) {
+            String[] clinicImageIds = userEntity.getClinicImgIds().split(",");
+            List<ImgDto> clinicImageList = new ArrayList<>();
+
+            for (String imageId : clinicImageIds) {
+                ImgDto imgDto = new ImgDto();
+
+                // img src
+                String clinicImgSrc = fileService.getFileSrc(Long.valueOf(imageId));
+                imgDto.setImgSrc(clinicImgSrc);
+
+                // img alt
+                fileEntity = fileService.findById(Long.valueOf(imageId));
+                imgDto.setImgAlt(fileEntity.getAlt());
+
+                // img id
+                imgDto.setId(fileEntity.getId());
+
+                clinicImageList.add(imgDto);
+            }
+            doctorDto.setClinicImageList(clinicImageList);
+        }
+
+        // service
+        List<ServiceDto> serviceList = serviceService.getServiceList(id);
+        doctorDto.setServiceList(serviceList);
+
+        // specialist
+        List<SpecializationDto> specializationList = specialistService.getSpecialistList(id);
+        doctorDto.setSpecialistList(specializationList);
+
+        // education
+        List<EducationDto> educationList = educationService.getEducationList(id);
+        doctorDto.setEducationList(educationList);
+
+        // experience
+        List<ExperienceDto> experienceList = experienceService.getExperienceList(id);
+        doctorDto.setExperienceList(experienceList);
+
+        // award
+        List<AwardDto> awardList = awardService.getAwardList(id);
+        doctorDto.setAwardList(awardList);
+
+        // membership
+        List<MembershipDto> membershipList = membershipService.getMembershipList(id);
+        doctorDto.setMembershipList(membershipList);
+
+        return doctorDto;
+    }
+
+
+    ////////////////////////////////////////////////////////////////////////////////////////
+    // Model Mapper
+    // Entity => DTO
+    @Override
+    public UserBarDto UserEntityToUserBarDto(UserEntity userEntity) {
+        UserBarDto userBarDto =  modelMapper.map(userEntity, UserBarDto.class);
+        return userBarDto;
+    }
+    @Override
+    public ProfileDto UserEntityToProfileDto(UserEntity userEntity) {
+        ProfileDto profileDto =  modelMapper.map(userEntity, ProfileDto.class);
+        return profileDto;
+    }
+    @Override
+    public FileDto FileEntityToFileDto(FileEntity fileEntity) {
+        FileDto fileDto =  modelMapper.map(fileEntity, FileDto.class);
+        return fileDto;
+    }
+    @Override
+    public FileDto FileEntitytoFileDto(FileEntity fileEntity) {
+        return modelMapper.map(fileEntity, FileDto.class);
+    }
+
+    // DTO => Entity
+    @Override
+    public UserEntity UserBarDtoToUserEntity(UserBarDto userBarDto) {
+        UserEntity userEntity = modelMapper.map(userBarDto, UserEntity.class);
+        return userEntity;
+    }
+    @Override
+    public UserEntity ProfileDtoToUserEntity(ProfileDto profileDto) {
+        UserEntity userEntity = modelMapper.map(profileDto, UserEntity.class);
+        return userEntity;
     }
 }

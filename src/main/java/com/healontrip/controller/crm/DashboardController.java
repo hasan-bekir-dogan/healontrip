@@ -7,6 +7,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
+
 @Controller("DashboardController")
 public class DashboardController {
     @Autowired
@@ -18,6 +19,6 @@ public class DashboardController {
 
         model.addAttribute("user", userBarDto);
 
-        return "crm/doctor/dashboard";
+        return "crm/" + userBarDto.getRole().toLowerCase() + "/dashboard";
     }
 }

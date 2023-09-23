@@ -1,7 +1,42 @@
+.clinic-section .slide-nav-clinic button.owl-next,
+.clinic-section .slide-nav-clinic button.owl-prev {
+  display: inline-flex;
+  display: -webkit-inline-flex;
+  align-items: center;
+  -webkit-align-items: center;
+  justify-content: center;
+  -webkit-justify-content: center;
+}
+
+/*---------------------------------------*/
+.view-all-area {
+  display: flex;
+  display: -webkit-flex;
+  flex-direction: row;
+  justify-content: center;
+  -webkit-justify-content: center;
+  align-items: center;
+  -webkit-align-items: center;
+  align-content: center;
+}
+
+/*---------------------------------------*/
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type=number] {
+  -moz-appearance: textfield;
+}
+
 .form-validation .form-error {
   height: auto;
 }
-.form-validation .form-error input.form-control, .form-validation .form-error textarea.form-control {
+.form-validation .form-error input.form-control, .form-validation .form-error textarea.form-control, .form-validation .form-error .bootstrap-tagsinput {
   border-color: #ff0100;
 }
 .form-validation .form-error select.form-control {
@@ -78,6 +113,284 @@ blockquote {
 
 .section-white {
   background-color: #fff;
+}
+
+header .nav.header-navbar-rht .has-submenu > a {
+  font-weight: 500;
+}
+header .nav.header-navbar-rht .has-submenu > a:hover {
+  color: #0E82FD;
+}
+
+.blog.grid-blog .blog-image .img-fluid {
+  aspect-ratio: 3/2;
+  object-fit: cover;
+}
+.blog.grid-blog .blog-content .entry-meta.meta-item .author {
+  width: calc(100% - 120px);
+  margin-right: 10px;
+}
+.blog.grid-blog .blog-content .entry-meta.meta-item .author .post-author {
+  width: 100%;
+}
+.blog.grid-blog .blog-content .entry-meta.meta-item .author .post-author > a {
+  width: 100%;
+}
+.blog.grid-blog .blog-content .entry-meta.meta-item .author .post-author > a span {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: calc(100% - (33px + 1.2rem));
+}
+.blog.grid-blog .blog-content .entry-meta.meta-item .author .post-author > a img {
+  aspect-ratio: 1/1;
+  object-fit: cover;
+}
+.blog.grid-blog .blog-content .entry-meta.meta-item .author .doctor-blog span {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: calc(100% - (33px + 1.2rem));
+}
+.blog.grid-blog .blog-content .entry-meta.meta-item .author .doctor-blog img {
+  aspect-ratio: 1/1;
+  object-fit: cover;
+}
+.blog.grid-blog .blog-content .entry-meta.meta-item .date {
+  flex: 0 0 110px;
+  max-width: 110px;
+}
+.blog.grid-blog .blog-content .blog-title {
+  height: 43px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.blog.grid-blog .blog-content .preface {
+  margin: 0 0 15px;
+  height: 42px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+@media only screen and (min-width: 991.98px) {
+  .home-banner .banner-content {
+    padding-bottom: 100px;
+  }
+}
+/*-----------------------------------*/
+.faq-section {
+  padding-top: 80px;
+}
+
+@media only screen and (max-width: 767.98px) {
+  .faq-section {
+    padding-top: 40px;
+  }
+}
+/*-----------------------------------*/
+@media only screen and (min-width: 991.98px) {
+  .banner-section .search-box-one {
+    min-width: 700px;
+  }
+}
+@media only screen and (min-width: 767.98px) {
+  .banner-section .search-box-one .search-input.search-line {
+    width: 48%;
+  }
+  .banner-section .search-box-one .search-input.search-map-line {
+    width: 29%;
+  }
+  .banner-section .search-box-one .search-input.search-map-line:before {
+    display: none;
+  }
+}
+/*-----------------------------------*/
+.clinic-section {
+  background: white;
+}
+.clinic-section::before, .clinic-section::after {
+  display: none;
+}
+.clinic-section .slide-nav-clinic button.owl-next,
+.clinic-section .slide-nav-clinic button.owl-prev {
+  width: 44px;
+  height: 44px;
+  font-size: 18px;
+  color: #1E3259;
+  background: white;
+  box-shadow: 0 4px 14px rgba(141, 141, 141, 0.25);
+  text-shadow: none;
+  top: 0;
+  cursor: pointer;
+  border: 0;
+  margin-top: 0;
+  margin-bottom: 0;
+  margin-left: 15px;
+  border-radius: 50px;
+}
+.clinic-section .slide-nav-clinic button.owl-next:hover,
+.clinic-section .slide-nav-clinic button.owl-prev:hover {
+  color: white;
+  background: #0E82FD;
+}
+
+@media only screen and (max-width: 767.98px) {
+  .doctors-section .owl-nav.nav-control {
+    padding-bottom: 10px;
+  }
+}
+/*-----------------------------------*/
+.view-all-area .btn-view-all {
+  font-weight: 500;
+  font-size: 15px;
+  color: #0E82FD;
+  background: white;
+  border: 2px solid #0E82FD;
+  box-shadow: inset 0 0 0 0 #0E82FD;
+  border-radius: 6px;
+  min-width: 112px;
+  padding: 7px 12px;
+  width: unset;
+  text-align: center;
+  -webkit-transition: 0.5s;
+  -ms-transition: 0.5s;
+  transition: 0.5s;
+}
+.view-all-area .btn-view-all:hover {
+  color: white;
+  border-color: #0E82FD;
+  background: #0E82FD;
+  box-shadow: inset 0 0 0 50px #0E82FD;
+  -webkit-transition: 0.5s;
+  -ms-transition: 0.5s;
+  transition: 0.5s;
+}
+@media (max-width: 767.98px) {
+  .view-all-area .btn-view-all {
+    font-size: 14px;
+  }
+}
+
+/*-----------------------------------*/
+.articles-section .articles-info .articles-left .articles-img > img {
+  aspect-ratio: 1/1;
+  object-fit: cover;
+}
+.articles-section .articles-info .articles-right .articles-content .title {
+  height: 38.38px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  margin: 0 auto 10px auto;
+}
+.articles-section .articles-info .articles-right .articles-content .title > a {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+.articles-section .articles-info .articles-right .articles-content .preface {
+  height: 45px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+@media only screen and (max-width: 767.98px) {
+  .articles-section .articles-info .articles-right .articles-content .preface {
+    height: 39px;
+  }
+}
+/*-----------------------------------*/
+.doctors-section .reviews-ratings p {
+  margin-bottom: 18px;
+}
+
+/*-----------------------------------*/
+.doctors-section .owl-stage-outer .owl-item .item .doctor-profile-widget .doc-pro-img .doctor-profile-img > img {
+  aspect-ratio: 3/2;
+  object-fit: cover;
+}
+.doctors-section .owl-stage-outer .owl-item .item .doctor-profile-widget .doc-content .doc-pro-info .doc-pro-name {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 165px;
+}
+
+@media only screen and (max-width: 1399.98px) {
+  .doctors-section .owl-stage-outer .owl-item .item .doctor-profile-widget .doc-content .doc-pro-info .doc-pro-name {
+    max-width: 145px;
+  }
+}
+.clinic-section .image-upload {
+  background-color: #fbfbfb;
+  border: 2px dashed rgba(0, 0, 0, 0.1);
+  border-radius: 0.25rem;
+  text-align: center;
+  position: relative;
+  margin: 0 0 30px;
+  padding: 70px 0;
+}
+.clinic-section .image-upload input[type=file] {
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  cursor: pointer;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+#user-profile-photo .change-photo-btn input.upload {
+  width: 100%;
+  border-radius: 50px;
+}
+
+.upload-images > img {
+  aspect-ratio: 1/1;
+  object-fit: cover;
+}
+
+#profile-settings .clinic-images .upload-images {
+  margin-left: 0;
+  margin-right: 20px;
+}
+
+.education-cont:not(:first-child) > div, .experience-cont:not(:first-child) > div, .awards-cont:not(:first-child) > div {
+  padding-top: 20px;
+  border-top: 1px solid #f0f0f0;
+}
+
+.doctor-content .search-body .doctor-filter-info .doctors-found {
+  padding-bottom: 0;
+}
+
+.doctor-widget-one .doctor-img img {
+  object-fit: cover;
+}
+
+.doctor-profile-widget.doc-grid .doc-pro-img .doctor-profile-img img {
+  aspect-ratio: 1/1;
+  object-fit: cover;
+}
+
+.doctor-detail-page .doctor-img img {
+  aspect-ratio: 1/1;
+  object-fit: cover;
+}
+.doctor-detail-page .clinic-details ul li a img {
+  width: 40px;
+  border-radius: 5px;
+  aspect-ratio: 1/1;
+  object-fit: cover;
+}
+.doctor-detail-page .membership-list .experience-list:before {
+  display: none;
+}
+.doctor-detail-page .membership-list .experience-list > li {
+  list-style: decimal;
+  margin-left: 40px;
+}
+.doctor-detail-page .membership-list .experience-list > li .experience-content {
+  margin-left: 0;
 }
 
 /*# sourceMappingURL=layout.css.map */

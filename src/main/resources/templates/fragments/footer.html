@@ -1,117 +1,92 @@
-
-<footer class="footer">
-
-    <!-- Footer Top -->
-    <div class="footer-top aos" data-aos="fade-up">
-        <div class="container-fluid">
+<!-- Footer -->
+<footer class="footer footer-one">
+    <div class="footer-top">
+        <div class="container">
             <div class="row">
-                <div class="col-lg-3 col-md-6">
-
-                    <!-- Footer Widget -->
+                <div class="col-lg-3 col-md-4">
                     <div class="footer-widget footer-about">
                         <div class="footer-logo">
-                            <img th:src="@{/assets/img/footer-logo.png}" alt="logo">
+                            <img src="assets/img/logo.png" alt="logo">
                         </div>
                         <div class="footer-about-content">
-                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. </p>
-                            <div class="social-icon">
-                                <ul>
-                                    <li>
-                                        <a th:href="@{#}" target="_blank"><i class="fab fa-facebook-f"></i> </a>
-                                    </li>
-                                    <li>
-                                        <a th:href="@{#}" target="_blank"><i class="fab fa-twitter"></i> </a>
-                                    </li>
-                                    <li>
-                                        <a th:href="@{#}" target="_blank"><i class="fab fa-linkedin-in"></i></a>
-                                    </li>
-                                    <li>
-                                        <a th:href="@{#}" target="_blank"><i class="fab fa-instagram"></i></a>
-                                    </li>
-                                    <li>
-                                        <a th:href="@{#}" target="_blank"><i class="fab fa-dribbble"></i> </a>
-                                    </li>
-                                </ul>
-                            </div>
+                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore.</p>
                         </div>
                     </div>
-                    <!-- /Footer Widget -->
-
                 </div>
-
-                <div class="col-lg-3 col-md-6">
-
-                    <!-- Footer Widget -->
+                <div class="col-lg-2 col-md-4">
                     <div class="footer-widget footer-menu">
                         <h2 class="footer-title">For Patients</h2>
                         <ul>
-                            <li><a th:href="@{#}">Search for Doctors</a></li>
-                            <li><a th:href="@{/login}">Login</a></li>
-                            <li><a th:href="@{/register}">Register</a></li>
-                            <li><a th:href="@{#}">Booking</a></li>
-                            <li><a th:href="@{#}">Patient Dashboard</a></li>
+                            <li><a href="search.html">Search for Doctors</a></li>
+                            <li><a href="login.html">Login</a></li>
+                            <li><a href="register.html">Register</a></li>
                         </ul>
                     </div>
-                    <!-- /Footer Widget -->
-
                 </div>
-
-                <div class="col-lg-3 col-md-6">
-
-                    <!-- Footer Widget -->
+                <div class="col-lg-2 col-md-4">
                     <div class="footer-widget footer-menu">
                         <h2 class="footer-title">For Doctors</h2>
                         <ul>
-                            <li><a th:href="@{#}">Appointments</a></li>
-                            <li><a th:href="@{#}">Chat</a></li>
-                            <li><a th:href="@{/login}">Login</a></li>
-                            <li><a th:href="@{/register}">Register</a></li>
-                            <li><a th:href="@{#}">Doctor Dashboard</a></li>
+                            <li><a href="appointments.html">Appointments</a></li>
+                            <li><a href="chat.html">Chat</a></li>
+                            <li><a href="login.html">Login</a></li>
                         </ul>
                     </div>
-                    <!-- /Footer Widget -->
-
                 </div>
-
-                <div class="col-lg-3 col-md-6">
-
-                    <!-- Footer Widget -->
+                <div class="col-lg-2 col-md-5">
                     <div class="footer-widget footer-contact">
                         <h2 class="footer-title">Contact Us</h2>
                         <div class="footer-contact-info">
                             <div class="footer-address">
-                                <span><i class="fas fa-map-marker-alt"></i></span>
-                                <p> 3556  Beech Street, San Francisco,<br> California, CA 94108 </p>
+                                <p><i class="feather-map-pin"></i> 3556 Beech Street, USA</p>
                             </div>
-                            <p>
-                                <i class="fas fa-phone-alt"></i>
-                                +1 315 369 5943
-                            </p>
-                            <p class="mb-0">
-                                <i class="fas fa-envelope"></i>
-                                doccure@example.com
-                            </p>
+                            <div class="footer-address">
+                                <p><i class="feather-phone-call"></i> +1 315 369 5943</p>
+                            </div>
+                            <div class="footer-address mb-0">
+                                <p><i class="feather-mail"></i> doccure@example.com</p>
+                            </div>
                         </div>
                     </div>
-                    <!-- /Footer Widget -->
-
                 </div>
-
+                <div class="col-lg-3 col-md-7">
+                    <div class="footer-widget">
+                        <h2 class="footer-title">Join Our Newsletter</h2>
+                        <div class="subscribe-form">
+                            <form action="#">
+                                <input type="email" class="form-control" placeholder="Enter Email">
+                                <button type="submit" class="btn">Submit</button>
+                            </form>
+                        </div>
+                        <div class="social-icon">
+                            <ul>
+                                <li>
+                                    <a href="javascript:;" target="_blank"><i class="fab fa-facebook"></i> </a>
+                                </li>
+                                <li>
+                                    <a href="javascript:;" target="_blank"><i class="fab fa-instagram"></i></a>
+                                </li>
+                                <li>
+                                    <a href="javascript:;" target="_blank"><i class="fab fa-twitter"></i> </a>
+                                </li>
+                                <li>
+                                    <a href="javascript:;" target="_blank"><i class="fab fa-linkedin-in"></i></a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
-    <!-- /Footer Top -->
-
-    <!-- Footer Bottom -->
     <div class="footer-bottom">
-        <div class="container-fluid">
-
+        <div class="container">
             <!-- Copyright -->
             <div class="copyright">
                 <div class="row">
                     <div class="col-md-6 col-lg-6">
                         <div class="copyright-text">
-                            <p class="mb-0">&copy; 2022 Doccure. All rights reserved.</p>
+                            <p class="mb-0"> Copyright © 2023 <a href="https://themeforest.net/user/dreamguys/portfolio" target="_blank">Dreamguys.</a> All Rights Reserved</p>
                         </div>
                     </div>
                     <div class="col-md-6 col-lg-6">
@@ -119,8 +94,8 @@
                         <!-- Copyright Menu -->
                         <div class="copyright-menu">
                             <ul class="policy-menu">
-                                <li><a th:href="@{#}">Terms and Conditions</a></li>
-                                <li><a th:href="@{#}">Policy</a></li>
+                                <li><a href="privacy-policy.html">Privacy Policy</a></li>
+                                <li><a href="terms-condition.html">Terms and Conditions</a></li>
                             </ul>
                         </div>
                         <!-- /Copyright Menu -->
@@ -129,10 +104,7 @@
                 </div>
             </div>
             <!-- /Copyright -->
-
         </div>
     </div>
-    <!-- /Footer Bottom -->
-
 </footer>
-
+<!-- /Footer -->
