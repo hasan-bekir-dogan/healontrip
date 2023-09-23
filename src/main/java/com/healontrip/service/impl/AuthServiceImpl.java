@@ -5,6 +5,7 @@ import com.healontrip.exception.AuthenticationException;
 import com.healontrip.repository.UserRepository;
 import com.healontrip.service.AuthService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -100,21 +101,16 @@ public class AuthServiceImpl implements AuthService {
 
     @Override
     public boolean isAuthenticated() {
-        boolean authCheck = false;
-
         try {
-
             Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 
-            if (auth == null)
-                authCheck = false;
-            /*else
-                authCheck = auth.isAuthenticated();*/
+            if (auth == null || auth instanceof AnonymousAuthenticationToken)
+                return false;
+            else
+                return true;
 
         } catch (AuthenticationException noAuth) {
             throw new AuthenticationException("No Authentication!");
         }
-
-        return authCheck;
     }
 }

@@ -1,55 +1,132 @@
-
-<header class="header">
-    <nav class="navbar navbar-expand-lg header-nav">
-        <div class="navbar-header">
-            <a id="mobile_btn" href="javascript:void(0);">
-                <span class="bar-icon bar-icon-one">
-                    <span></span>
-                    <span></span>
-                    <span></span>
-                </span>
-            </a>
-            <a th:href="@{/}" class="navbar-brand logo">
-                <img th:src="@{/assets/img/logo.png}" class="img-fluid" alt="Logo">
-            </a>
-        </div>
-        <div class="main-menu-wrapper">
-            <div class="menu-header">
-                <a th:href="@{/}" class="menu-logo">
+<header class="header header-fixed header-one">
+    <div class="container">
+        <nav class="navbar navbar-expand-lg header-nav">
+            <div class="navbar-header">
+                <a id="mobile_btn" href="javascript:void(0);">
+                    <span class="bar-icon">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </span>
+                </a>
+                <a th:href="@{/}" class="navbar-brand logo">
                     <img th:src="@{/assets/img/logo.png}" class="img-fluid" alt="Logo">
                 </a>
-                <a id="menu_close" class="menu-close" href="javascript:void(0);">
-                    <i class="fas fa-times"></i>
-                </a>
             </div>
-            <ul class="main-nav">
-                <!-- navbar items -->
-                <!--<li class="has-submenu" th:classappend="${#httpServletRequest.requestURI.startsWith('/doctors')} ? 'active'">
-                    <a th:href="@{#}">Doctors</a>
-                </li>-->
+
+            <div class="main-menu-wrapper">
+                <div class="menu-header">
+                    <a th:href="@{/}" class="menu-logo">
+                        <img th:src="@{/assets/img/logo.png}" class="img-fluid" alt="Logo">
+                    </a>
+                    <a id="menu_close" class="menu-close" href="javascript:void(0);">
+                        <i class="fas fa-times"></i>
+                    </a>
+                </div>
+                <ul class="main-nav" th:if="${user.userName == null}">
+                    <li class="has-submenu">
+                        <a th:href="@{/search}">Doctors</a>
+                    </li>
+                    <!--<li class="vertical-line"></li>-->
+                    <li class="has-submenu">
+                        <a th:href="@{#}">Help</a>
+                    </li>
+                    <!--<li class="vertical-line"></li>-->
+                    <li class="login-link">
+                        <a th:href="@{/login}">Login / Signup</a>
+                    </li>
+                    <li class="register-btn">
+                        <a th:href="@{/register}" class="btn reg-btn"><i class="feather-user"></i>Register</a>
+                    </li>
+                    <li class="register-btn">
+                        <a th:href="@{/login}" class="btn btn-primary log-btn"><i class="feather-lock"></i>Login</a>
+                    </li>
+
+                </ul>
+            </div>
+
+            <ul th:unless="${user.userName == null}" class="nav header-navbar-rht">
+                <li class="has-submenu">
+                    <a th:href="@{/search}">Doctors</a>
+                </li>
+                <!--<li class="vertical-line"></li>-->
                 <li class="has-submenu">
                     <a th:href="@{#}">Help</a>
                 </li>
-                <!-- /navbar items -->
+                <!--<li class="vertical-line"></li>-->
 
+                <!-- Notifications -->
+                <li class="nav-item dropdown noti-nav me-3 pe-0">
+                    <a href="#" class="dropdown-toggle nav-link p-0" data-bs-toggle="dropdown">
+                        <i class="fa-solid fa-bell"></i> <span class="badge">5</span>
+                    </a>
+                    <div class="dropdown-menu notifications dropdown-menu-end ">
+                        <div class="topnav-dropdown-header">
+                            <span class="notification-title">Notifications</span>
+                        </div>
+                        <div class="noti-content">
+                            <ul class="notification-list">
+                                <li class="notification-message">
+                                    <a href="#">
+                                        <div class="media d-flex">
+                                                    <span class="avatar">
+                                                        <img class="avatar-img" alt="" src="assets/img/clients/client-01.jpg">
+                                                    </span>
+                                            <div class="media-body">
+                                                <h6>Travis Tremble <span class="notification-time">18.30 PM</span></h6>
+                                                <p class="noti-details">Sent a amount of $210 for his Appointment  <span class="noti-title">Dr.Ruby perin </span></p>
+                                            </div>
+                                        </div>
+                                    </a>
+                                </li>
+                                <li class="notification-message">
+                                    <a href="#">
+                                        <div class="media d-flex">
+                                                    <span class="avatar">
+                                                        <img class="avatar-img" alt="" src="assets/img/clients/client-02.jpg">
+                                                    </span>
+                                            <div class="media-body">
+                                                <h6>Travis Tremble <span class="notification-time">12 Min Ago</span></h6>
+                                                <p class="noti-details"> has booked her appointment to  <span class="noti-title">Dr. Hendry Watt</span></p>
+                                            </div>
+                                        </div>
+                                    </a>
+                                </li>
+                                <li class="notification-message">
+                                    <a href="#">
+                                        <div class="media d-flex">
+                                            <div class="avatar">
+                                                <img class="avatar-img" alt="" src="assets/img/clients/client-03.jpg">
+                                            </div>
+                                            <div class="media-body">
+                                                <h6>Travis Tremble <span class="notification-time">6 Min Ago</span></h6>
+                                                <p class="noti-details"> Sent a amount  $210 for his Appointment   <span class="noti-title">Dr.Maria Dyen</span></p>
+                                            </div>
+                                        </div>
+                                    </a>
+                                </li>
+                                <li class="notification-message">
+                                    <a href="#">
+                                        <div class="media d-flex">
+                                            <div class="avatar avatar-sm">
+                                                <img class="avatar-img" alt="" src="assets/img/clients/client-04.jpg">
+                                            </div>
+                                            <div class="media-body">
+                                                <h6>Travis Tremble <span class="notification-time">8.30 AM</span></h6>
+                                                <p class="noti-details"> Send a message to his doctor</p>
+                                            </div>
+                                        </div>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </li>
+                <!-- /Notifications -->
 
-                <!-- User profile -->
-                <!--<li th:if="${session.userEmail == null}" class="login-link">
-                    <a th:href="@{/patient/login}">Login / Signup</a>
-                </li>-->
-                <!-- /User profile -->
-            </ul>
-        </div>
-
-        <ul class="nav header-navbar-rht">
-            <li th:if="${session.userEmail == null}" class="nav-item">
-                <a class="nav-link header-login btn-one-light" th:href="@{/patient/login}">login / Signup </a>
-            </li>
-
-            <th:block th:unless="${session.userEmail == null}">
                 <!-- User Menu -->
                 <li class="nav-item dropdown has-arrow logged-item">
-                    <a href="#" class="dropdown-toggle nav-link" data-bs-toggle="dropdown">
+                    <a th:href="@{#}" class="dropdown-toggle nav-link" data-bs-toggle="dropdown">
                         <span class="user-img">
                             <img class="rounded-circle" th:src="@{'/' + ${user.profileImgSrc}}" width="31" th:alt="${user.userName}">
                         </span>
@@ -61,12 +138,12 @@
                             </div>
                             <div class="user-text">
                                 <h6 th:text="${user.userName}"></h6>
-                                <p class="text-muted mb-0" th:text="${user.role}"></p>
+                                <p class="text-muted mb-0" th:text="${user.roleInitCap}"></p>
                             </div>
                         </div>
-                        <a class="dropdown-item" th:href="@{#}">Dashboard</a>
-                        <a class="dropdown-item" th:href="@{#}">Profile Settings</a>
-                        <form method="post" th:action="@{/doctor/logout}" role="form">
+                        <a class="dropdown-item" th:href="@{/dashboard}">Dashboard</a>
+                        <a class="dropdown-item" th:href="@{/profile}">Profile Settings</a>
+                        <form method="post" th:action="@{/logout}" role="form">
                             <a class="dropdown-item" onclick="this.parentNode.submit();">
                                 Logout
                             </a>
@@ -74,7 +151,7 @@
                     </div>
                 </li>
                 <!-- /User Menu -->
-            </th:block>
-        </ul>
-    </nav>
+            </ul>
+        </nav>
+    </div>
 </header>

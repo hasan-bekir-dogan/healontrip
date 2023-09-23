@@ -1,7 +1,6 @@
 package com.healontrip.service.impl;
 
 import com.healontrip.dto.FileDto;
-import com.healontrip.dto.FileSource;
 import com.healontrip.entity.FileEntity;
 import com.healontrip.exception.ResourceNotFoundException;
 import com.healontrip.repository.FileRepository;
@@ -33,7 +32,7 @@ public class FileServiceImpl implements FileService {
         String formattedTime = currentTime.format(formatter);
 
         FileEntity fileEntity = new FileEntity();
-        String longSrc = /*FileSource.BASE.getSrc() + */fileDto.getSource();
+        String longSrc = fileDto.getSource();
 
         fileEntity.setAlt(fileDto.getAlt());
         fileEntity.setCode(fileDto.getCode());
@@ -55,8 +54,42 @@ public class FileServiceImpl implements FileService {
     }
 
     @Override
+    public Long updateFile(FileDto fileDtoOld, FileDto fileDtoNew) throws IOException {
+        FileEntity fileEntity = findById(fileDtoOld.getId());
+        Long fileId;
+
+        if (fileEntity.getCode() != null) { // default image
+            fileId = saveFile(fileDtoNew);
+        }
+        else { // no default image
+            MultipartFile file = fileDtoNew.getFile();
+
+            LocalDateTime currentTime = LocalDateTime.now();
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMddHHmmss");
+            String formattedTime = currentTime.format(formatter);
+
+            String longSrc = fileDtoNew.getSource();
+
+            String name = formattedTime + fileEntity.getId().toString();
+            String fullExtendedName = name + fileDtoNew.getExtension();
+
+            fileEntity.setName(name);
+
+            FileUploadUtil.saveFile(longSrc, fullExtendedName, file);
+
+            fileRepository.save(fileEntity);
+
+            fileId = fileEntity.getId();
+
+            deleteFileInFolder(fileDtoOld);
+        }
+
+        return fileId;
+    }
+
+    @Override
     public void deleteFile(FileDto fileDto) throws IOException {
-        String longSrc = /*FileSource.BASE.getSrc() + */fileDto.getSource();
+        String longSrc = fileDto.getSource();
         String fullExtendedName = fileDto.getName() + fileDto.getExtension();
 
         FileUploadUtil.deleteFile(longSrc, fullExtendedName);
@@ -64,6 +97,14 @@ public class FileServiceImpl implements FileService {
         FileEntity fileEntity = DtoToEntity(fileDto);
 
         fileRepository.delete(fileEntity);
+    }
+
+    @Override
+    public void deleteFileInFolder(FileDto fileDto) throws IOException {
+        String longSrc = fileDto.getSource();
+        String fullExtendedName = fileDto.getName() + fileDto.getExtension();
+
+        FileUploadUtil.deleteFile(longSrc, fullExtendedName);
     }
 
     @Override

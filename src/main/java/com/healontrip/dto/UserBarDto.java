@@ -16,5 +16,6 @@ public class UserBarDto {
     private String profileImgSrc;
     private String profileImgAlt;
     private String role;
+    private String roleInitCap;
     private String department;
 }

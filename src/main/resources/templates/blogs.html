@@ -15,7 +15,7 @@
     <link rel="stylesheet" th:href="@{/assets/css/feather.css}">
 
     <!-- Main CSS -->
-    <link rel="stylesheet" th:href="@{/assets/css/style.css}">
+    <link rel="stylesheet" th:href="@{/assets/css/custom.css}">
 
     <!-- Custom CSS -->
     <link rel="stylesheet" th:href="@{/assets/css/layout.css}">
@@ -31,17 +31,17 @@
         <!-- /Header -->
 
         <!-- Breadcrumb -->
-        <div class="breadcrumb-bar">
-            <div class="container-fluid">
-                <div class="row align-items-center">
-                    <div class="col-md-12 col-12">
+        <div class="breadcrumb-bar-two">
+            <div class="container">
+                <div class="row align-items-center inner-banner">
+                    <div class="col-md-12 col-12 text-center">
+                        <h2 class="breadcrumb-title">Blogs</h2>
                         <nav aria-label="breadcrumb" class="page-breadcrumb">
                             <ol class="breadcrumb">
-                                <li class="breadcrumb-item"><a th:href="@{#}">Home</a></li>
-                                <li class="breadcrumb-item active" aria-current="page">Blogs</li>
+                                <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+                                <li class="breadcrumb-item" aria-current="page">Blogs</li>
                             </ol>
                         </nav>
-                        <h2 class="breadcrumb-title">Blogs</h2>
                     </div>
                 </div>
             </div>
@@ -70,14 +70,14 @@
                                         </div>
                                         <div class="blog-content">
                                             <ul class="entry-meta meta-item">
-                                                <li>
+                                                <li class="author">
                                                     <div class="post-author">
-                                                        <a th:href="@{#}">
+                                                        <a th:href="@{#}" class="doctor-link">
                                                             <img th:src="@{'/' + ${blog.userImgSrc}}" th:alt="${blog.userImgAlt}"> <span th:text="${blog.userName}"></span>
                                                         </a>
                                                     </div>
                                                 </li>
-                                                <li>
+                                                <li class="date">
                                                     <i class="far fa-clock"></i> <x-text th:text="${blog.createdAt}"></x-text>
                                                 </li>
                                             </ul>
@@ -86,7 +86,7 @@
                                                     <x-text th:text="${blog.title}"></x-text>
                                                 </a>
                                             </h3>
-                                            <p class="mb-0" th:text="${blog.preface}"></p>
+                                            <p class="mb-0 preface" th:text="${blog.preface}"></p>
                                         </div>
                                     </div>
                                     <!-- /Blog Post -->
@@ -94,7 +94,6 @@
                                 </div>
 
                             </th:block>
-
                         </div>
 
                         <!-- Blog Pagination -->
@@ -287,7 +286,7 @@
 
 
     <!-- jQuery -->
-    <script th:src="@{/assets/js/jquery-3.6.0.min.js}"></script>
+    <script th:src="@{/assets/js/jquery-3.6.4.min.js}"></script>
 
     <!-- Bootstrap Core JS -->
     <script th:src="@{/assets/js/bootstrap.bundle.min.js}"></script>
@@ -295,9 +294,6 @@
     <!-- Sticky Sidebar JS -->
     <script th:src="@{/assets/plugins/theia-sticky-sidebar/ResizeSensor.js}"></script>
     <script th:src="@{/assets/plugins/theia-sticky-sidebar/theia-sticky-sidebar.js}"></script>
-
-    <!-- Feather Icon JS -->
-    <script th:src="@{/assets/js/feather.min.js}"></script>
 
     <!-- Custom JS -->
     <script th:src="@{/assets/js/script.js}"></script>

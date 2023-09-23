@@ -14,8 +14,14 @@
     <!-- Feathericon CSS -->
     <link rel="stylesheet" th:href="@{/assets/css/feather.css}">
 
+    <!-- Animation CSS -->
+    <link rel="stylesheet" th:href="@{/assets/css/aos.css}">
+
     <!-- Main CSS -->
-    <link rel="stylesheet" th:href="@{/assets/css/style.css}">
+    <link rel="stylesheet" th:href="@{/assets/css/custom.css}">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" th:href="@{/assets/css/layout.css}">
 
 </head>
 <body class="account-page">
@@ -24,11 +30,11 @@
     <div class="main-wrapper">
 
         <!-- Header -->
-        <th:block th:include="./fragments/header"></th:block>
+        <th:block th:include="./fragments/header-login"></th:block>
         <!-- /Header -->
 
         <!-- Page Content -->
-        <div class="content">
+        <div class="content top-space">
             <div class="container-fluid">
 
                 <div class="row">
@@ -76,20 +82,30 @@
         <!-- /Page Content -->
 
         <!-- Footer -->
-        <th:block th:include="./fragments/footer"></th:block>
+        <th:block th:include="./fragments/footer-login"></th:block>
         <!-- /Footer -->
 
     </div>
     <!-- /Main Wrapper -->
 
     <!-- jQuery -->
-    <script th:src="@{/assets/js/jquery-3.6.0.min.js}"></script>
+    <script th:src="@{/assets/js/jquery-3.6.4.min.js}"></script>
 
     <!-- Bootstrap Core JS -->
     <script th:src="@{/assets/js/bootstrap.bundle.min.js}"></script>
 
     <!-- Feather Icon JS -->
     <script th:src="@{/assets/js/feather.min.js}"></script>
+
+    <!-- Animation JS -->
+    <script th:src="@{/assets/js/aos.js}"></script>
+
+    <!-- Sticky Sidebar JS -->
+    <script th:src="@{assets/plugins/theia-sticky-sidebar/ResizeSensor.js}"></script>
+    <script th:src="@{assets/plugins/theia-sticky-sidebar/theia-sticky-sidebar.js}"></script>
+
+    <!-- Circle Progress JS -->
+    <script th:src="@{assets/js/circle-progress.min.js}"></script>
 
     <!-- Custom JS -->
     <script th:src="@{/assets/js/script.js}"></script>

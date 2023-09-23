@@ -24,5 +24,6 @@ public class BlogsDto {
     private String userImgSrc;
     private String userImgAlt;
     private String userName;
+    private String biography;
     private String createdAt;
 }

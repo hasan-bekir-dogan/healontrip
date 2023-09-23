@@ -1,0 +1,39 @@
+package com.healontrip.entity;
+
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Table;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.extern.log4j.Log4j2;
+
+import java.io.Serializable;
+
+@Data
+@NoArgsConstructor
+@Builder
+@Log4j2
+
+@Entity
+@Table(name = "awards")
+public class AwardEntity extends BaseEntity implements Serializable {
+    @Column(name = "user_id", nullable = false)
+    private Long userId;
+
+    @Column(name = "name", nullable = false)
+    private String name;
+
+    @Column(name = "description", nullable = false)
+    private String description;
+
+    @Column(name = "year", nullable = false)
+    private String year;
+
+    public AwardEntity(Long userId, String name, String description, String year) {
+        this.userId = userId;
+        this.name = name;
+        this.description = description;
+        this.year = year;
+    }
+}

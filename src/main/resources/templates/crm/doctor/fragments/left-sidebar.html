@@ -1,4 +1,3 @@
-
 <div class="col-md-5 col-lg-4 col-xl-3 theiaStickySidebar">
 
     <!-- Profile Sidebar -->
@@ -17,12 +16,11 @@
                 </div>
             </div>
         </div>
-
         <div class="dashboard-widget">
             <nav class="dashboard-menu">
                 <ul>
-                    <li th:classappend="${#httpServletRequest.requestURI == '/doctor/dashboard'} ? 'active'">
-                        <a th:href="@{/doctor/dashboard}">
+                    <li th:classappend="${#ctx.springRequestContext.requestUri == '/dashboard'} ? 'active'">
+                        <a th:href="@{/dashboard}">
                             <i class="fas fa-columns"></i>
                             <span>Dashboard</span>
                         </a>
@@ -33,38 +31,8 @@
                             <span>Appointments</span>
                         </a>
                     </li>
-                    <li>
-                        <a th:href="@{#}">
-                            <i class="fas fa-user-injured"></i>
-                            <span>My Patients</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a th:href="@{#}">
-                            <i class="fas fa-hourglass-start"></i>
-                            <span>Schedule Timings</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a th:href="@{#}">
-                            <i class="fas fa-clock"></i>
-                            <span>Available Timings</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a th:href="@{#}">
-                            <i class="fas fa-file-invoice"></i>
-                            <span>Invoices</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a th:href="@{#}">
-                            <i class="fas fa-file-invoice-dollar"></i>
-                            <span>Accounts</span>
-                        </a>
-                    </li>
-                    <li th:classappend="${#httpServletRequest.requestURI.startsWith('/doctor/blogs')} ? 'active'">
-                        <a th:href="@{/doctor/blogs}">
+                    <li th:classappend="${#ctx.springRequestContext.requestUri.startsWith('/blogs-crm')} ? 'active'">
+                        <a th:href="@{/blogs-crm}">
                             <i class="fas fa-pager"></i>
                             <span>Blogs</span>
                         </a>
@@ -75,15 +43,8 @@
                             <span>Reviews</span>
                         </a>
                     </li>
-                    <li>
-                        <a th:href="@{#}">
-                            <i class="fas fa-comments"></i>
-                            <span>Message</span>
-                            <small class="unread-msg">23</small>
-                        </a>
-                    </li>
-                    <li>
-                        <a th:href="@{#}">
+                    <li th:classappend="${#ctx.springRequestContext.requestUri.startsWith('/profile')} ? 'active'">
+                        <a th:href="@{/profile}">
                             <i class="fas fa-user-cog"></i>
                             <span>Profile Settings</span>
                         </a>
@@ -101,7 +62,7 @@
                         </a>
                     </li>
                     <li class="doctor-logout">
-                        <form method="post" th:action="@{/doctor/logout}" role="form">
+                        <form method="post" th:action="@{/logout}" role="form">
                             <a onclick="this.parentNode.submit();">
                                 <i class="fas fa-sign-out-alt"></i>
                                 <span>Logout</span>

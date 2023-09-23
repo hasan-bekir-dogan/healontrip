@@ -1,10 +1,22 @@
 @import "function";
 @import "_variables";
 
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type=number] {
+  -moz-appearance: textfield;
+}
+
 .form-validation {
   .form-error {
     height: auto;
-    input.form-control, textarea.form-control {
+    input.form-control, textarea.form-control, .bootstrap-tagsinput {
       border-color: $form-red-color;
     }
     select.form-control {
@@ -86,3 +98,318 @@ blockquote{
 .section-white {
   background-color: $index-section-bg-white-color;
 }
+
+header .nav.header-navbar-rht .has-submenu >a {
+  font-weight: 500;
+  &:hover {
+    color: $navbar-hover-color;
+  }
+}
+
+
+// blogs (begin)
+.blog.grid-blog {
+  .blog-image .img-fluid{
+    aspect-ratio: 3/2;
+    object-fit: cover;
+  }
+  .blog-content {
+    .entry-meta.meta-item {
+      .author {
+        width: calc(100% - 120px);
+        margin-right:10px;
+        .post-author {
+          width: 100%;
+          >a {
+            width: 100%;
+            span {
+              white-space: nowrap;
+              overflow: hidden;
+              text-overflow: ellipsis;
+              max-width: calc(100% - (33px + 1.2rem));
+            }
+            img {
+              aspect-ratio: 1/1;
+              object-fit: cover;
+            }
+          }
+        }
+        .doctor-blog {
+          span {
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            max-width: calc(100% - (33px + 1.2rem));
+          }
+          img {
+            aspect-ratio: 1/1;
+            object-fit: cover;
+          }
+        }
+      }
+      .date {
+        flex: 0 0 110px;
+        max-width: 110px;
+      }
+    }
+    .blog-title {
+      height: 43px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .preface {
+      margin: 0 0 15px;
+      height: 42px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+  }
+}
+// blogs (end)
+
+
+
+// home (begin)
+@media only screen and (min-width: 991.98px) {
+  .home-banner .banner-content {
+    padding-bottom: 100px;
+  }
+}
+/*-----------------------------------*/
+.faq-section {
+  padding-top: 80px;
+}
+@media only screen and (max-width: 767.98px) {
+  .faq-section {
+    padding-top: 40px;
+  }
+}
+/*-----------------------------------*/
+@media only screen and (min-width: 991.98px) {
+  .banner-section .search-box-one {
+    min-width: 700px;
+  }
+}
+@media only screen and (min-width: 767.98px) {
+  .banner-section .search-box-one {
+    .search-input.search-line {
+      width: 48%;
+    }
+    .search-input.search-map-line {
+      width: 29%;
+      &:before {
+        display:none;
+      }
+    }
+  }
+}
+/*-----------------------------------*/
+.clinic-section {
+  background: $white;
+  &::before, &::after {
+    display: none;
+  }
+  .slide-nav-clinic button.owl-next,
+  .slide-nav-clinic button.owl-prev {
+    width: 44px;
+    height: 44px;
+    font-size: 18px;
+    color: $royal_blue;
+    background: $white;
+    box-shadow: 0 4px 14px rgba(141, 141, 141, 0.25);
+    text-shadow: none;
+    top: 0;
+    cursor: pointer;
+    border: 0;
+    margin-top: 0;
+    margin-bottom: 0;
+    margin-left: 15px;
+    border-radius: 50px;
+    @extend %inlineflex-align-center;
+  }
+  .slide-nav-clinic button.owl-next:hover,
+  .slide-nav-clinic button.owl-prev:hover {
+    color: $white;
+    background: $blue_1;
+  }
+}
+@media only screen and (max-width: 767.98px) {
+  .doctors-section {
+    .owl-nav.nav-control {
+      padding-bottom: 10px;
+    }
+  }
+}
+/*-----------------------------------*/
+.view-all-area {
+  @extend %flex-align-center;
+  .btn-view-all {
+    font-weight: 500;
+    font-size: 15px;
+    color: $blue_1;
+    background: $white;
+    border: 2px solid $blue_1;
+    box-shadow: inset 0 0 0 0 $blue_1;
+    border-radius: 6px;
+    min-width: 112px;
+    padding: 7px 12px;
+    width: unset;
+    text-align: center;
+    @include transition(0.5s);
+    &:hover {
+      color: $white;
+      border-color: $blue_1;
+      background: $blue_1;
+      box-shadow: inset 0 0 0 50px $blue_1;
+      @include transition(0.5s);
+    }
+    @include respond-below(custom767) {
+      font-size: 14px;
+    }
+  }
+}
+/*-----------------------------------*/
+.articles-section .articles-info {
+  .articles-left .articles-img >img {
+    aspect-ratio: 1/1;
+    object-fit: cover;
+  }
+  .articles-right .articles-content{
+    .title {
+      height: 38.38px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      margin: 0 auto 10px auto;
+      >a {
+        width: 100%;
+        height: 100%;
+        display:block;
+      }
+    }
+    .preface {
+      height: 45px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+  }
+}
+@media only screen and (max-width: 767.98px) {
+  .articles-section .articles-info .articles-right .articles-content .preface{
+    height: 39px;
+  }
+}
+/*-----------------------------------*/
+.doctors-section .reviews-ratings p {
+  margin-bottom: 18px;
+}
+/*-----------------------------------*/
+.doctors-section .owl-stage-outer .owl-item .item .doctor-profile-widget {
+  .doc-pro-img .doctor-profile-img >img {
+    aspect-ratio: 3/2;
+    object-fit: cover;
+  }
+  .doc-content .doc-pro-info .doc-pro-name{
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 165px;
+  }
+}
+@media only screen and (max-width: 1399.98px) {
+  .doctors-section .owl-stage-outer .owl-item .item .doctor-profile-widget .doc-content .doc-pro-info .doc-pro-name{
+    max-width: 145px;
+  }
+}
+// home (end)
+
+
+// doctor profile settings (begin)
+.clinic-section .image-upload {
+  background-color: $image_upload_background_color;
+  border: 2px dashed $image_upload_border_color;
+  border-radius: 0.25rem;
+  text-align: center;
+  position: relative;
+  margin: 0 0 30px;
+  padding: 70px 0;
+  input[type=file] {
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    cursor: pointer;
+    position: absolute;
+    top: 0;
+    left: 0;
+  }
+}
+
+// upload profile photo
+#user-profile-photo .change-photo-btn input.upload{
+  width:100%;
+  border-radius: 50px;
+}
+
+// clinic
+.upload-images >img{
+  aspect-ratio: 1/1;
+  object-fit: cover;
+}
+#profile-settings .clinic-images .upload-images {
+  margin-left: 0;
+  margin-right: 20px;
+}
+
+// education
+.education-cont, .experience-cont, .awards-cont {
+  &:not(:first-child) {
+    > div {
+      padding-top: 20px;
+      border-top: 1px solid $border-color;
+    }
+  }
+}
+// doctor profile settings (end)
+
+// search (begin)
+.doctor-content .search-body{
+  .doctor-filter-info {
+    .doctors-found {
+      padding-bottom: 0;
+    }
+  }
+}
+.doctor-widget-one .doctor-img img {
+  object-fit: cover;
+}
+.doctor-profile-widget.doc-grid .doc-pro-img .doctor-profile-img img {
+  aspect-ratio: 1/1;
+  object-fit: cover;
+}
+.doctor-detail-page {
+  .doctor-img img {
+    aspect-ratio: 1/1;
+    object-fit: cover;
+  }
+  .doc-info-right {
+    //@extend %flex-align-column-space-between-align-item-start;
+  }
+  .clinic-details ul li a img {
+    width: 40px;
+    border-radius: 5px;
+    aspect-ratio: 1/1;
+    object-fit: cover;
+  }
+  .membership-list .experience-list {
+    &:before{
+      display:none;
+    }
+    >li {
+      list-style: decimal;
+      margin-left: 40px;
+      .experience-content {
+        margin-left: 0;
+      }
+    }
+  }
+}
+// search (end)
