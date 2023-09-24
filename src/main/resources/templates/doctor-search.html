@@ -82,7 +82,7 @@
 
                                                             <li>
                                                                 <label class="custom_check d-inline-flex">
-                                                                    <input type="checkbox" th:value="${gender.id}" th:if="${param.gen == null}">
+                                                                    <input type="checkbox" th:value="${gender.id}" th:if="${param.gen == null || (param.gen != null && !#strings.contains(#strings.toUpperCase(param.gen), #strings.toUpperCase(gender.id)))}">
                                                                     <input type="checkbox" th:value="${gender.id}" th:if="${param.gen != null && #strings.contains(#strings.toUpperCase(param.gen), #strings.toUpperCase(gender.id))}" checked>
                                                                     <span class="checkmark"></span>
                                                                     [[${gender.name}]] Gender
@@ -110,7 +110,7 @@
 
                                                             <li>
                                                                 <label class="custom_check d-inline-flex">
-                                                                    <input type="checkbox" th:value="${specialist.id}" th:if="${param.spe == null}">
+                                                                    <input type="checkbox" th:value="${specialist.id}" th:if="${param.spe == null || (param.spe != null && !#strings.contains(param.spe, specialist.id))}">
                                                                     <input type="checkbox" th:value="${specialist.id}" th:if="${param.spe != null && #strings.contains(param.spe, specialist.id)}" checked>
                                                                     <span class="checkmark"></span>
                                                                     [[${specialist.name}]]
@@ -138,7 +138,7 @@
 
                                                             <li>
                                                                 <label class="custom_check d-inline-flex">
-                                                                    <input type="checkbox" th:value="${experience.id}" th:if="${param.exp == null}">
+                                                                    <input type="checkbox" th:value="${experience.id}" th:if="${param.exp == null || (param.exp != null && !#strings.contains(param.exp, experience.id))}">
                                                                     <input type="checkbox" th:value="${experience.id}" th:if="${param.exp != null && #strings.contains(param.exp, experience.id)}" checked>
                                                                     <span class="checkmark"></span>
                                                                     [[${experience.name}]]
