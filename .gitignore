@@ -33,6 +33,8 @@ build/
 .vscode/
 
 ### custom files ###
-/uploads
-/log
-!**/test.html
+uploads/
+log/
+test.html
+test2.html
+test3.html
