@@ -64,16 +64,7 @@ public class DoctorController {
         List<SpecialistDto> specialistDtoList = specialistService.getSpecialistDistinctList();
 
         // experience years
-        List<ExperienceYearsDto> experienceList = new ArrayList<>();
         List<ExperienceYearEntity> experienceYearEntityList = experienceYearRepository.findAll();
-
-        /*for (ExperienceYearEntity exp: experienceYearEntity) {
-            ExperienceYearsDto experienceYearsDto = new ExperienceYearsDto();
-            experienceYearsDto.setId(exp.getId());
-            experienceYearsDto.setName(exp.getName());
-
-            experienceList.add(experienceYearsDto);
-        }*/
 
         // doctor list
         List<DoctorsDto> doctorsDtoList;

@@ -34,7 +34,9 @@ public interface UserRepository extends JpaRepository<UserEntity, Long> {
             "               Else" +
             "                   True" +
             "           End" +
-            "       And u.id in (Select e.user_id" +
+            "       And Case" +
+            "               When :experienceYearNullCheck = false Then" +
+            "                   u.id in (Select e.user_id" +
             "                         From experiences e" +
             "                         Group By e.user_id" +
             "                         Having Sum(Case" +
@@ -43,14 +45,22 @@ public interface UserRepository extends JpaRepository<UserEntity, Long> {
             "                                       Else" +
             "                                           e.to_date - e.from_date" +
             "                                    End) Between" +
-            "                                               (20)" +
+            "                                               (Select ey.from_date" +
+            "                                                From experience_years ey" +
+            "                                                Where ey.id = :experienceYearId)" +
             "                                               And" +
-            "                                               (25))" +
+            "                                               (Select If(ey.to_date = -1, ~0, to_date)" +
+            "                                                From experience_years ey " +
+            "                                                Where ey.id = :experienceYearId))" +
+            "               Else" +
+            "                   True" +
+            "           End" +
             "       ", nativeQuery = true)
     List<UserEntity> findDoctorsByFilter(@Param("role") String role,
                                          @Param("gender") List<String> gender,
                                          @Param("genderNullCheck") boolean genderNullCheck,
                                          @Param("specialist") List<String> specialist,
-                                         @Param("specialistNullCheck") boolean specialistNullCheck/*,
-                                         @Param("experienceYearId") List<Integer> experienceYearId*/);
+                                         @Param("specialistNullCheck") boolean specialistNullCheck,
+                                         @Param("experienceYearId") int experienceYearId,
+                                         @Param("experienceYearNullCheck") boolean experienceYearNullCheck);
 }

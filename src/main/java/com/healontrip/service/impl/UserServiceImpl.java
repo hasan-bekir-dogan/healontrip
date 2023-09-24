@@ -481,13 +481,37 @@ public class UserServiceImpl implements UserService {
         }
 
         // get filtered list
-        List<UserEntity> userEntityList = userRepository.findDoctorsByFilter(
-                String.valueOf(Role.DOCTOR),
-                upperGenderList,
-                genderNullCheck,
-                specialityNameList,
-                specialistNullCheck
-        );
+        List<UserEntity> userEntityList = new ArrayList<>();
+
+        if(searchFilterDto.getExperienceYearList() != null && !searchFilterDto.getExperienceYearList().equals("")) {
+            for (int experienceYearId : searchFilterDto.getExperienceYearList()) {
+                List<UserEntity> tempUserEntityList = userRepository.findDoctorsByFilter(
+                        String.valueOf(Role.DOCTOR),
+                        upperGenderList,
+                        genderNullCheck,
+                        specialityNameList,
+                        specialistNullCheck,
+                        experienceYearId,
+                        experienceYearNullCheck
+                );
+
+                for (UserEntity userEntity : tempUserEntityList) {
+                    userEntityList.add(userEntity);
+                }
+            }
+        }
+        else {
+            userEntityList = userRepository.findDoctorsByFilter(
+                    String.valueOf(Role.DOCTOR),
+                    upperGenderList,
+                    genderNullCheck,
+                    specialityNameList,
+                    specialistNullCheck,
+                    -1,
+                    experienceYearNullCheck
+            );
+        }
+
         List<DoctorsDto> doctorsDtoList = new ArrayList<>();
 
         for(UserEntity userEntity: userEntityList) {
