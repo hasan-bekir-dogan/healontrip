@@ -351,7 +351,7 @@ public class UserServiceImpl implements UserService {
         profileDto.setClinicAddress(userEntity.getClinicAddress());
 
         // clinic images
-        if (userEntity.getClinicImgIds() != null) {
+        if (userEntity.getClinicImgIds() != null && !userEntity.getClinicImgIds().equals("")) {
             String[] clinicImageIds = userEntity.getClinicImgIds().split(",");
             List<ImgDto> clinicImageList = new ArrayList<>();
 
@@ -535,7 +535,7 @@ public class UserServiceImpl implements UserService {
         doctorDto.setBiography(userEntity.getBiography());
 
         // clinic images
-        if (userEntity.getClinicImgIds() != null) {
+        if (userEntity.getClinicImgIds() != null && !userEntity.getClinicImgIds().equals("")) {
             String[] clinicImageIds = userEntity.getClinicImgIds().split(",");
             List<ImgDto> clinicImageList = new ArrayList<>();
 
