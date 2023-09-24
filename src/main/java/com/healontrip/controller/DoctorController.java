@@ -65,7 +65,7 @@ public class DoctorController {
 
         // experience years
         List<ExperienceYearsDto> experienceList = new ArrayList<>();
-        List<ExperienceYearEntity> experienceYearEntity = experienceYearRepository.findAll();
+        List<ExperienceYearEntity> experienceYearEntityList = experienceYearRepository.findAll();
 
         /*for (ExperienceYearEntity exp: experienceYearEntity) {
             ExperienceYearsDto experienceYearsDto = new ExperienceYearsDto();
@@ -92,7 +92,7 @@ public class DoctorController {
         model.addAttribute("user", userBarDto);
         model.addAttribute("genderList", genderDtoList);
         model.addAttribute("specialists", specialistDtoList);
-        model.addAttribute("experienceList", experienceList);
+        model.addAttribute("experienceList", experienceYearEntityList);
         model.addAttribute("doctors", doctorsDtoList);
 
         return "doctor-search";
