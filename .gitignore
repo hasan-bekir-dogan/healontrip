@@ -35,4 +35,5 @@ build/
 ### custom files ###
 /uploads
 /log
-application.properties
+pom.xml
+/src/main/resources/application2.yaml
