@@ -1,0 +1,73 @@
+<div class="col-md-5 col-lg-4 col-xl-3 theiaStickySidebar">
+
+    <!-- Profile Sidebar -->
+    <div class="profile-sidebar">
+        <div class="widget-profile pro-widget-content">
+            <div class="profile-info-widget">
+                <a href="#" class="booking-doc-img">
+                    <img th:src="@{'/' + ${user.profileImgSrc}}" th:alt="${user.profileImgAlt}">
+                </a>
+                <div class="profile-det-info">
+                    <h3 th:text="${user.userName}"></h3>
+
+                    <div class="patient-details">
+                        <h5><i class="fas fa-birthday-cake"></i> <th:block th:text="${user.dateOfBirth}"></th:block></h5>
+                        <h5 class="mb-0"><i class="fas fa-map-marker-alt"></i> <th:block th:text="${user.addressShort}"></th:block></h5>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="dashboard-widget">
+            <nav class="dashboard-menu">
+                <ul>
+                    <li th:classappend="${#ctx.springRequestContext.requestUri == '/dashboard'} ? 'active'">
+                        <a th:href="@{/dashboard}">
+                            <i class="fas fa-columns"></i>
+                            <span>Dashboard</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a th:href="@{#}">
+                            <i class="fas fa-file-invoice-dollar"></i>
+                            <span>Accounts</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a th:href="@{#}">
+                            <i class="fas fa-star"></i>
+                            <span>Reviews</span>
+                        </a>
+                    </li>
+                    <li th:classappend="${#ctx.springRequestContext.requestUri.startsWith('/profile')} ? 'active'">
+                        <a th:href="@{/profile}">
+                            <i class="fas fa-user-cog"></i>
+                            <span>Profile Settings</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a th:href="@{#}">
+                            <i class="fas fa-share-alt"></i>
+                            <span>Social Media</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a th:href="@{#}">
+                            <i class="fas fa-lock"></i>
+                            <span>Change Password</span>
+                        </a>
+                    </li>
+                    <li class="doctor-logout">
+                        <form method="post" th:action="@{/logout}" role="form">
+                            <a onclick="this.parentNode.submit();">
+                                <i class="fas fa-sign-out-alt"></i>
+                                <span>Logout</span>
+                            </a>
+                        </form>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </div>
+    <!-- /Profile Sidebar -->
+
+</div>

@@ -21,15 +21,15 @@ public class ReviewEntity extends BaseEntity implements Serializable {
     @Column(name = "user_id", nullable = false)
     private Long userId;
 
-    @Column(name = "title", nullable = false)
-    private String title;
+    @Column(name = "rating", nullable = false)
+    private int rating;
 
-    @Column(name = "detail", nullable = false, length = 4000)
+    @Column(name = "detail", length = 4000)
     private String detail;
 
-    public ReviewEntity(Long userId, String title, String detail) {
+    public ReviewEntity(Long userId, int rating, String detail) {
         this.userId = userId;
-        this.title = title;
+        this.rating = rating;
         this.detail = detail;
     }
 }

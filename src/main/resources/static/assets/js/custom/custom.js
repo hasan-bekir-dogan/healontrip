@@ -35,3 +35,10 @@ if ($('.owl-carousel.clinic-slider').length > 0) {
 $('.search-filter .filter-details #apply-filter-btn').on('click', function () {
     searchFilter()
 })
+
+// add review
+$('#review-doctor').on('submit', function (e) {
+    e.preventDefault();
+
+    reviewDoctor();
+})

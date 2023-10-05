@@ -11,7 +11,8 @@ import java.util.List;
 public interface UserService {
     void saveUser(UserDto userDto);
     void updateProfile(ProfileDto profileDto) throws IOException, ParseException;
-    UserBarDto getUser();
+    void updatePatientProfile(ProfileDto profileDto) throws IOException, ParseException;
+    UserBarDto getUser() throws ParseException;
     ProfileDto getProfile() throws ParseException;
     UserEntity findByEmail(String email);
     UserEntity findById(Long id);

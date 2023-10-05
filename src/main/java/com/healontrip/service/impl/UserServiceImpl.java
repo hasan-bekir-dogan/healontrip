@@ -8,7 +8,6 @@ import com.healontrip.exception.ResourceNotFoundException;
 import com.healontrip.repository.FileRepository;
 import com.healontrip.repository.UserRepository;
 import com.healontrip.service.*;
-import jakarta.transaction.Transactional;
 import org.apache.commons.lang3.StringUtils;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,8 +19,9 @@ import jakarta.servlet.http.HttpSession;
 import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
+import java.time.ZoneId;
 import java.util.*;
 
 
@@ -67,6 +67,7 @@ public class UserServiceImpl implements UserService {
     HttpSession session;
 
     public final String dateOfBirthPattern = "yyyy-MM-dd";
+    public final String dateOfBirthPatternBar = "dd MMM yyyy";
 
     @Override
     public void saveUser(UserDto userDto){
@@ -111,7 +112,7 @@ public class UserServiceImpl implements UserService {
         SimpleDateFormat format = new SimpleDateFormat(dateOfBirthPattern);
         Date dateOfBirth = null;
 
-        if (userEntity.getDateOfBirth() != null)
+        if (profileDto.getDateOfBirth() != null)
             dateOfBirth = format.parse(profileDto.getDateOfBirth());
 
         userEntity.setDateOfBirth(dateOfBirth);
@@ -135,7 +136,7 @@ public class UserServiceImpl implements UserService {
         }
 
         // biography
-        userEntity.setBiography(profileDto.getBiography());
+            userEntity.setBiography(profileDto.getBiography());
 
         // clinic
         userEntity.setClinicName(profileDto.getClinicName());
@@ -143,7 +144,7 @@ public class UserServiceImpl implements UserService {
 
         // delete the removed clinic images
         if (profileDto.getDeletedClinicImageList().get(0) != -1) {
-            for (Long imageId: profileDto.getDeletedClinicImageList()) {
+            for (Long imageId : profileDto.getDeletedClinicImageList()) {
                 // delete from clinic images column of user table on db
                 String currentClinicImgIds = userEntity.getClinicImgIds();
                 String newClinicImgIds = currentClinicImgIds.replace((imageId + ","), "");
@@ -280,7 +281,39 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserBarDto getUser() {
+    public void updatePatientProfile(ProfileDto profileDto) throws IOException, ParseException {
+        UserEntity userEntity = findByEmail(profileDto.getEmail());
+        Long userId = userEntity.getId();
+
+        userEntity.setName(profileDto.getName());
+        userEntity.setPhoneNumber(profileDto.getPhone());
+        userEntity.setGender(profileDto.getGender());
+
+        // date of birth
+        SimpleDateFormat format = new SimpleDateFormat(dateOfBirthPattern);
+        Date dateOfBirth = null;
+
+        if (profileDto.getDateOfBirth() != null)
+            dateOfBirth = format.parse(profileDto.getDateOfBirth());
+
+        userEntity.setDateOfBirth(dateOfBirth);
+
+        // contact details
+        userEntity.setCity(profileDto.getCity());
+        userEntity.setState(profileDto.getState());
+        userEntity.setCountry(profileDto.getCountry());
+        userEntity.setPostalCode(profileDto.getPostalCode());
+        userEntity.setAddressLine(profileDto.getAddressLine());
+
+        // update service and specialist
+        profileDto.setId(userId);
+
+        // save the user
+        userRepository.save(userEntity);
+    }
+
+    @Override
+    public UserBarDto getUser() throws ParseException {
         UserBarDto userBarDto = new UserBarDto();
 
         if(!authService.isAuthenticated()) { // Not Authenticated
@@ -291,17 +324,47 @@ public class UserServiceImpl implements UserService {
         UserEntity userEntity = findById(userId);
         String userRole = authService.getRole();
 
+        // role
         userBarDto.setRole(userRole);
         userBarDto.setRoleInitCap(StringUtils.capitalize(userRole.toLowerCase()));
 
+        // user name
         String extendedName = ((userRole.equals("DOCTOR")) ? RolePrefix.DOCTOR.getPre() : "") + userEntity.getName();
         userBarDto.setUserName(extendedName);
 
+        // profile photo src
         String imgSrc = fileService.getFileSrc(userEntity.getProfileImgId());
         userBarDto.setProfileImgSrc(imgSrc);
 
+        // profile photo alt
         FileEntity fileEntity = fileService.findById(userEntity.getProfileImgId());
         userBarDto.setProfileImgAlt(fileEntity.getAlt());
+
+        // patient
+        if(userRole.equals(Role.PATIENT.toString())) {
+            // address
+            String addressShort = userEntity.getCity() + ", " + userEntity.getCountry();
+            userBarDto.setAddressShort(addressShort);
+
+            // date of birth
+            if (userEntity.getDateOfBirth() != null) {
+                SimpleDateFormat format = new SimpleDateFormat(dateOfBirthPattern);
+                Date currentDate = new Date();
+                String dateOfBirth;
+
+                Date d1 = format.parse(format.format(userEntity.getDateOfBirth()));
+                Date d2 = format.parse(format.format(currentDate));
+
+                long difference_In_Time = d2.getTime() - d1.getTime();
+                long difference_In_Years = (difference_In_Time / (1000l * 60 * 60 * 24 * 365));
+
+                SimpleDateFormat formatBar = new SimpleDateFormat(dateOfBirthPatternBar);
+
+                dateOfBirth = formatBar.format(userEntity.getDateOfBirth()) + ", " + difference_In_Years + " years";
+
+                userBarDto.setDateOfBirth(dateOfBirth);
+            }
+        }
 
         return userBarDto;
     }
@@ -615,17 +678,17 @@ public class UserServiceImpl implements UserService {
     // Entity => DTO
     @Override
     public UserBarDto UserEntityToUserBarDto(UserEntity userEntity) {
-        UserBarDto userBarDto =  modelMapper.map(userEntity, UserBarDto.class);
+        UserBarDto userBarDto = modelMapper.map(userEntity, UserBarDto.class);
         return userBarDto;
     }
     @Override
     public ProfileDto UserEntityToProfileDto(UserEntity userEntity) {
-        ProfileDto profileDto =  modelMapper.map(userEntity, ProfileDto.class);
+        ProfileDto profileDto = modelMapper.map(userEntity, ProfileDto.class);
         return profileDto;
     }
     @Override
     public FileDto FileEntityToFileDto(FileEntity fileEntity) {
-        FileDto fileDto =  modelMapper.map(fileEntity, FileDto.class);
+        FileDto fileDto = modelMapper.map(fileEntity, FileDto.class);
         return fileDto;
     }
     @Override

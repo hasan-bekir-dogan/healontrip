@@ -5,17 +5,19 @@ import com.healontrip.entity.ExperienceYearEntity;
 import com.healontrip.repository.ExperienceYearRepository;
 import com.healontrip.service.SpecialistService;
 import com.healontrip.service.UserService;
-import org.hibernate.annotations.Parameter;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
+import org.springframework.web.bind.annotation.*;
 
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @Controller
 public class DoctorController {
@@ -30,7 +32,7 @@ public class DoctorController {
 
     @GetMapping("/doctors/{id}")
     public String detail(Model model,
-                         @PathVariable Long id) {
+                         @PathVariable Long id) throws ParseException {
         UserBarDto userBarDto = userService.getUser();
         DoctorDto doctorDto = userService.getDoctor(id);
 
@@ -52,7 +54,7 @@ public class DoctorController {
                          @RequestParam(value = "gen", required = false) List<String> genderList,
                          @RequestParam(value = "spe", required = false) List<Long> specialityList,
                          @RequestParam(value = "exp", required = false) List<Integer> experienceYearList,
-                         @RequestParam(value = "rat", required = false) List<Integer> ratingList) {
+                         @RequestParam(value = "rat", required = false) List<Integer> ratingList) throws ParseException {
         UserBarDto userBarDto = userService.getUser();
 
         // gender list
@@ -87,5 +89,23 @@ public class DoctorController {
         model.addAttribute("doctors", doctorsDtoList);
 
         return "doctor-search";
+    }
+
+
+    @PostMapping("/review")
+    public ResponseEntity<Object> review(@ModelAttribute @Valid ReviewDto reviewDto,
+                                         BindingResult result){
+        try {
+            if(result.hasErrors()) {
+                return new ResponseEntity<>(result.getAllErrors(), HttpStatus.BAD_REQUEST);
+            }
+
+            System.out.println(reviewDto);
+            System.out.println("review worked!");
+
+            return new ResponseEntity<>(new GeneralResponseDto("success"), HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(e, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 }

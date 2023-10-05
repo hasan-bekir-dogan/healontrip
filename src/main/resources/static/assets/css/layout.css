@@ -36,7 +36,7 @@ input[type=number] {
 .form-validation .form-error {
   height: auto;
 }
-.form-validation .form-error input.form-control, .form-validation .form-error textarea.form-control, .form-validation .form-error .bootstrap-tagsinput {
+.form-validation .form-error input.form-control, .form-validation .form-error textarea.form-control, .form-validation .form-error .bootstrap-tagsinput, .form-validation .form-error input[type=checkbox] {
   border-color: #ff0100;
 }
 .form-validation .form-error select.form-control {
@@ -391,6 +391,13 @@ header .nav.header-navbar-rht .has-submenu > a:hover {
 }
 .doctor-detail-page .membership-list .experience-list > li .experience-content {
   margin-left: 0;
+}
+
+.submit-section .review-button {
+  font-weight: 700;
+  font-size: 14px;
+  min-width: 100px;
+  padding: 9px 17px;
 }
 
 /*# sourceMappingURL=layout.css.map */

@@ -32,7 +32,8 @@ public class SpringSecurity {
                             "/uploads/**",
                             "/blogs/**",
                             "/doctors/**",
-                            "/search"
+                            "/search",
+                            "/review"
                     ).permitAll()
                     .anyRequest().authenticated()
             ).formLogin(
