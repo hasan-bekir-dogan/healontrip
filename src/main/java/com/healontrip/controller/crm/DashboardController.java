@@ -7,6 +7,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
+import java.text.ParseException;
+
 
 @Controller("DashboardController")
 public class DashboardController {
@@ -14,7 +16,7 @@ public class DashboardController {
     private UserService userService;
 
     @GetMapping("/dashboard")
-    public String dashboard(Model model) {
+    public String dashboard(Model model) throws ParseException {
         UserBarDto userBarDto = userService.getUser();
 
         model.addAttribute("user", userBarDto);

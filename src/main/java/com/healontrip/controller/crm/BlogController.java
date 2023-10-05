@@ -16,6 +16,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import java.io.IOException;
+import java.text.ParseException;
 import java.util.List;
 
 @Controller("BlogController")
@@ -31,7 +32,7 @@ public class BlogController {
     private UserService userService;
 
     @GetMapping("")
-    public String indexPage(Model model) {
+    public String indexPage(Model model) throws ParseException {
         List<BlogsDto> blogDtoList = blogService.getAllBlogs(BlogStatus.ACTIVE.toString());
         UserBarDto userBarDto = userService.getUser();
 
@@ -42,7 +43,7 @@ public class BlogController {
     }
 
     @GetMapping("/pending")
-    public String indexPendingPage(Model model) {
+    public String indexPendingPage(Model model) throws ParseException {
         List<BlogsDto> blogsDtoList = blogService.getAllBlogs(BlogStatus.NOT_ACTIVE.toString());
         UserBarDto userBarDto = userService.getUser();
 
@@ -53,7 +54,7 @@ public class BlogController {
     }
 
     @GetMapping("/edit/{id}")
-    public String editPage(@PathVariable Long id, Model model) {
+    public String editPage(@PathVariable Long id, Model model) throws ParseException {
         BlogsDto blogsDto = blogService.getBlogById(id);
         List<CategoryDto> categoryDtoList = categoryService.getAllCategories();
         UserBarDto userBarDto = userService.getUser();
@@ -68,7 +69,7 @@ public class BlogController {
     public String updateBlog(@Valid @ModelAttribute("blog") BlogEditDto blogEditDto,
                              BindingResult result,
                              Model model,
-                             @PathVariable Long id) throws IOException {
+                             @PathVariable Long id) throws IOException, ParseException {
         if(result.hasErrors()) {
             BlogsDto blogsDto = blogService.getBlogById(id);
             List<CategoryDto> categoryDtoList = categoryService.getAllCategories();
@@ -98,7 +99,7 @@ public class BlogController {
     }
 
     @GetMapping("/add")
-    public String addPage(Model model) {
+    public String addPage(Model model) throws ParseException {
         BlogDto blogDto = new BlogDto();
         List<CategoryDto> categoryDtoList = categoryService.getAllCategories();
         UserBarDto userBarDto = userService.getUser();
@@ -113,7 +114,7 @@ public class BlogController {
     @PostMapping("/add")
     public String createBlog(@Valid @ModelAttribute("blog") BlogDto blogDto,
                              BindingResult result,
-                             Model model) throws IOException {
+                             Model model) throws IOException, ParseException {
         if(result.hasErrors()) {
             List<CategoryDto> categoryDtoList = categoryService.getAllCategories();
             UserBarDto userBarDto = userService.getUser();

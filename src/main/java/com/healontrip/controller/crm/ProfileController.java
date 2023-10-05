@@ -1,6 +1,7 @@
 package com.healontrip.controller.crm;
 
 import com.healontrip.dto.*;
+import com.healontrip.service.AuthService;
 import com.healontrip.service.UserService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,18 +17,25 @@ public class ProfileController {
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private AuthService authService;
+
     @GetMapping("/profile")
     public String profile(Model model) throws ParseException {
+        String role = authService.getRole();
         UserBarDto userBarDto = userService.getUser();
         ProfileDto profileDto = userService.getProfile();
 
         model.addAttribute("user", userBarDto);
         model.addAttribute("profile", profileDto);
-        model.addAttribute("profileClinicImages", profileDto.getClinicImageList());
-        model.addAttribute("profileEducationList", profileDto.getEducationList());
-        model.addAttribute("profileExperienceList", profileDto.getExperienceList());
-        model.addAttribute("profileAwardList", profileDto.getAwardList());
-        model.addAttribute("profileMembershipList", profileDto.getMembershipList());
+
+        if(role.equals(Role.DOCTOR.toString())) {
+            model.addAttribute("profileClinicImages", profileDto.getClinicImageList());
+            model.addAttribute("profileEducationList", profileDto.getEducationList());
+            model.addAttribute("profileExperienceList", profileDto.getExperienceList());
+            model.addAttribute("profileAwardList", profileDto.getAwardList());
+            model.addAttribute("profileMembershipList", profileDto.getMembershipList());
+        }
 
         return "crm/" + profileDto.getRole().toLowerCase() + "/profile-settings";
     }
@@ -35,9 +43,14 @@ public class ProfileController {
     @PostMapping("/profile")
     public ResponseEntity<Object> updateProfile(@ModelAttribute @Valid ProfileDto profileDto){
         try {
-            userService.updateProfile(profileDto);
+            String role = authService.getRole();
 
-            return new ResponseEntity<>(new ProfileResponseDto("success"), HttpStatus.OK);
+            if(role.equals(Role.DOCTOR.toString()))
+                userService.updateProfile(profileDto);
+            else if(role.equals(Role.PATIENT.toString()))
+                userService.updatePatientProfile(profileDto);
+
+            return new ResponseEntity<>(new GeneralResponseDto("success"), HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(e, HttpStatus.INTERNAL_SERVER_ERROR);
         }

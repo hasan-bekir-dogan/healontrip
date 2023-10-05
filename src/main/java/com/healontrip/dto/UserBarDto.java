@@ -18,4 +18,11 @@ public class UserBarDto {
     private String role;
     private String roleInitCap;
     private String department;
+
+    // doctor
+    private String specialistShort;
+
+    // patient
+    private String dateOfBirth;
+    private String addressShort;
 }

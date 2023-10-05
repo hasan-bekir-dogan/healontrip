@@ -16,7 +16,7 @@ input[type=number] {
 .form-validation {
   .form-error {
     height: auto;
-    input.form-control, textarea.form-control, .bootstrap-tagsinput {
+    input.form-control, textarea.form-control, .bootstrap-tagsinput, input[type="checkbox"]{
       border-color: $form-red-color;
     }
     select.form-control {
@@ -413,3 +413,12 @@ header .nav.header-navbar-rht .has-submenu >a {
   }
 }
 // search (end)
+
+// review (begin)
+.submit-section .review-button {
+  font-weight: 700;
+  font-size: 14px;
+  min-width: 100px;
+  padding: 9px 17px;
+}
+// review (end)

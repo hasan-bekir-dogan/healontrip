@@ -64,6 +64,7 @@
                                     <img th:src="@{'/' + ${doctor.userImgSrc}}" class="img-fluid" th:alt="${doctor.userImgAlt}">
                                 </div>
                                 <div class="doc-info-cont">
+                                    <input type="hidden" id="doctor-id" th:value="${doctor.userId}">
                                     <h4 class="doc-name" th:text="${doctor.userName}"></h4>
                                     <p class="doc-speciality">BDS, MDS - Oral & Maxillofacial Surgery</p>
                                     <div class="rating">
@@ -478,73 +479,14 @@
                                                             <i class="fas fa-star"></i>
                                                         </div>
                                                     </div>
-                                                    <p class="recommended"><i class="far fa-thumbs-up"></i> I recommend the doctor</p>
                                                     <p class="comment-content">
                                                         Lorem ipsum dolor sit amet, consectetur adipisicing elit,
                                                         sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
                                                         Ut enim ad minim veniam, quis nostrud exercitation.
                                                         Curabitur non nulla sit amet nisl tempus
                                                     </p>
-                                                    <div class="comment-reply">
-                                                        <a class="comment-btn" href="#">
-                                                            <i class="fas fa-reply"></i> Reply
-                                                        </a>
-                                                        <p class="recommend-btn">
-                                                            <span>Recommend?</span>
-                                                            <a href="#" class="like-btn">
-                                                                <i class="far fa-thumbs-up"></i> Yes
-                                                            </a>
-                                                            <a href="#" class="dislike-btn">
-                                                                <i class="far fa-thumbs-down"></i> No
-                                                            </a>
-                                                        </p>
-                                                    </div>
                                                 </div>
                                             </div>
-
-                                            <!-- Comment Reply -->
-                                            <ul class="comments-reply">
-                                                <li>
-                                                    <div class="comment">
-                                                        <img class="avatar avatar-sm rounded-circle" alt="User Image" src="assets/img/patients/patient1.jpg">
-                                                        <div class="comment-body">
-                                                            <div class="meta-data">
-                                                                <span class="comment-author">Charlene Reed</span>
-                                                                <span class="comment-date">Reviewed 3 Days ago</span>
-                                                                <div class="review-count rating">
-                                                                    <i class="fas fa-star filled"></i>
-                                                                    <i class="fas fa-star filled"></i>
-                                                                    <i class="fas fa-star filled"></i>
-                                                                    <i class="fas fa-star filled"></i>
-                                                                    <i class="fas fa-star"></i>
-                                                                </div>
-                                                            </div>
-                                                            <p class="comment-content">
-                                                                Lorem ipsum dolor sit amet, consectetur adipisicing elit,
-                                                                sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-                                                                Ut enim ad minim veniam.
-                                                                Curabitur non nulla sit amet nisl tempus
-                                                            </p>
-                                                            <div class="comment-reply">
-                                                                <a class="comment-btn" href="#">
-                                                                    <i class="fas fa-reply"></i> Reply
-                                                                </a>
-                                                                <p class="recommend-btn">
-                                                                    <span>Recommend?</span>
-                                                                    <a href="#" class="like-btn">
-                                                                        <i class="far fa-thumbs-up"></i> Yes
-                                                                    </a>
-                                                                    <a href="#" class="dislike-btn">
-                                                                        <i class="far fa-thumbs-down"></i> No
-                                                                    </a>
-                                                                </p>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </li>
-                                            </ul>
-                                            <!-- /Comment Reply -->
-
                                         </li>
                                         <!-- /Comment List -->
 
@@ -570,20 +512,6 @@
                                                         Ut enim ad minim veniam, quis nostrud exercitation.
                                                         Curabitur non nulla sit amet nisl tempus
                                                     </p>
-                                                    <div class="comment-reply">
-                                                        <a class="comment-btn" href="#">
-                                                            <i class="fas fa-reply"></i> Reply
-                                                        </a>
-                                                        <p class="recommend-btn">
-                                                            <span>Recommend?</span>
-                                                            <a href="#" class="like-btn">
-                                                                <i class="far fa-thumbs-up"></i> Yes
-                                                            </a>
-                                                            <a href="#" class="dislike-btn">
-                                                                <i class="far fa-thumbs-down"></i> No
-                                                            </a>
-                                                        </p>
-                                                    </div>
                                                 </div>
                                             </div>
                                         </li>
@@ -607,53 +535,46 @@
                                     <h4>Write a review for <strong>Dr. Darren Elder</strong></h4>
 
                                     <!-- Write Review Form -->
-                                    <form>
-                                        <div class="form-group">
+                                    <form method="post" id="review-doctor" role="form" autocomplete="off" class="form-validation" th:action="@{/review}">
+                                        <div id="review-rating" class="form-group">
                                             <label>Review</label>
                                             <div class="star-rating">
-                                                <input id="star-5" type="radio" name="rating" value="star-5">
+                                                <input id="star-5" type="radio" class="form-control" value="star-5">
                                                 <label for="star-5" title="5 stars">
                                                     <i class="active fa fa-star"></i>
                                                 </label>
-                                                <input id="star-4" type="radio" name="rating" value="star-4">
+                                                <input id="star-4" type="radio" class="form-control" value="star-4">
                                                 <label for="star-4" title="4 stars">
                                                     <i class="active fa fa-star"></i>
                                                 </label>
-                                                <input id="star-3" type="radio" name="rating" value="star-3">
+                                                <input id="star-3" type="radio" class="form-control" value="star-3">
                                                 <label for="star-3" title="3 stars">
                                                     <i class="active fa fa-star"></i>
                                                 </label>
-                                                <input id="star-2" type="radio" name="rating" value="star-2">
+                                                <input id="star-2" type="radio" class="form-control" value="star-2">
                                                 <label for="star-2" title="2 stars">
                                                     <i class="active fa fa-star"></i>
                                                 </label>
-                                                <input id="star-1" type="radio" name="rating" value="star-1">
+                                                <input id="star-1" type="radio" class="form-control" value="star-1">
                                                 <label for="star-1" title="1 star">
                                                     <i class="active fa fa-star"></i>
                                                 </label>
                                             </div>
                                         </div>
-                                        <div class="form-group">
-                                            <label>Title of your review</label>
-                                            <input class="form-control" type="text" placeholder="If you could say it in one sentence, what would you say?">
-                                        </div>
-                                        <div class="form-group">
+                                        <div id="review-detail" class="form-group">
                                             <label>Your review</label>
-                                            <textarea id="review_desc" maxlength="100" class="form-control"></textarea>
-
-                                            <div class="d-flex justify-content-between mt-3"><small class="text-muted"><span id="chars">100</span> characters remaining</small></div>
+                                            <textarea class="form-control"></textarea>
                                         </div>
-                                        <hr>
-                                        <div class="form-group">
+                                        <div id="review-terms-accept" class="form-group">
                                             <div class="terms-accept">
                                                 <div class="custom-checkbox">
-                                                    <input type="checkbox" id="terms_accept">
-                                                    <label for="terms_accept">I have read and accept <a href="#">Terms &amp; Conditions</a></label>
+                                                    <input type="checkbox" id="termsAccept">
+                                                    <label for="termsAccept">I have read and accept <a th:href="@{#}">Terms &amp; Conditions</a></label>
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="submit-section">
-                                            <button type="submit" class="btn btn-primary submit-btn">Add Review</button>
+                                        <div id="add-review-btn" class="submit-section">
+                                            <button type="submit" class="btn btn-primary submit-btn review-button">Add Review</button>
                                         </div>
                                     </form>
                                     <!-- /Write Review Form -->
@@ -759,6 +680,7 @@
 
     <!-- Custom JS -->
     <script th:src="@{/assets/js/script.js}"></script>
+    <script th:src="@{/assets/js/custom/function.js}"></script>
     <script th:src="@{/assets/js/custom/custom.js}"></script>
 
 </body>

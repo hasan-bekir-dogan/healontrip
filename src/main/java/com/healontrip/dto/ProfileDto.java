@@ -1,5 +1,7 @@
 package com.healontrip.dto;
 
+import com.healontrip.constraint.ServiceNotNullConstraint;
+import com.healontrip.constraint.SpecialistNotNullConstraint;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
@@ -49,10 +51,10 @@ public class ProfileDto {
 
     private List<ImgDto> clinicImageList;
 
-    @NotEmpty(message = "Services must have value")
+    @ServiceNotNullConstraint(message = "Services must have value")
     private String service;
 
-    @NotEmpty(message = "Specialization must have value")
+    @SpecialistNotNullConstraint(message = "Specialization must have value")
     private String specialist;
 
     private List<EducationDto> educationList;

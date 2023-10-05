@@ -58,3 +58,193 @@ function searchFilter() {
 
     window.location.replace(url);
 }
+
+function disableItems(list) {
+    for (let i = 0; i < list.length; i++) {
+        $(list[i]).prop('disabled', true)
+    }
+}
+
+function enableItems(list) {
+    for (let i = 0; i < list.length; i++) {
+        $(list[i]).prop('disabled', false)
+    }
+}
+
+function clearItems() {
+    // define query selector
+    let ratingStarSelector = '#review-doctor #review-rating input[type="radio"]:checked'
+    let detailSelector = '#review-doctor #review-detail textarea'
+    let termsAcceptSelector = '#review-doctor #review-terms-accept input[type="checkbox"]'
+
+    // clear items
+    $(ratingStarSelector).prop('checked', false)
+    $(detailSelector).val('')
+    $(termsAcceptSelector).prop('checked', false)
+}
+
+function hideErrors() {
+    hideSuccessMessage()
+
+    let jQuerySelector = `#review-errors`
+
+    // remove error
+    $(jQuerySelector).remove()
+}
+
+function showErrors(errorText) {
+    let message = `<div id="review-errors" class="alert alert-danger alert-dismissible fade show" role="alert">
+                           <ul>
+                                ${errorText}
+                           </ul>
+                           <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                       </div>`;
+
+    $(message).insertBefore($('#review-doctor'));
+
+    let formErrorArea = `#review-errors`;
+    let headerHeight = $('.header').height()
+    let position = $(formErrorArea).offset().top - headerHeight;
+    $("html, body").animate({ scrollTop: position }, "slow");
+}
+
+function hideSuccessMessage() {
+    $('#review-success').remove()
+}
+
+function showSuccessMessage() {
+    hideSuccessMessage()
+
+    let message = ` <div id="review-success" class="alert alert-success alert-dismissible fade show" role="alert">
+                        Review has been added successfully.
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>`;
+
+    $(message).insertBefore($('#review-doctor'));
+
+    let formErrorArea = `#review-success`;
+    let headerHeight = $('.header').height()
+    let position = $(formErrorArea).offset().top - headerHeight;
+    $("html, body").animate({ scrollTop: position }, "slow");
+}
+
+function getReviewData() {
+    // define query selector
+    let ratingStarSelector = '#review-doctor #review-rating input[type="radio"]:checked'
+    let detailSelector = '#review-doctor #review-detail textarea'
+    let termsAcceptSelector = '#review-doctor #review-terms-accept input[type="checkbox"]'
+    let doctorIdSelector = '#doctor-id'
+
+    // disable input and button
+    let affectedItemList = []
+
+    affectedItemList.push(ratingStarSelector)
+    affectedItemList.push(detailSelector)
+    affectedItemList.push(termsAcceptSelector)
+    affectedItemList.push('#review-doctor #add-review-btn button[type="submit"]')
+
+    disableItems(affectedItemList)
+
+
+    // get data
+    let doctorId = $(doctorIdSelector).val()
+    let ratingStar;
+
+    switch ($(ratingStarSelector).val()) {
+        case 'star-1':
+            ratingStar = 1;
+            break;
+        case 'star-2':
+            ratingStar = 2;
+            break;
+        case 'star-3':
+            ratingStar = 3;
+            break;
+        case 'star-4':
+            ratingStar = 4;
+            break;
+        case 'star-5':
+            ratingStar = 5;
+            break;
+        default:
+            ratingStar = 0;
+    }
+
+    let detail = $(detailSelector).val()
+
+    let termsAccept = $(termsAcceptSelector).prop('checked')
+
+    if(termsAccept === undefined)
+        termsAccept = false;
+
+
+    // ********** form data (begin) ********** //
+    let formData = new FormData();
+
+    // profile photo
+    formData.append("userId", doctorId);
+    formData.append("rating", ratingStar);
+    formData.append("detail", detail);
+    formData.append("termsAccept", termsAccept);
+    // ********** form data (end) ********** //
+
+
+    return {
+        affectedItemList,
+        formData
+    };
+}
+
+async function reviewDoctor() {
+    //jQuery
+    var token = $("meta[name='_csrf']").attr("content");
+    var header = $("meta[name='_csrf_header']").attr("content");
+
+    let resultObject = getReviewData();
+    let formData = resultObject.formData;
+    let affectedItemList = resultObject.affectedItemList;
+
+    let response = await fetch($('#review-doctor').attr('action'), {
+        headers: {
+            'X-CSRF-Token': token,
+            'X-CSRF-HEADER': header
+        },
+        method: $('#review-doctor').attr('method'),
+        enctype: 'multipart/form-data',
+        body: formData
+    });
+
+    let res = await response.json()
+
+    if (res.status === 'success') { // success
+        // enable items
+        enableItems(affectedItemList)
+
+        // hide errors
+        hideErrors()
+
+        // show success message
+        showSuccessMessage()
+
+        // clear items
+        clearItems()
+    }
+    else { // error
+
+        // hide errors
+        hideErrors()
+
+        let errorText = '';
+
+        for (let j = 0; j < res.length; j++) {
+            errorText += `<li>${res[j].defaultMessage}</li>`;
+        }
+
+        // show errors
+        showErrors(errorText)
+
+        // enable items
+        enableItems(affectedItemList)
+    }
+}
+

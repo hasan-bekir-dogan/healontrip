@@ -11,6 +11,6 @@ import lombok.extern.log4j.Log4j2;
 @AllArgsConstructor
 @Builder
 @Log4j2
-public class ProfileResponseDto {
+public class GeneralResponseDto {
     private String status;
 }

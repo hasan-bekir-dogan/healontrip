@@ -348,6 +348,26 @@ function showErrors(field, message) {
     $(jQuerySelector).append(`<p class="text-danger error-user-${field}">${message}</p>`)
 }
 
+function hideSuccessMessage() {
+    $('#profile-settings #profile-success-message').remove()
+}
+
+function showSuccessMessage() {
+    hideSuccessMessage();
+
+    let message = ` <div id="profile-success-message" class="alert alert-success alert-dismissible fade show" role="alert">
+                        You have successfully updated profile!
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>`;
+
+    $(message).insertBefore($('#profile-settings #basic-information-title'));
+
+    let formSuccessArea = `#profile-settings #profile-success-message`;
+    let headerHeight = $('.header').height()
+    let position = $(formSuccessArea).offset().top - headerHeight;
+    $("html, body").animate({ scrollTop: position }, "slow");
+}
+
 function getProfileData() {
     // define query selector
     let profilePhotoSelector = '#profile-settings #user-profile-photo input[type="file"]'
@@ -599,22 +619,18 @@ async function updateProfile() {
         // hide errors
         hideErrors()
 
-        // show success message (begin)
-        $('#profile-settings #profile-success-message').remove()
-
-        let message = '<div id="profile-success-message">\n' +
-                            '<div class="alert alert-info">You have successfully updated profile!</div>\n' +
-                        '</div>';
-
-        $(message).insertBefore($('#profile-settings #basic-information-title'));
-
-        $("html, body").animate({ scrollTop: 0 }, "slow");
-        // show success message (end)
+        // show success message
+        showSuccessMessage()
     }
     else { // error
+        // hide success message
+        hideSuccessMessage()
+
+        // hide errors
+        hideErrors()
+
         if (res.errors != null) {
             for (let j = 0; j < res.errors.length; j++) {
-                hideErrors()
 
                 showErrors(
                     res.errors[j].field,

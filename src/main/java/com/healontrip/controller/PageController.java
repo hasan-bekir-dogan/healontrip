@@ -10,6 +10,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
+import java.text.ParseException;
 import java.util.List;
 
 @Controller
@@ -21,7 +22,7 @@ public class PageController {
     UserService userService;
 
     @GetMapping("/")
-    public String index(Model model) {
+    public String index(Model model) throws ParseException {
         List<BlogsDto> blogsDtoList = blogService.getAllBlogs(4, 1);
         UserBarDto userBarDto = userService.getUser();
         List<DoctorsDto> doctorsDtoList = userService.getDoctors();
