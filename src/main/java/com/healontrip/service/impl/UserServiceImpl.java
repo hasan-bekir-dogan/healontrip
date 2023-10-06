@@ -1,11 +1,14 @@
 package com.healontrip.service.impl;
 
 import com.healontrip.dto.*;
+import com.healontrip.entity.EducationEntity;
 import com.healontrip.entity.FileEntity;
 import com.healontrip.entity.SpecialistEntity;
 import com.healontrip.entity.UserEntity;
 import com.healontrip.exception.ResourceNotFoundException;
+import com.healontrip.repository.EducationRepository;
 import com.healontrip.repository.FileRepository;
+import com.healontrip.repository.SpecialistRepository;
 import com.healontrip.repository.UserRepository;
 import com.healontrip.service.*;
 import org.apache.commons.lang3.StringUtils;
@@ -19,9 +22,6 @@ import jakarta.servlet.http.HttpSession;
 import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.ZoneId;
 import java.util.*;
 
 
@@ -43,7 +43,13 @@ public class UserServiceImpl implements UserService {
     private ServiceService serviceService;
 
     @Autowired
+    private SpecialistRepository specialistRepository;
+
+    @Autowired
     private SpecialistService specialistService;
+
+    @Autowired
+    private EducationRepository educationRepository;
 
     @Autowired
     private EducationService educationService;
@@ -364,6 +370,23 @@ public class UserServiceImpl implements UserService {
 
                 userBarDto.setDateOfBirth(dateOfBirth);
             }
+        }
+
+        // doctor
+        if(userRole.equals(Role.DOCTOR.toString())) {
+            // short information
+            List<EducationEntity> educationEntityList = educationRepository.findEducationByUserIdLimit2(userId);
+            String educationDegrees = "";
+
+            for(EducationEntity educationEntity: educationEntityList)
+                educationDegrees += ((educationDegrees != "") ? ", " : "") + educationEntity.getDegree();
+
+            SpecialistEntity specialistEntity = specialistRepository.findSpecialistByUserIdLimit1(userId);
+            String specialistName = specialistEntity.getName();
+
+            String infoShort = educationDegrees + ((educationDegrees != "" && specialistName != "") ? " - " : "") + specialistName;
+
+            userBarDto.setInfoShort(infoShort);
         }
 
         return userBarDto;

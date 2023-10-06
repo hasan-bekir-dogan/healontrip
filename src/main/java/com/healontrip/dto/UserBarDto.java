@@ -20,7 +20,7 @@ public class UserBarDto {
     private String department;
 
     // doctor
-    private String specialistShort;
+    private String infoShort;
 
     // patient
     private String dateOfBirth;

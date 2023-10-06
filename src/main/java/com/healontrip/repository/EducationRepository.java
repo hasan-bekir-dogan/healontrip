@@ -10,17 +10,16 @@ import java.util.List;
 
 @Repository
 public interface EducationRepository extends JpaRepository<EducationEntity, Long> {
-    @Query(value = "(Select *" +
+    @Query(value = "Select *" +
             "       From educations" +
             "       Where user_id = :userId" +
-            "       And to_date = \"\")" +
-            "" +
-            "       Union" +
-            "" +
-            "       (Select *" +
-            "       From educations" +
-            "       Where user_id = :userId" +
-            "       And to_date != \"\"" +
-            "       Order By to_date desc)", nativeQuery = true)
+            "       Order By from_date desc", nativeQuery = true)
     List<EducationEntity> findEducationByUserId(@Param("userId") Long userId);
+
+    @Query(value = "Select *" +
+            "       From educations" +
+            "       Where user_id = :userId" +
+            "       Order By from_date desc" +
+            "       Limit 2", nativeQuery = true)
+    List<EducationEntity> findEducationByUserIdLimit2(@Param("userId") Long userId);
 }
