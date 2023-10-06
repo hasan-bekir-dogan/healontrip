@@ -16,6 +16,13 @@ public interface SpecialistRepository extends JpaRepository<SpecialistEntity, Lo
             "       Order By id", nativeQuery = true)
     List<SpecialistEntity> findSpecialistByUserId(@Param("userId") Long userId);
 
+    @Query(value = "Select * " +
+            "       From specialist " +
+            "       Where user_id = :userId " +
+            "       Order By id" +
+            "       Limit 1", nativeQuery = true)
+    SpecialistEntity findSpecialistByUserIdLimit1(@Param("userId") Long userId);
+
     @Query(value = "Select Distinct name" +
             "       From specialist" +
             "       Order By name", nativeQuery = true)
