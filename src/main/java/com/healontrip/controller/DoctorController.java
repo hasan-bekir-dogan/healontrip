@@ -3,6 +3,7 @@ package com.healontrip.controller;
 import com.healontrip.dto.*;
 import com.healontrip.entity.ExperienceYearEntity;
 import com.healontrip.repository.ExperienceYearRepository;
+import com.healontrip.service.ReviewService;
 import com.healontrip.service.SpecialistService;
 import com.healontrip.service.UserService;
 import jakarta.validation.Valid;
@@ -11,8 +12,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
-import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
 
 import java.text.ParseException;
@@ -28,6 +27,9 @@ public class DoctorController {
     private SpecialistService specialistService;
 
     @Autowired
+    private ReviewService reviewService;
+
+    @Autowired
     private ExperienceYearRepository experienceYearRepository;
 
     @GetMapping("/doctors/{id}")
@@ -35,6 +37,7 @@ public class DoctorController {
                          @PathVariable Long id) throws ParseException {
         UserBarDto userBarDto = userService.getUser();
         DoctorDto doctorDto = userService.getDoctor(id);
+        List<ReviewsDto> reviewsDtoList = reviewService.getReviews(id);
 
         model.addAttribute("user", userBarDto);
         model.addAttribute("doctor", doctorDto);
@@ -45,6 +48,7 @@ public class DoctorController {
         model.addAttribute("experienceList", doctorDto.getExperienceList());
         model.addAttribute("awardList", doctorDto.getAwardList());
         model.addAttribute("membershipList", doctorDto.getMembershipList());
+        model.addAttribute("reviewList", reviewsDtoList);
 
         return "doctor-detail";
     }
@@ -93,17 +97,11 @@ public class DoctorController {
 
 
     @PostMapping("/review")
-    public ResponseEntity<Object> review(@ModelAttribute @Valid ReviewDto reviewDto,
-                                         BindingResult result){
+    public ResponseEntity<Object> review(@ModelAttribute @Valid ReviewDto reviewDto){
         try {
-            if(result.hasErrors()) {
-                return new ResponseEntity<>(result.getAllErrors(), HttpStatus.BAD_REQUEST);
-            }
+            ReviewsDto reviewsDto = reviewService.addReview(reviewDto);
 
-            System.out.println(reviewDto);
-            System.out.println("review worked!");
-
-            return new ResponseEntity<>(new GeneralResponseDto("success"), HttpStatus.OK);
+            return new ResponseEntity<>(new GeneralResponseWithDataDto("success", reviewsDto), HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(e, HttpStatus.INTERNAL_SERVER_ERROR);
         }

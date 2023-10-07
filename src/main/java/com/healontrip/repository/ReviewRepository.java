@@ -10,9 +10,9 @@ import java.util.List;
 
 @Repository
 public interface ReviewRepository extends JpaRepository<ReviewEntity, Long> {
-    @Query(value = "Select * " +
-            "       From review " +
-            "       Where user_id = :userId " +
-            "       Order By id", nativeQuery = true)
-    List<ReviewEntity> findReviewByUserId(@Param("userId") Long userId);
+    @Query(value = "Select *" +
+            "       From reviews" +
+            "       Where doctor_id = :doctorId" +
+            "       Order By id asc", nativeQuery = true)
+    List<ReviewEntity> findReviewByDoctorId(@Param("doctorId") Long doctorId);
 }

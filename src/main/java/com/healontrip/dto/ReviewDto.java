@@ -2,7 +2,6 @@ package com.healontrip.dto;
 
 import com.healontrip.constraint.BooleanNotNullConstraint;
 import com.healontrip.constraint.IntegerNotNullConstraint;
-import jakarta.validation.constraints.NotEmpty;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -24,5 +23,6 @@ public class ReviewDto {
 
     @BooleanNotNullConstraint(message = "Terms & Conditions must be accepted")
     private Boolean termsAccept;
-    private Long userId;
+    private Long doctorId;
+    private Long patientId;
 }

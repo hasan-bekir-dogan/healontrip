@@ -464,57 +464,29 @@
                                     <ul class="comments-list">
 
                                         <!-- Comment List -->
-                                        <li>
-                                            <div class="comment">
-                                                <img class="avatar avatar-sm rounded-circle" alt="User Image" src="assets/img/patients/patient.jpg">
-                                                <div class="comment-body">
-                                                    <div class="meta-data">
-                                                        <span class="comment-author">Richard Wilson</span>
-                                                        <span class="comment-date">Reviewed 2 Days ago</span>
-                                                        <div class="review-count rating">
-                                                            <i class="fas fa-star filled"></i>
-                                                            <i class="fas fa-star filled"></i>
-                                                            <i class="fas fa-star filled"></i>
-                                                            <i class="fas fa-star filled"></i>
-                                                            <i class="fas fa-star"></i>
-                                                        </div>
-                                                    </div>
-                                                    <p class="comment-content">
-                                                        Lorem ipsum dolor sit amet, consectetur adipisicing elit,
-                                                        sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-                                                        Ut enim ad minim veniam, quis nostrud exercitation.
-                                                        Curabitur non nulla sit amet nisl tempus
-                                                    </p>
-                                                </div>
-                                            </div>
-                                        </li>
-                                        <!-- /Comment List -->
+                                        <th:block th:each="review: ${reviewList}">
 
-                                        <!-- Comment List -->
-                                        <li>
-                                            <div class="comment">
-                                                <img class="avatar avatar-sm rounded-circle" alt="User Image" src="assets/img/patients/patient2.jpg">
-                                                <div class="comment-body">
-                                                    <div class="meta-data">
-                                                        <span class="comment-author">Travis Trimble</span>
-                                                        <span class="comment-date">Reviewed 4 Days ago</span>
-                                                        <div class="review-count rating">
-                                                            <i class="fas fa-star filled"></i>
-                                                            <i class="fas fa-star filled"></i>
-                                                            <i class="fas fa-star filled"></i>
-                                                            <i class="fas fa-star filled"></i>
-                                                            <i class="fas fa-star"></i>
+                                            <li>
+                                                <div class="comment">
+                                                    <img th:src="@{'/' + ${review.patientProfileImgSrc}}" class="avatar avatar-sm rounded-circle" th:alt="${review.patientProfileImgAlt}">
+                                                    <div class="comment-body">
+                                                        <div class="meta-data">
+                                                            <span class="comment-author" th:text="${review.patientUserName}"></span>
+                                                            <span class="comment-date" th:text="${review.createdDate}"></span>
+                                                            <div class="review-count rating">
+                                                                <i class="fas fa-star" th:classappend="${review.rating >= 1} ? 'filled'"></i>
+                                                                <i class="fas fa-star" th:classappend="${review.rating >= 2} ? 'filled'"></i>
+                                                                <i class="fas fa-star" th:classappend="${review.rating >= 3} ? 'filled'"></i>
+                                                                <i class="fas fa-star" th:classappend="${review.rating >= 4} ? 'filled'"></i>
+                                                                <i class="fas fa-star" th:classappend="${review.rating == 5} ? 'filled'"></i>
+                                                            </div>
                                                         </div>
+                                                        <p class="comment-content" th:text="${review.detail}"></p>
                                                     </div>
-                                                    <p class="comment-content">
-                                                        Lorem ipsum dolor sit amet, consectetur adipisicing elit,
-                                                        sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-                                                        Ut enim ad minim veniam, quis nostrud exercitation.
-                                                        Curabitur non nulla sit amet nisl tempus
-                                                    </p>
                                                 </div>
-                                            </div>
-                                        </li>
+                                            </li>
+
+                                        </th:block>
                                         <!-- /Comment List -->
 
                                     </ul>
@@ -530,8 +502,8 @@
                                 </div>
                                 <!-- /Review Listing -->
 
+                                <div class="write-review" th:if="${user.role == 'PATIENT'}">
                                 <!-- Write Review -->
-                                <div class="write-review">
                                     <h4>Write a review for <strong>Dr. Darren Elder</strong></h4>
 
                                     <!-- Write Review Form -->
@@ -579,8 +551,8 @@
                                     </form>
                                     <!-- /Write Review Form -->
 
-                                </div>
                                 <!-- /Write Review -->
+                                </div>
 
                             </div>
                             <!-- /Reviews Content -->
