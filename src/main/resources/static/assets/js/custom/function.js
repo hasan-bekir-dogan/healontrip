@@ -128,6 +128,31 @@ function showSuccessMessage() {
     $("html, body").animate({ scrollTop: position }, "slow");
 }
 
+function addReviewHtml(patientProfileImgSrc, patientProfileImgAlt, patientUserName, createdDate, rating, detail) {
+
+    let review = `  <li>
+                        <div class="comment">
+                            <img src="/${patientProfileImgSrc}" class="avatar avatar-sm rounded-circle" alt="${patientProfileImgAlt}">
+                            <div class="comment-body">
+                                <div class="meta-data">
+                                    <span class="comment-author">${patientUserName}</span>
+                                    <span class="comment-date">${createdDate}</span>
+                                    <div class="review-count rating">
+                                        <i class="fas fa-star ${(rating >= 1) ? 'filled' : ''}"></i>
+                                        <i class="fas fa-star ${(rating >= 2) ? 'filled' : ''}"></i>
+                                        <i class="fas fa-star ${(rating >= 3) ? 'filled' : ''}"></i>
+                                        <i class="fas fa-star ${(rating >= 4) ? 'filled' : ''}"></i>
+                                        <i class="fas fa-star ${(rating === 5) ? 'filled' : ''}"></i>
+                                    </div>
+                                </div>
+                                <p class="comment-content">${detail}</p>
+                            </div>
+                        </div>
+                    </li>`;
+
+    $('#doc_reviews .review-listing .comments-list').append(review)
+}
+
 function getReviewData() {
     // define query selector
     let ratingStarSelector = '#review-doctor #review-rating input[type="radio"]:checked'
@@ -182,7 +207,7 @@ function getReviewData() {
     let formData = new FormData();
 
     // profile photo
-    formData.append("userId", doctorId);
+    formData.append("doctorId", doctorId);
     formData.append("rating", ratingStar);
     formData.append("detail", detail);
     formData.append("termsAccept", termsAccept);
@@ -217,6 +242,8 @@ async function reviewDoctor() {
     let res = await response.json()
 
     if (res.status === 'success') { // success
+        let data = res.data
+
         // enable items
         enableItems(affectedItemList)
 
@@ -225,6 +252,9 @@ async function reviewDoctor() {
 
         // show success message
         showSuccessMessage()
+
+        // add to review html
+        addReviewHtml(data.patientProfileImgSrc, data.patientProfileImgAlt, data.patientUserName, data.createdDate, data.rating, data.detail)
 
         // clear items
         clearItems()
@@ -241,7 +271,13 @@ async function reviewDoctor() {
         }
 
         // show errors
-        showErrors(errorText)
+        if (res.errors != null) {
+            for (let j = 0; j < res.errors.length; j++)
+                errorText += `<li>${res.errors[j].defaultMessage}</li>`;
+
+            // show errors
+            showErrors(errorText)
+        }
 
         // enable items
         enableItems(affectedItemList)

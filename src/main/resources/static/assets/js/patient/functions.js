@@ -20,6 +20,8 @@ function enableItems(list) {
 }
 
 function hideErrors() {
+    hideSuccessMessage()
+
     let jQuerySelector = `#profile-settings .form-error`
 
     // remove error
@@ -146,6 +148,7 @@ async function updateProfile() {
     let res = await response.json()
 
     if (res.status === 'success') { // success
+        // enable items
         enableItems(affectedItemList)
 
         // hide errors
@@ -155,9 +158,6 @@ async function updateProfile() {
         showSuccessMessage()
     }
     else { // error
-        // hide success message
-        hideSuccessMessage()
-
         // hide errors
         hideErrors()
 

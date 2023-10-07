@@ -415,10 +415,34 @@ header .nav.header-navbar-rht .has-submenu >a {
 // search (end)
 
 // review (begin)
-.submit-section .review-button {
+#add-review-btn .review-button {
   font-weight: 700;
   font-size: 14px;
   min-width: 100px;
   padding: 9px 17px;
 }
+#doc_reviews {
+  .review-listing {
+    border-bottom: none;
+    margin-bottom: 0;
+    padding-bottom: 0;
+    > ul li .comment .comment-body {
+      width: 100%;
+    }
+  }
+  .write-review {
+    border-top: 1px solid #f5f7fc;
+    padding-top: 30px;
+    margin-top: 30px;
+  }
+}
 // review (end)
+
+// patient profile settings
+#save-patient-profile-settings-btn .submit-btn{
+  font-weight: 700;
+  font-size: 14px;
+  min-width: 100px;
+  padding: 9px 17px;
+}
+

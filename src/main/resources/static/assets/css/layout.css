@@ -393,7 +393,28 @@ header .nav.header-navbar-rht .has-submenu > a:hover {
   margin-left: 0;
 }
 
-.submit-section .review-button {
+#add-review-btn .review-button {
+  font-weight: 700;
+  font-size: 14px;
+  min-width: 100px;
+  padding: 9px 17px;
+}
+
+#doc_reviews .review-listing {
+  border-bottom: none;
+  margin-bottom: 0;
+  padding-bottom: 0;
+}
+#doc_reviews .review-listing > ul li .comment .comment-body {
+  width: 100%;
+}
+#doc_reviews .write-review {
+  border-top: 1px solid #f5f7fc;
+  padding-top: 30px;
+  margin-top: 30px;
+}
+
+#save-patient-profile-settings-btn .submit-btn {
   font-weight: 700;
   font-size: 14px;
   min-width: 100px;

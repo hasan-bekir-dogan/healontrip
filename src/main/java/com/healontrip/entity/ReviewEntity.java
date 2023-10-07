@@ -18,8 +18,11 @@ import java.io.Serializable;
 @Entity
 @Table(name = "reviews")
 public class ReviewEntity extends BaseEntity implements Serializable {
-    @Column(name = "user_id", nullable = false)
-    private Long userId;
+    @Column(name = "doctor_id", nullable = false)
+    private Long doctorId;
+
+    @Column(name = "patient_id", nullable = false)
+    private Long patientId;
 
     @Column(name = "rating", nullable = false)
     private int rating;
@@ -27,8 +30,9 @@ public class ReviewEntity extends BaseEntity implements Serializable {
     @Column(name = "detail", length = 4000)
     private String detail;
 
-    public ReviewEntity(Long userId, int rating, String detail) {
-        this.userId = userId;
+    public ReviewEntity(Long doctorId, Long patientId, int rating, String detail) {
+        this.doctorId = doctorId;
+        this.patientId = patientId;
         this.rating = rating;
         this.detail = detail;
     }
