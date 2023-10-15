@@ -3,6 +3,8 @@ package com.healontrip.controller.crm;
 import com.healontrip.dto.*;
 import com.healontrip.service.AuthService;
 import com.healontrip.service.UserService;
+import com.healontrip.util.IpConfigUtil;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -21,7 +23,12 @@ public class ProfileController {
     private AuthService authService;
 
     @GetMapping("/profile")
-    public String profile(Model model) throws ParseException {
+    public String profile(Model model,
+                          HttpServletRequest request) throws ParseException {
+        // coming soon
+        if(!IpConfigUtil.checkAdminIp(request))
+            return IpConfigUtil.getRedirectPage();
+
         String role = authService.getRole();
         UserBarDto userBarDto = userService.getUser();
         ProfileDto profileDto = userService.getProfile();
@@ -41,7 +48,12 @@ public class ProfileController {
     }
 
     @PostMapping("/profile")
-    public ResponseEntity<Object> updateProfile(@ModelAttribute @Valid ProfileDto profileDto){
+    public ResponseEntity<Object> updateProfile(@ModelAttribute @Valid ProfileDto profileDto,
+                                                HttpServletRequest request){
+        // coming soon
+        if(!IpConfigUtil.checkAdminIp(request))
+            return new ResponseEntity<>(new GeneralResponseWithDataDto("fail", new Object()), HttpStatus.NOT_FOUND);
+
         try {
             String role = authService.getRole();
 

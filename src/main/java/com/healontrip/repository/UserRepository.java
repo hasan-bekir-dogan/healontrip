@@ -1,6 +1,5 @@
 package com.healontrip.repository;
 
-import com.healontrip.dto.ExperienceYears;
 import com.healontrip.entity.UserEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;

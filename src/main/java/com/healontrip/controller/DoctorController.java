@@ -6,6 +6,8 @@ import com.healontrip.repository.ExperienceYearRepository;
 import com.healontrip.service.ReviewService;
 import com.healontrip.service.SpecialistService;
 import com.healontrip.service.UserService;
+import com.healontrip.util.IpConfigUtil;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -34,7 +36,12 @@ public class DoctorController {
 
     @GetMapping("/doctors/{id}")
     public String detail(Model model,
-                         @PathVariable Long id) throws ParseException {
+                         @PathVariable Long id,
+                         HttpServletRequest request) throws ParseException {
+        // coming soon
+        if(!IpConfigUtil.checkAdminIp(request))
+            return IpConfigUtil.getRedirectPage();
+
         UserBarDto userBarDto = userService.getUser();
         DoctorDto doctorDto = userService.getDoctor(id);
         List<ReviewsDto> reviewsDtoList = reviewService.getReviews(id);
@@ -58,7 +65,12 @@ public class DoctorController {
                          @RequestParam(value = "gen", required = false) List<String> genderList,
                          @RequestParam(value = "spe", required = false) List<Long> specialityList,
                          @RequestParam(value = "exp", required = false) List<Integer> experienceYearList,
-                         @RequestParam(value = "rat", required = false) List<Integer> ratingList) throws ParseException {
+                         @RequestParam(value = "rat", required = false) List<Integer> ratingList,
+                         HttpServletRequest request) throws ParseException {
+        // coming soon
+        if(!IpConfigUtil.checkAdminIp(request))
+            return IpConfigUtil.getRedirectPage();
+
         UserBarDto userBarDto = userService.getUser();
 
         // gender list
@@ -95,9 +107,13 @@ public class DoctorController {
         return "doctor-search";
     }
 
-
     @PostMapping("/review")
-    public ResponseEntity<Object> review(@ModelAttribute @Valid ReviewDto reviewDto){
+    public ResponseEntity<Object> review(@ModelAttribute @Valid ReviewDto reviewDto,
+                                         HttpServletRequest request){
+        // coming soon
+        if(!IpConfigUtil.checkAdminIp(request))
+            return new ResponseEntity<>(new GeneralResponseWithDataDto("fail", new Object()), HttpStatus.NOT_FOUND);
+
         try {
             ReviewsDto reviewsDto = reviewService.addReview(reviewDto);
 
@@ -106,4 +122,36 @@ public class DoctorController {
             return new ResponseEntity<>(e, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
+    @GetMapping("/doctors/{id}/reviews")
+    public String index(Model model,
+                        @PathVariable Long id,
+                        @RequestParam(value = "page", required = false) Integer pageNumber,
+                        HttpServletRequest request) throws ParseException {
+        // coming soon
+        if(!IpConfigUtil.checkAdminIp(request))
+            return IpConfigUtil.getRedirectPage();
+
+        UserBarDto userBarDto = userService.getUser();
+        DoctorDto doctorDto = userService.getDoctor(id);
+
+        if (pageNumber == null)
+            pageNumber = 1;
+        else if (!(pageNumber > 0))
+            pageNumber = 1;
+
+        List<ReviewsDto> reviewsDtoList = reviewService.getReviews(id);
+        /*List<ProductsDto> productDtoList = productService.getAllProducts(LIMITPRODUCT, ((pageNumber - 1) * LIMITPRODUCT) + 1);
+
+        // page count
+        Integer productCount = productRepository.findProductCount();
+        int pageCount = (int)(Math.ceil(Double.valueOf(productCount) / Double.valueOf(LIMITPRODUCT)));*/
+
+        model.addAttribute("user", userBarDto);
+        model.addAttribute("doctor", doctorDto);
+        model.addAttribute("reviewList", reviewsDtoList);
+
+        return "doctor-reviews";
+    }
+
 }

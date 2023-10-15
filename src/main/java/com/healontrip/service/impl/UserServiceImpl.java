@@ -186,7 +186,7 @@ public class UserServiceImpl implements UserService {
 
                 Long fileId = fileService.saveFile(fileDto);
 
-                if (userEntity.getClinicImgIds() == "" || userEntity.getClinicImgIds() == null)
+                if (userEntity.getClinicImgIds().equals("") || userEntity.getClinicImgIds() == null || userEntity.getClinicImgIds().equals(" "))
                     userEntity.setClinicImgIds(String.valueOf(fileId));
                 else
                     userEntity.setClinicImgIds(userEntity.getClinicImgIds() + "," + fileId);
@@ -665,6 +665,7 @@ public class UserServiceImpl implements UserService {
 
                 clinicImageList.add(imgDto);
             }
+
             doctorDto.setClinicImageList(clinicImageList);
         }
 
@@ -691,6 +692,20 @@ public class UserServiceImpl implements UserService {
         // membership
         List<MembershipDto> membershipList = membershipService.getMembershipList(id);
         doctorDto.setMembershipList(membershipList);
+
+        // short information
+        List<EducationEntity> educationEntityList = educationRepository.findEducationByUserIdLimit2(id);
+        String educationDegrees = "";
+
+        for(EducationEntity educationEntity: educationEntityList)
+            educationDegrees += ((educationDegrees != "") ? ", " : "") + educationEntity.getDegree();
+
+        SpecialistEntity specialistEntity = specialistRepository.findSpecialistByUserIdLimit1(id);
+        String specialistName = specialistEntity.getName();
+
+        String infoShort = educationDegrees + ((educationDegrees != "" && specialistName != "") ? " - " : "") + specialistName;
+
+        doctorDto.setInfoShort(infoShort);
 
         return doctorDto;
     }

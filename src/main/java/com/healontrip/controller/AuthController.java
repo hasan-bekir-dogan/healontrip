@@ -4,6 +4,8 @@ import com.healontrip.dto.Role;
 import com.healontrip.dto.UserDto;
 import com.healontrip.entity.UserEntity;
 import com.healontrip.service.UserService;
+import com.healontrip.util.IpConfigUtil;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -19,12 +21,21 @@ public class AuthController {
     private UserService userService;
 
     @GetMapping("/login")
-    public String login() {
+    public String login(HttpServletRequest request) {
+        // coming soon
+        if(!IpConfigUtil.checkAdminIp(request))
+            return IpConfigUtil.getRedirectPage();
+
         return "auth/login";
     }
 
     @GetMapping("/register")
-    public String register(Model model) {
+    public String register(Model model,
+                           HttpServletRequest request) {
+        // coming soon
+        if(!IpConfigUtil.checkAdminIp(request))
+            return IpConfigUtil.getRedirectPage();
+
         UserDto userDto = new UserDto();
 
         model.addAttribute("user", userDto);
@@ -35,7 +46,11 @@ public class AuthController {
     @PostMapping("/register")
     public String registration(@Valid @ModelAttribute("user") UserDto userDto,
                                BindingResult result,
-                               Model model) {
+                               Model model,
+                               HttpServletRequest request) {
+        // coming soon
+        if(!IpConfigUtil.checkAdminIp(request))
+            return IpConfigUtil.getRedirectPage();
 
         UserEntity existing = userService.findByEmail(userDto.getEmail());
 
@@ -55,7 +70,12 @@ public class AuthController {
     }
 
     @GetMapping("/doctor-register")
-    public String registerDoctor(Model model) {
+    public String registerDoctor(Model model,
+                                 HttpServletRequest request) {
+        // coming soon
+        if(!IpConfigUtil.checkAdminIp(request))
+            return IpConfigUtil.getRedirectPage();
+
         UserDto userDto = new UserDto();
 
         model.addAttribute("user", userDto);
@@ -66,7 +86,12 @@ public class AuthController {
     @PostMapping("/doctor-register")
     public String registrationDoctor(@Valid @ModelAttribute("user") UserDto userDto,
                                      BindingResult result,
-                                     Model model) {
+                                     Model model,
+                                     HttpServletRequest request) {
+        // coming soon
+        if(!IpConfigUtil.checkAdminIp(request))
+            return IpConfigUtil.getRedirectPage();
+
         UserEntity existing = userService.findByEmail(userDto.getEmail());
 
         if(existing != null){

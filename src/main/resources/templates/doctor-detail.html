@@ -66,7 +66,7 @@
                                 <div class="doc-info-cont">
                                     <input type="hidden" id="doctor-id" th:value="${doctor.userId}">
                                     <h4 class="doc-name" th:text="${doctor.userName}"></h4>
-                                    <p class="doc-speciality">BDS, MDS - Oral & Maxillofacial Surgery</p>
+                                    <p class="doc-speciality" th:text="${doctor.infoShort}"></p>
                                     <div class="rating">
                                         <i class="fas fa-star filled"></i>
                                         <i class="fas fa-star filled"></i>
@@ -106,7 +106,7 @@
                                     </ul>
                                 </div>
                                 <div class="clinic-booking">
-                                    <a class="apt-btn" href="booking.html">Book Appointment</a>
+                                    <a class="apt-btn" th:href="@{#}">Book Appointment</a>
                                 </div>
                             </div>
                         </div>
@@ -493,7 +493,7 @@
 
                                     <!-- Show All -->
                                     <div class="all-feedback text-center">
-                                        <a href="#" class="btn btn-primary btn-sm">
+                                        <a th:href="@{#}" class="btn btn-primary btn-sm">
                                             Show all feedback <strong>(167)</strong>
                                         </a>
                                     </div>

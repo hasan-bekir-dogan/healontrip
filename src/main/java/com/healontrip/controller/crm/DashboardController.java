@@ -2,6 +2,8 @@ package com.healontrip.controller.crm;
 
 import com.healontrip.dto.UserBarDto;
 import com.healontrip.service.UserService;
+import com.healontrip.util.IpConfigUtil;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -16,7 +18,12 @@ public class DashboardController {
     private UserService userService;
 
     @GetMapping("/dashboard")
-    public String dashboard(Model model) throws ParseException {
+    public String dashboard(Model model,
+                            HttpServletRequest request) throws ParseException {
+        // coming soon
+        if(!IpConfigUtil.checkAdminIp(request))
+            return IpConfigUtil.getRedirectPage();
+
         UserBarDto userBarDto = userService.getUser();
 
         model.addAttribute("user", userBarDto);
