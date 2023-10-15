@@ -4,6 +4,7 @@ import com.healontrip.dto.*;
 import com.healontrip.service.BlogService;
 import com.healontrip.service.CategoryService;
 import com.healontrip.service.UserService;
+import com.healontrip.util.IpConfigUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -32,7 +33,12 @@ public class BlogController {
     private UserService userService;
 
     @GetMapping("")
-    public String indexPage(Model model) throws ParseException {
+    public String indexPage(Model model,
+                            HttpServletRequest request) throws ParseException {
+        // coming soon
+        if(!IpConfigUtil.checkAdminIp(request))
+            return IpConfigUtil.getRedirectPage();
+
         List<BlogsDto> blogDtoList = blogService.getAllBlogs(BlogStatus.ACTIVE.toString());
         UserBarDto userBarDto = userService.getUser();
 
@@ -43,7 +49,12 @@ public class BlogController {
     }
 
     @GetMapping("/pending")
-    public String indexPendingPage(Model model) throws ParseException {
+    public String indexPendingPage(Model model,
+                                   HttpServletRequest request) throws ParseException {
+        // coming soon
+        if(!IpConfigUtil.checkAdminIp(request))
+            return IpConfigUtil.getRedirectPage();
+
         List<BlogsDto> blogsDtoList = blogService.getAllBlogs(BlogStatus.NOT_ACTIVE.toString());
         UserBarDto userBarDto = userService.getUser();
 
@@ -54,7 +65,13 @@ public class BlogController {
     }
 
     @GetMapping("/edit/{id}")
-    public String editPage(@PathVariable Long id, Model model) throws ParseException {
+    public String editPage(@PathVariable Long id,
+                           Model model,
+                           HttpServletRequest request) throws ParseException {
+        // coming soon
+        if(!IpConfigUtil.checkAdminIp(request))
+            return IpConfigUtil.getRedirectPage();
+
         BlogsDto blogsDto = blogService.getBlogById(id);
         List<CategoryDto> categoryDtoList = categoryService.getAllCategories();
         UserBarDto userBarDto = userService.getUser();
@@ -69,7 +86,12 @@ public class BlogController {
     public String updateBlog(@Valid @ModelAttribute("blog") BlogEditDto blogEditDto,
                              BindingResult result,
                              Model model,
-                             @PathVariable Long id) throws IOException, ParseException {
+                             @PathVariable Long id,
+                             HttpServletRequest request) throws IOException, ParseException {
+        // coming soon
+        if(!IpConfigUtil.checkAdminIp(request))
+            return IpConfigUtil.getRedirectPage();
+
         if(result.hasErrors()) {
             BlogsDto blogsDto = blogService.getBlogById(id);
             List<CategoryDto> categoryDtoList = categoryService.getAllCategories();
@@ -99,7 +121,12 @@ public class BlogController {
     }
 
     @GetMapping("/add")
-    public String addPage(Model model) throws ParseException {
+    public String addPage(Model model,
+                          HttpServletRequest request) throws ParseException {
+        // coming soon
+        if(!IpConfigUtil.checkAdminIp(request))
+            return IpConfigUtil.getRedirectPage();
+
         BlogDto blogDto = new BlogDto();
         List<CategoryDto> categoryDtoList = categoryService.getAllCategories();
         UserBarDto userBarDto = userService.getUser();
@@ -114,7 +141,12 @@ public class BlogController {
     @PostMapping("/add")
     public String createBlog(@Valid @ModelAttribute("blog") BlogDto blogDto,
                              BindingResult result,
-                             Model model) throws IOException, ParseException {
+                             Model model,
+                             HttpServletRequest request) throws IOException, ParseException {
+        // coming soon
+        if(!IpConfigUtil.checkAdminIp(request))
+            return IpConfigUtil.getRedirectPage();
+
         if(result.hasErrors()) {
             List<CategoryDto> categoryDtoList = categoryService.getAllCategories();
             UserBarDto userBarDto = userService.getUser();
@@ -135,6 +167,10 @@ public class BlogController {
     public ResponseEntity<Object> changeBlogStatus(@RequestBody BlogStatusRequestBodyDto blogStatusRequestBodyDto,
                                                    HttpServletRequest request,
                                                    HttpServletResponse response) throws IOException {
+        // coming soon
+        if(!IpConfigUtil.checkAdminIp(request))
+            return new ResponseEntity<>(new GeneralResponseWithDataDto("fail", new Object()), HttpStatus.NOT_FOUND);
+
         blogService.changeBlogStatus(blogStatusRequestBodyDto.getId(), blogStatusRequestBodyDto.getStatus());
 
         BlogStatusResponseBodyDto blogStatusResponseBodyDto = new BlogStatusResponseBodyDto();

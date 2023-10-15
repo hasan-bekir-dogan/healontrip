@@ -4,6 +4,8 @@ import com.healontrip.dto.BlogsDto;
 import com.healontrip.dto.UserBarDto;
 import com.healontrip.service.BlogService;
 import com.healontrip.service.UserService;
+import com.healontrip.util.IpConfigUtil;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -22,7 +24,12 @@ public class BlogController {
     private UserService userService;
 
     @GetMapping("/blogs")
-    public String index(Model model) throws ParseException {
+    public String index(Model model,
+                        HttpServletRequest request) throws ParseException {
+        // coming soon
+        if(!IpConfigUtil.checkAdminIp(request))
+            return IpConfigUtil.getRedirectPage();
+
         List<BlogsDto> blogsDtoList = blogService.getAllBlogs();
         UserBarDto userBarDto = userService.getUser();
 
@@ -34,7 +41,12 @@ public class BlogController {
 
     @GetMapping("/blogs/{id}")
     public String detail(Model model,
-                         @PathVariable Long id) throws ParseException {
+                         @PathVariable Long id,
+                         HttpServletRequest request) throws ParseException {
+        // coming soon
+        if(!IpConfigUtil.checkAdminIp(request))
+            return IpConfigUtil.getRedirectPage();
+
         BlogsDto blogsDto = blogService.getBlogById(id);
         UserBarDto userBarDto = userService.getUser();
 

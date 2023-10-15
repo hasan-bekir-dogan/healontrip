@@ -13,6 +13,13 @@ input[type=number] {
   -moz-appearance: textfield;
 }
 
+// error pages (begin)
+#error-page {
+  height: 100%;
+  @extend %flex-align-center;
+}
+// error pages (end)
+
 .form-validation {
   .form-error {
     height: auto;
@@ -445,4 +452,3 @@ header .nav.header-navbar-rht .has-submenu >a {
   min-width: 100px;
   padding: 9px 17px;
 }
-

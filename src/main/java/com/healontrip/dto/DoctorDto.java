@@ -26,4 +26,5 @@ public class DoctorDto {
     private List<ExperienceDto> experienceList;
     private List<AwardDto> awardList;
     private List<MembershipDto> membershipList;
+    private String infoShort;
 }

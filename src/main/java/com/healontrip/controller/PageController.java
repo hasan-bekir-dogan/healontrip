@@ -5,6 +5,8 @@ import com.healontrip.dto.DoctorsDto;
 import com.healontrip.dto.UserBarDto;
 import com.healontrip.service.BlogService;
 import com.healontrip.service.UserService;
+import com.healontrip.util.IpConfigUtil;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -19,10 +21,14 @@ public class PageController {
     private BlogService blogService;
 
     @Autowired
-    UserService userService;
+    private UserService userService;
 
     @GetMapping("/")
-    public String index(Model model) throws ParseException {
+    public String index(Model model, HttpServletRequest request) throws ParseException {
+        // coming soon
+        if(!IpConfigUtil.checkAdminIp(request))
+            return IpConfigUtil.getPage();
+
         List<BlogsDto> blogsDtoList = blogService.getAllBlogs(4, 1);
         UserBarDto userBarDto = userService.getUser();
         List<DoctorsDto> doctorsDtoList = userService.getDoctors();
