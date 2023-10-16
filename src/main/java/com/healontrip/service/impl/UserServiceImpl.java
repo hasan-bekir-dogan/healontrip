@@ -375,14 +375,18 @@ public class UserServiceImpl implements UserService {
         // doctor
         if(userRole.equals(Role.DOCTOR.toString())) {
             // short information
-            List<EducationEntity> educationEntityList = educationRepository.findEducationByUserIdLimit2(userId);
+            List<EducationEntity>educationEntityList = educationRepository.findEducationByUserIdLimit2(userId);
+
             String educationDegrees = "";
 
             for(EducationEntity educationEntity: educationEntityList)
                 educationDegrees += ((educationDegrees != "") ? ", " : "") + educationEntity.getDegree();
 
             SpecialistEntity specialistEntity = specialistRepository.findSpecialistByUserIdLimit1(userId);
-            String specialistName = specialistEntity.getName();
+            String specialistName = "";
+
+            if (specialistEntity != null && !specialistEntity.equals(""))
+                specialistName = specialistEntity.getName();
 
             String infoShort = educationDegrees + ((educationDegrees != "" && specialistName != "") ? " - " : "") + specialistName;
 
