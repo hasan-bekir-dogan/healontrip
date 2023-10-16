@@ -24,11 +24,11 @@
                     </a>
                 </div>
                 <ul class="main-nav" th:if="${user.userName == null}">
-                    <li class="has-submenu">
+                    <li>
                         <a th:href="@{/search}">Doctors</a>
                     </li>
                     <!--<li class="vertical-line"></li>-->
-                    <li class="has-submenu">
+                    <li>
                         <a th:href="@{#}">Help</a>
                     </li>
                     <!--<li class="vertical-line"></li>-->
@@ -46,11 +46,11 @@
             </div>
 
             <ul th:unless="${user.userName == null}" class="nav header-navbar-rht">
-                <li class="has-submenu">
+                <li>
                     <a th:href="@{/search}">Doctors</a>
                 </li>
                 <!--<li class="vertical-line"></li>-->
-                <li class="has-submenu">
+                <li>
                     <a th:href="@{#}">Help</a>
                 </li>
                 <!--<li class="vertical-line"></li>-->
