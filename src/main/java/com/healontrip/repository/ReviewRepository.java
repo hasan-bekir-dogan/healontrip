@@ -1,6 +1,5 @@
 package com.healontrip.repository;
 
-import com.healontrip.dto.ReviewBarDto;
 import com.healontrip.entity.ReviewEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
