@@ -27,4 +27,5 @@ public class DoctorDto {
     private List<AwardDto> awardList;
     private List<MembershipDto> membershipList;
     private String infoShort;
+    private String addressShort;
 }

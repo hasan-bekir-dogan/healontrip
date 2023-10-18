@@ -1,5 +1,6 @@
 package com.healontrip.service.impl;
 
+import com.healontrip.dto.ReviewBarDto;
 import com.healontrip.dto.ReviewDto;
 import com.healontrip.dto.ReviewsDto;
 import com.healontrip.entity.FileEntity;
@@ -14,10 +15,14 @@ import com.healontrip.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
+
+import static java.lang.Math.round;
+
 
 @Service
 public class ReviewServiceImpl implements ReviewService {
@@ -36,7 +41,7 @@ public class ReviewServiceImpl implements ReviewService {
     public final String reviewCreatedDatePattern = "dd MMM yyyy";
 
     @Override
-    public ReviewsDto addReview(ReviewDto reviewDto) {
+    public List<ReviewsDto> addReview(ReviewDto reviewDto) {
         // save review data
         ReviewEntity reviewEntity = new ReviewEntity();
 
@@ -47,7 +52,9 @@ public class ReviewServiceImpl implements ReviewService {
 
         reviewRepository.save(reviewEntity);
 
-        // set review that is added
+        List<ReviewsDto> reviewsDtoList = getReviews(reviewEntity.getDoctorId(), 5);
+
+        /*// set review that is added
         if (reviewEntity.getDetail() == null)
             return null;
 
@@ -76,14 +83,28 @@ public class ReviewServiceImpl implements ReviewService {
         reviewsDto.setCreatedDate("Reviewed on " + format.format(reviewEntity.getCreatedDate()));
 
         reviewsDto.setRating(reviewEntity.getRating());
-        reviewsDto.setDetail(reviewEntity.getDetail());
+        reviewsDto.setDetail(reviewEntity.getDetail());*/
 
-        return reviewsDto;
+        return reviewsDtoList;
     }
 
     @Override
+    // overloading
     public List<ReviewsDto> getReviews(Long doctorId) {
-        List<ReviewEntity> reviewEntityList = reviewRepository.findReviewByDoctorId(doctorId);
+        List<ReviewsDto> reviewsDtoList = getReviewsData(reviewRepository.findReviewByDoctorId(doctorId));
+
+        return reviewsDtoList;
+    }
+
+    @Override
+    // overloading
+    public List<ReviewsDto> getReviews(Long doctorId, int limit) {
+        List<ReviewsDto> reviewsDtoList = getReviewsData(reviewRepository.findReviewByDoctorIdByLimit(doctorId, limit));
+
+        return reviewsDtoList;
+    }
+
+    public List<ReviewsDto> getReviewsData(List<ReviewEntity> reviewEntityList) {
         List<ReviewsDto> reviewsDtoList = new ArrayList<>();
 
         for (ReviewEntity reviewEntity: reviewEntityList) {
@@ -121,6 +142,22 @@ public class ReviewServiceImpl implements ReviewService {
         }
 
         return reviewsDtoList;
+    }
+
+    @Override
+    public ReviewsDto getReview(Long doctorId) {
+        ReviewsDto reviewsDto = new ReviewsDto();
+
+        reviewsDto.setDoctorId(doctorId);
+
+        double ratingAvg = reviewRepository.findReviewAvgByDoctorId(doctorId);
+        BigDecimal roundedRatingAvg = new BigDecimal(ratingAvg).setScale(1, RoundingMode.HALF_UP);
+        reviewsDto.setRatingAvg(roundedRatingAvg.doubleValue());
+
+        int ratingCount = reviewRepository.findReviewCountByDoctorId(doctorId);
+        reviewsDto.setRatingCount(ratingCount);
+
+        return reviewsDto;
     }
 
     @Override

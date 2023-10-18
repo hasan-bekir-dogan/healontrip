@@ -68,15 +68,16 @@
                                     <h4 class="doc-name" th:text="${doctor.userName}"></h4>
                                     <p class="doc-speciality" th:text="${doctor.infoShort}"></p>
                                     <div class="rating">
+                                        <span class="d-inline-block average-rating rating-avg" th:text="${reviewInfo.ratingAvg}"></span>
                                         <i class="fas fa-star filled"></i>
                                         <i class="fas fa-star filled"></i>
                                         <i class="fas fa-star filled"></i>
                                         <i class="fas fa-star filled"></i>
                                         <i class="fas fa-star"></i>
-                                        <span class="d-inline-block average-rating">(35)</span>
+                                        <span class="dot"></span>
+                                        <span class="d-inline-block average-rating rating-count"><th:block th:text="${reviewInfo.ratingCount}"></th:block> Reviews</span>
                                     </div>
                                     <div class="clinic-details">
-                                        <p class="doc-location"><i class="fas fa-map-marker-alt"></i> Newyork, USA</p>
                                         <ul class="clinic-gallery">
 
                                             <th:block th:each="clinicImage: ${clinicImages}">
@@ -100,9 +101,7 @@
                             <div class="doc-info-right">
                                 <div class="clini-infos">
                                     <ul>
-                                        <li><i class="far fa-thumbs-up"></i> 99%</li>
-                                        <li><i class="far fa-comment"></i> 35 Feedback</li>
-                                        <li><i class="fas fa-map-marker-alt"></i> Newyork, USA</li>
+                                        <li><i class="fas fa-map-marker-alt"></i> <th:block th:text="${doctor.addressShort}"></th:block></li>
                                     </ul>
                                 </div>
                                 <div class="clinic-booking">
@@ -493,8 +492,8 @@
 
                                     <!-- Show All -->
                                     <div class="all-feedback text-center">
-                                        <a th:href="@{#}" class="btn btn-primary btn-sm">
-                                            Show all feedback <strong>(167)</strong>
+                                        <a id="show-all-reviews-btn" th:href="@{'/doctors/' + ${doctor.userId} + '/reviews'}" class="btn btn-primary btn-sm">
+                                            Show all reviews <strong>(<th:block th:text="${reviewInfo.ratingCount}"></th:block>)</strong>
                                         </a>
                                     </div>
                                     <!-- /Show All -->

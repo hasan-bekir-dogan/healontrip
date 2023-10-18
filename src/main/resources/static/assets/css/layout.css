@@ -20,6 +20,17 @@
   align-content: center;
 }
 
+.doctor-widget .doc-info-left .doc-info-cont .rating {
+  display: flex;
+  display: -webkit-flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  -webkit-justify-content: flex-start;
+  align-items: center;
+  -webkit-align-items: center;
+  align-content: center;
+}
+
 /*---------------------------------------*/
 /* Chrome, Safari, Edge, Opera */
 input::-webkit-outer-spin-button,
@@ -416,6 +427,35 @@ header .nav.header-navbar-rht .has-submenu > a:hover {
   border-top: 1px solid #f5f7fc;
   padding-top: 30px;
   margin-top: 30px;
+}
+
+.doctor-widget .doc-info-left .doc-info-cont .rating {
+  margin-bottom: 25px;
+}
+.doctor-widget .doc-info-left .doc-info-cont .rating .rating-avg {
+  margin-right: 8px;
+  line-height: 1;
+  font-size: 15px;
+}
+.doctor-widget .doc-info-left .doc-info-cont .rating .fa-star {
+  margin: 0 2px;
+}
+.doctor-widget .doc-info-left .doc-info-cont .rating .fa-star:first-child {
+  margin-left: 0;
+}
+.doctor-widget .doc-info-left .doc-info-cont .rating .fa-star:last-child {
+  margin-right: 0;
+}
+.doctor-widget .doc-info-left .doc-info-cont .rating .dot {
+  background: #757575;
+  border-radius: 50%;
+  width: 3px;
+  height: 3px;
+  margin: 0 8px;
+}
+.doctor-widget .doc-info-left .doc-info-cont .rating .rating-count {
+  line-height: 1;
+  font-size: 12px;
 }
 
 #save-patient-profile-settings-btn .submit-btn {

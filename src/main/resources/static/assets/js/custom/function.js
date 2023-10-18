@@ -128,29 +128,39 @@ function showSuccessMessage() {
     $("html, body").animate({ scrollTop: position }, "slow");
 }
 
-function addReviewHtml(patientProfileImgSrc, patientProfileImgAlt, patientUserName, createdDate, rating, detail) {
+function addReviewHtml(reviewList, reviewInfo) {
+    let reviews = '';
 
-    let review = `  <li>
-                        <div class="comment">
-                            <img src="/${patientProfileImgSrc}" class="avatar avatar-sm rounded-circle" alt="${patientProfileImgAlt}">
-                            <div class="comment-body">
-                                <div class="meta-data">
-                                    <span class="comment-author">${patientUserName}</span>
-                                    <span class="comment-date">${createdDate}</span>
-                                    <div class="review-count rating">
-                                        <i class="fas fa-star ${(rating >= 1) ? 'filled' : ''}"></i>
-                                        <i class="fas fa-star ${(rating >= 2) ? 'filled' : ''}"></i>
-                                        <i class="fas fa-star ${(rating >= 3) ? 'filled' : ''}"></i>
-                                        <i class="fas fa-star ${(rating >= 4) ? 'filled' : ''}"></i>
-                                        <i class="fas fa-star ${(rating === 5) ? 'filled' : ''}"></i>
+    for (let i = 0; i < reviewList.length; i++) {
+
+        reviews += `  <li>
+                            <div class="comment">
+                                <img src="/${reviewList[i].patientProfileImgSrc}" class="avatar avatar-sm rounded-circle" alt="${reviewList[i].patientProfileImgAlt}">
+                                <div class="comment-body">
+                                    <div class="meta-data">
+                                        <span class="comment-author">${reviewList[i].patientUserName}</span>
+                                        <span class="comment-date">${reviewList[i].createdDate}</span>
+                                        <div class="review-count rating">
+                                            <i class="fas fa-star ${(reviewList[i].rating >= 1) ? 'filled' : ''}"></i>
+                                            <i class="fas fa-star ${(reviewList[i].rating >= 2) ? 'filled' : ''}"></i>
+                                            <i class="fas fa-star ${(reviewList[i].rating >= 3) ? 'filled' : ''}"></i>
+                                            <i class="fas fa-star ${(reviewList[i].rating >= 4) ? 'filled' : ''}"></i>
+                                            <i class="fas fa-star ${(reviewList[i].rating === 5) ? 'filled' : ''}"></i>
+                                        </div>
                                     </div>
+                                    <p class="comment-content">${reviewList[i].detail}</p>
                                 </div>
-                                <p class="comment-content">${detail}</p>
                             </div>
-                        </div>
-                    </li>`;
+                        </li>`;
+    }
 
-    $('#doc_reviews .review-listing .comments-list').append(review)
+    // add review html
+    $('#doc_reviews .review-listing .comments-list').html(reviews)
+
+    // change review rating average and count
+    $('.doctor-widget .doc-info-left .doc-info-cont .rating .rating-avg').html(reviewInfo.ratingAvg)
+    $('.doctor-widget .doc-info-left .doc-info-cont .rating .rating-count').html(reviewInfo.ratingCount + ' Reviews')
+    $('#show-all-reviews-btn >strong').html(reviewInfo.ratingCount)
 }
 
 function getReviewData() {
@@ -242,8 +252,6 @@ async function reviewDoctor() {
     let res = await response.json()
 
     if (res.status === 'success') { // success
-        let data = res.data
-
         // enable items
         enableItems(affectedItemList)
 
@@ -254,7 +262,7 @@ async function reviewDoctor() {
         showSuccessMessage()
 
         // add to review html
-        addReviewHtml(data.patientProfileImgSrc, data.patientProfileImgAlt, data.patientUserName, data.createdDate, data.rating, data.detail)
+        addReviewHtml(res.reviewList, res.reviewInfo)
 
         // clear items
         clearItems()

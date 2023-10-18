@@ -73,6 +73,16 @@ $breakpoints: (
   -webkit-align-items: center;
   align-content: center;
 }
+%flex-align-center-row-flex-start{
+  display: flex;
+  display: -webkit-flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  -webkit-justify-content: flex-start;
+  align-items: center;
+  -webkit-align-items: center;
+  align-content: center;
+}
 %flex-align-space-between{
   display: flex;
   display: -webkit-flex;

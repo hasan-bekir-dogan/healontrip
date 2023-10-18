@@ -443,6 +443,35 @@ header .nav.header-navbar-rht .has-submenu >a {
     margin-top: 30px;
   }
 }
+.doctor-widget .doc-info-left .doc-info-cont .rating {
+  @extend %flex-align-center-row-flex-start;
+  margin-bottom: 25px;
+  .rating-avg {
+    margin-right: 8px;
+    line-height: 1;
+    font-size: 15px;
+  }
+  .fa-star {
+    margin: 0 2px;
+    &:first-child {
+      margin-left: 0;
+    }
+    &:last-child {
+      margin-right: 0;
+    }
+  }
+  .dot {
+    background: #757575;
+    border-radius: 50%;
+    width: 3px;
+    height: 3px;
+    margin: 0 8px;
+  }
+  .rating-count {
+    line-height: 1;
+    font-size: 12px;
+  }
+}
 // review (end)
 
 // patient profile settings
@@ -452,3 +481,4 @@ header .nav.header-navbar-rht .has-submenu >a {
   min-width: 100px;
   padding: 9px 17px;
 }
+

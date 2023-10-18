@@ -697,7 +697,7 @@ public class UserServiceImpl implements UserService {
         List<MembershipDto> membershipList = membershipService.getMembershipList(id);
         doctorDto.setMembershipList(membershipList);
 
-        // short information
+        // short information (begin)
         List<EducationEntity> educationEntityList = educationRepository.findEducationByUserIdLimit2(id);
         String educationDegrees = "";
 
@@ -710,6 +710,11 @@ public class UserServiceImpl implements UserService {
         String infoShort = educationDegrees + ((educationDegrees != "" && specialistName != "") ? " - " : "") + specialistName;
 
         doctorDto.setInfoShort(infoShort);
+        // short information (end)
+
+        // address
+        String addressShort = userEntity.getCity() + ", " + userEntity.getCountry();
+        doctorDto.setAddressShort(addressShort);
 
         return doctorDto;
     }

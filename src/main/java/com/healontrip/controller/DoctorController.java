@@ -44,7 +44,8 @@ public class DoctorController {
 
         UserBarDto userBarDto = userService.getUser();
         DoctorDto doctorDto = userService.getDoctor(id);
-        List<ReviewsDto> reviewsDtoList = reviewService.getReviews(id);
+        List<ReviewsDto> reviewsDtoList = reviewService.getReviews(id, 5);
+        ReviewsDto reviewsDto = reviewService.getReview(id);
 
         model.addAttribute("user", userBarDto);
         model.addAttribute("doctor", doctorDto);
@@ -56,6 +57,7 @@ public class DoctorController {
         model.addAttribute("awardList", doctorDto.getAwardList());
         model.addAttribute("membershipList", doctorDto.getMembershipList());
         model.addAttribute("reviewList", reviewsDtoList);
+        model.addAttribute("reviewInfo", reviewsDto);
 
         return "doctor-detail";
     }
@@ -115,9 +117,10 @@ public class DoctorController {
             return new ResponseEntity<>(new GeneralResponseWithDataDto("fail", new Object()), HttpStatus.NOT_FOUND);
 
         try {
-            ReviewsDto reviewsDto = reviewService.addReview(reviewDto);
+            List<ReviewsDto> reviewsDtoList = reviewService.addReview(reviewDto);
+            ReviewsDto reviewsDto = reviewService.getReview(reviewDto.getDoctorId());
 
-            return new ResponseEntity<>(new GeneralResponseWithDataDto("success", reviewsDto), HttpStatus.OK);
+            return new ResponseEntity<>(new ReviewsResponseDto("success", reviewsDtoList, reviewsDto), HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(e, HttpStatus.INTERNAL_SERVER_ERROR);
         }
