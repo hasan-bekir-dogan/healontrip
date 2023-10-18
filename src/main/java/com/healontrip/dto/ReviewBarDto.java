@@ -11,17 +11,8 @@ import lombok.extern.log4j.Log4j2;
 @AllArgsConstructor
 @Builder
 @Log4j2
-public class ReviewsDto {
-    private Long id;
+public class ReviewBarDto {
     private Long doctorId;
-    private String doctorUserName;
-    private Long patientId;
-    private String patientProfileImgSrc;
-    private String patientProfileImgAlt;
-    private String patientUserName;
-    private String createdDate;
-    private int rating;
-    private String detail;
     private Double ratingAvg;
     private int ratingCount;
 }
