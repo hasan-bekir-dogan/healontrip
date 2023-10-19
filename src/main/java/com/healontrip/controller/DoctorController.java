@@ -44,7 +44,7 @@ public class DoctorController {
 
         UserBarDto userBarDto = userService.getUser();
         DoctorDto doctorDto = userService.getDoctor(id);
-        List<ReviewsDto> reviewsDtoList = reviewService.getReviews(id, 5);
+        List<ReviewsDto> reviewsDtoList = reviewService.getReviews(id, 5, 0);
         ReviewsDto reviewsDto = reviewService.getReview(id);
 
         model.addAttribute("user", userBarDto);
@@ -135,24 +135,28 @@ public class DoctorController {
         if(!IpConfigUtil.checkAdminIp(request))
             return IpConfigUtil.getRedirectPage();
 
-        UserBarDto userBarDto = userService.getUser();
-        DoctorDto doctorDto = userService.getDoctor(id);
-
         if (pageNumber == null)
             pageNumber = 1;
         else if (!(pageNumber > 0))
             pageNumber = 1;
 
-        List<ReviewsDto> reviewsDtoList = reviewService.getReviews(id);
-        /*List<ProductsDto> productDtoList = productService.getAllProducts(LIMITPRODUCT, ((pageNumber - 1) * LIMITPRODUCT) + 1);
+        int LIMITPRODUCT = 40;
+        UserBarDto userBarDto = userService.getUser();
+        DoctorDto doctorDto = userService.getDoctor(id);
+        ReviewsDto reviewsDto = reviewService.getReview(id);
+
+        List<ReviewsDto> reviewsDtoList = reviewService.getReviews(id, LIMITPRODUCT, ((pageNumber - 1) * LIMITPRODUCT) + 1);
 
         // page count
-        Integer productCount = productRepository.findProductCount();
-        int pageCount = (int)(Math.ceil(Double.valueOf(productCount) / Double.valueOf(LIMITPRODUCT)));*/
+        Integer reviewCount = reviewsDto.getRatingCount();
+        int pageCount = (int)(Math.ceil(Double.valueOf(reviewCount) / Double.valueOf(LIMITPRODUCT)));
 
         model.addAttribute("user", userBarDto);
         model.addAttribute("doctor", doctorDto);
         model.addAttribute("reviewList", reviewsDtoList);
+        model.addAttribute("reviewInfo", reviewsDto);
+        model.addAttribute("pageCount", pageCount);
+        model.addAttribute("currentPage", pageNumber);
 
         return "doctor-reviews";
     }

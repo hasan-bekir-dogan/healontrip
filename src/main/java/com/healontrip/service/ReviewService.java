@@ -9,7 +9,7 @@ import java.util.List;
 public interface ReviewService {
     List<ReviewsDto> addReview(ReviewDto reviewDto);
     List<ReviewsDto> getReviews(Long doctorId);
-    List<ReviewsDto> getReviews(Long doctorId, int limit);
+    List<ReviewsDto> getReviews(Long doctorId, int limit, int pageNumber);
     ReviewsDto getReview(Long doctorId);
     ReviewEntity findById(Long id);
 }
