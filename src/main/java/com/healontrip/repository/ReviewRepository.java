@@ -20,9 +20,11 @@ public interface ReviewRepository extends JpaRepository<ReviewEntity, Long> {
             "       From reviews" +
             "       Where doctor_id = :doctorId" +
             "       Order By id desc" +
-            "       Limit :limit", nativeQuery = true)
+            "       Limit :limit" +
+            "       Offset :pageNumber", nativeQuery = true)
     List<ReviewEntity> findReviewByDoctorIdByLimit(@Param("doctorId") Long doctorId,
-                                                   @Param("limit") int limit);
+                                                   @Param("limit") int limit,
+                                                   @Param("pageNumber") int pageNumber);
 
     @Query(value = "Select avg(rating) as ratingAvg" +
             "       From reviews" +

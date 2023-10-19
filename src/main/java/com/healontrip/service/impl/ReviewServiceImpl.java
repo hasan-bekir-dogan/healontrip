@@ -51,7 +51,7 @@ public class ReviewServiceImpl implements ReviewService {
 
         reviewRepository.save(reviewEntity);
 
-        List<ReviewsDto> reviewsDtoList = getReviews(reviewEntity.getDoctorId(), 5);
+        List<ReviewsDto> reviewsDtoList = getReviews(reviewEntity.getDoctorId(), 5, 0);
 
         /*// set review that is added
         if (reviewEntity.getDetail() == null)
@@ -90,20 +90,21 @@ public class ReviewServiceImpl implements ReviewService {
     @Override
     // overloading
     public List<ReviewsDto> getReviews(Long doctorId) {
-        List<ReviewsDto> reviewsDtoList = getReviewsData(reviewRepository.findReviewByDoctorId(doctorId));
+        List<ReviewsDto> reviewsDtoList = getReviews(reviewRepository.findReviewByDoctorId(doctorId));
 
         return reviewsDtoList;
     }
 
     @Override
     // overloading
-    public List<ReviewsDto> getReviews(Long doctorId, int limit) {
-        List<ReviewsDto> reviewsDtoList = getReviewsData(reviewRepository.findReviewByDoctorIdByLimit(doctorId, limit));
+    public List<ReviewsDto> getReviews(Long doctorId, int limit, int pageNumber) {
+        List<ReviewsDto> reviewsDtoList = getReviews(reviewRepository.findReviewByDoctorIdByLimit(doctorId, limit, pageNumber));
 
         return reviewsDtoList;
     }
 
-    public List<ReviewsDto> getReviewsData(List<ReviewEntity> reviewEntityList) {
+    // overloading
+    public List<ReviewsDto> getReviews(List<ReviewEntity> reviewEntityList) {
         List<ReviewsDto> reviewsDtoList = new ArrayList<>();
 
         for (ReviewEntity reviewEntity: reviewEntityList) {

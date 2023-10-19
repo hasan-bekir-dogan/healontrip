@@ -20,7 +20,7 @@
   align-content: center;
 }
 
-.doctor-widget .doc-info-left .doc-info-cont .rating {
+.rating {
   display: flex;
   display: -webkit-flex;
   flex-direction: row;
@@ -415,47 +415,58 @@ header .nav.header-navbar-rht .has-submenu > a:hover {
   padding: 9px 17px;
 }
 
-#doc_reviews .review-listing {
+.review-listing {
   border-bottom: none;
   margin-bottom: 0;
   padding-bottom: 0;
 }
-#doc_reviews .review-listing > ul li .comment .comment-body {
+.review-listing > ul li .comment .comment-body {
   width: 100%;
 }
-#doc_reviews .write-review {
+.review-listing .review-pagination .blog-pagination .pagination {
+  margin: 30px 0;
+}
+
+.write-review {
   border-top: 1px solid #f5f7fc;
   padding-top: 30px;
   margin-top: 30px;
 }
 
-.doctor-widget .doc-info-left .doc-info-cont .rating {
+.rating {
   margin-bottom: 25px;
 }
-.doctor-widget .doc-info-left .doc-info-cont .rating .rating-avg {
+.rating .rating-avg {
   margin-right: 8px;
   line-height: 1;
   font-size: 15px;
 }
-.doctor-widget .doc-info-left .doc-info-cont .rating .fa-star {
+.rating .fa-star {
   margin: 0 2px;
 }
-.doctor-widget .doc-info-left .doc-info-cont .rating .fa-star:first-child {
+.rating .fa-star:first-child {
   margin-left: 0;
 }
-.doctor-widget .doc-info-left .doc-info-cont .rating .fa-star:last-child {
+.rating .fa-star:last-child {
   margin-right: 0;
 }
-.doctor-widget .doc-info-left .doc-info-cont .rating .dot {
+.rating .dot {
   background: #757575;
   border-radius: 50%;
   width: 3px;
   height: 3px;
   margin: 0 8px;
 }
-.doctor-widget .doc-info-left .doc-info-cont .rating .rating-count {
+.rating .rating-count {
   line-height: 1;
   font-size: 12px;
+}
+
+.profile-sidebar .profile-info-widget .profile-det-info .rating {
+  margin-bottom: unset;
+  margin-top: 23px;
+  justify-content: center;
+  -webkit-justify-content: center;
 }
 
 #save-patient-profile-settings-btn .submit-btn {
