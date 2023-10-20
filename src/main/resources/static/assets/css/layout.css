@@ -9,7 +9,7 @@
 }
 
 /*---------------------------------------*/
-.view-all-area, #error-page {
+#book-appointment .submit-section.submit-btn-bottom, .view-all-area, #error-page {
   display: flex;
   display: -webkit-flex;
   flex-direction: row;
@@ -467,6 +467,15 @@ header .nav.header-navbar-rht .has-submenu > a:hover {
   margin-top: 23px;
   justify-content: center;
   -webkit-justify-content: center;
+}
+
+#book-appointment .submit-section.submit-btn-bottom {
+  margin-bottom: 26.5px;
+  margin-top: 22.5px;
+}
+#book-appointment .submit-section.submit-btn-bottom > button {
+  background-color: #09dca4 !important;
+  border-color: #09dca4;
 }
 
 #save-patient-profile-settings-btn .submit-btn {
