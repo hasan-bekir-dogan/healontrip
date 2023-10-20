@@ -105,7 +105,9 @@
                                     </ul>
                                 </div>
                                 <div class="clinic-booking">
-                                    <a class="apt-btn" th:href="@{#}">Book Appointment</a>
+                                    <a href="javascript:void(0);" class="apt-btn" data-bs-toggle="modal" data-bs-target="#bookAppointmentModal">
+                                        Book Appointment
+                                    </a>
                                 </div>
                             </div>
                         </div>
@@ -639,6 +641,79 @@
 
     </div>
     <!-- /Main Wrapper -->
+
+    <!-- Book Appointment. Are you sure? -->
+    <!-- Model -->
+    <div class="modal fade" id="bookAppointmentModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" style="display: none;" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="acc_membership_title">Book Appointment?</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+
+                    <!-- Book Appointment Form -->
+                    <form method="post" id="book-appointment" enctype="multipart/form-data" role="form" autocomplete="off" class="form-validation">
+
+                        <!-- Basic Information -->
+                        <div class="row form-row">
+                            <div class="col-md-12">
+                                <div id="user-name" class="form-group">
+                                    <label>Name of Doctor or Clinic <span class="text-danger">*</span></label>
+                                    <input type="text" class="form-control" th:value="${doctor.userName}" readonly>
+                                </div>
+                            </div>
+
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label>Preferred Communication Method <span class="text-danger">*</span></label>
+                                    <select class="form-select form-control">
+                                        <option value="">Select</option>
+                                        <option value="1">WhatsApp</option>
+                                        <option value="2">Phone</option>
+                                        <option value="3">E-Mail</option>
+                                        <option value="4">All</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <!--<div class="col-md-6">
+                                <div class="form-group">
+                                    <label>Your Email <span class="text-danger">*</span></label>
+                                    <input type="email" class="form-control" readonly>
+                                </div>
+                            </div>-->
+
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label>Short Explanation <span class="text-danger">*</span></label>
+                                    <textarea class="form-control" rows="5" placeholder="You can write a clarification about your disease"></textarea>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <div class="terms-accept">
+                                    <div class="custom-checkbox">
+                                        <input type="checkbox" id="book-appointment-terms-accept">
+                                        <label for="book-appointment-terms-accept">I have read and accept <a th:href="@{#}">Terms &amp; Conditions</a></label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="submit-section submit-btn-bottom">
+                            <button type="submit" class="btn btn-primary" name="form_submit">Book Appointment</button>
+                        </div>
+
+                    </form>
+                    <!-- /Book Appointment Form -->
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- /Model -->
 
     <!-- jQuery -->
     <script th:src="@{/assets/js/jquery-3.6.4.min.js}"></script>

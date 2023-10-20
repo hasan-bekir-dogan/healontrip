@@ -479,6 +479,17 @@ header .nav.header-navbar-rht .has-submenu >a {
   justify-content: center;
   -webkit-justify-content: center;
 }
+#book-appointment {
+  .submit-section.submit-btn-bottom{
+    @extend %flex-align-center;
+    margin-bottom: 26.5px;
+    margin-top: 22.5px;
+    >button {
+      background-color: $book_btn_color $i;
+      border-color: $book_btn_color;
+    }
+  }
+}
 // review (end)
 
 // patient profile settings

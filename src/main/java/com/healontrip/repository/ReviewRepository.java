@@ -26,7 +26,7 @@ public interface ReviewRepository extends JpaRepository<ReviewEntity, Long> {
                                                    @Param("limit") int limit,
                                                    @Param("pageNumber") int pageNumber);
 
-    @Query(value = "Select avg(rating) as ratingAvg" +
+    @Query(value = "Select if(avg(rating) is null, 0, avg(rating)) as ratingAvg" +
             "       From reviews" +
             "       Where doctor_id = :doctorId", nativeQuery = true)
     double findReviewAvgByDoctorId(@Param("doctorId") Long doctorId);
