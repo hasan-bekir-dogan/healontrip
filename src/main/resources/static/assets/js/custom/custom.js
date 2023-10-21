@@ -42,3 +42,15 @@ $('#review-doctor').on('submit', function (e) {
 
     reviewDoctor();
 })
+
+// book appointment
+$('#book-appointment').on('submit', function (e) {
+    e.preventDefault();
+
+    bookAppointment();
+})
+
+// book appointment
+$('#book-appointment #appointment-communicationId select.form-select').on('change', function (e) {
+    addCommunicationInfo($(this).val());
+})

@@ -292,3 +292,222 @@ async function reviewDoctor() {
     }
 }
 
+
+function addCommunicationInfoHTML(data) {
+    let dataHtml = '';
+
+    if(data.name == 'E-MAIL' || data.name == 'ALL') {
+        dataHtml += `   <div class="col-md-6 temp-communication-items">
+                            <div id="patient-email" class="form-group">
+                                <label>Your Email <span class="text-danger">*</span></label>
+                                <input type="email" class="form-control" value="${data.email}" readonly>
+                            </div>
+                        </div>`;
+    }
+
+    if(data.name == 'PHONE' || data.name == 'WHATSAPP' || data.name == 'ALL') {
+        dataHtml += `   <div class="col-md-6 temp-communication-items">
+                            <div id="appointment-patientPhoneNumber" class="form-group">
+                                <label>Your Phone Number <span class="text-danger">*</span></label>
+                                <input type="number" class="form-control" value="${data.phone}">
+                            </div>
+                        </div>`;
+    }
+
+
+    // add review html
+    $('#book-appointment .temp-communication-items').remove()
+    $(dataHtml).insertAfter($('#book-appointment #preferred-communication-method'))
+}
+
+async function addCommunicationInfo(communicationId) {
+    //jQuery
+    var token = $("meta[name='_csrf']").attr("content");
+    var header = $("meta[name='_csrf_header']").attr("content");
+
+    let response = await fetch('/doctors/communication-info/' + communicationId, {
+        headers: {
+            'X-CSRF-Token': token,
+            'X-CSRF-HEADER': header
+        },
+        method: 'GET',
+        enctype: 'multipart/form-data'
+    });
+
+    let res = await response.json()
+
+    if (res.status === 'success') { // success
+        // add to communication html
+        addCommunicationInfoHTML(res.data)
+    }
+    else { // error
+        toastr.error('Something went wrong.');
+    }
+}
+
+
+function clearAppointmentItems() {
+    // define query selector
+    let communicationSelector = '#book-appointment #appointment-communicationId select.form-select'
+    let shortExplanationSelector = '#book-appointment #appointment-shortExplanation textarea'
+    let termsAcceptSelector = '#book-appointment #appointment-termsAccept input[type="checkbox"]'
+
+    // clear items
+    $(communicationSelector).val('')
+    $(shortExplanationSelector).val('')
+    $(termsAcceptSelector).prop('checked', false)
+    $('#book-appointment .temp-communication-items').remove()
+}
+
+function hideAppointmentErrors() {
+    let jQuerySelector = `#book-appointment .form-error`
+
+    // remove error
+    $(jQuerySelector).removeClass('form-error')
+    $(`#book-appointment .appointment-text-danger`).remove()
+}
+
+function showAppointmentErrors(field, message) {
+    let jQuerySelector = `#book-appointment #appointment-${field}`
+
+    // show error
+    $(jQuerySelector).addClass('form-error')
+    $(jQuerySelector).append(`<p class="appointment-text-danger text-danger error-appointment-${field}">${message}</p>`)
+}
+
+function hideAppointmentSuccessMessage() {
+    $('#appointment-success').remove()
+}
+
+function showAppointmentSuccessMessage() {
+    hideAppointmentSuccessMessage()
+
+    let message = ` <div id="appointment-success" class="alert alert-success alert-dismissible fade show" role="alert">
+                        Appointment has been booked successfully.
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>`;
+
+    $(message).insertBefore($('#book-appointment'));
+
+    let formErrorArea = `#appointment-success`;
+    let headerHeight = $('.header').height()
+    let position = $(formErrorArea).offset().top - headerHeight;
+    $("html, body").animate({ scrollTop: position }, "slow");
+}
+
+function getAppointmentData() {
+    // define query selector
+    let communicationSelector = '#book-appointment #appointment-communicationId select.form-select'
+    let patientPhoneSelector = '#book-appointment #appointment-patientPhoneNumber input[type="number"]'
+    let shortExplanationSelector = '#book-appointment #appointment-shortExplanation textarea'
+    let termsAcceptSelector = '#book-appointment #appointment-termsAccept input[type="checkbox"]'
+    let doctorIdSelector = '#doctor-id'
+
+    // disable input and button
+    let affectedItemList = []
+
+    affectedItemList.push(communicationSelector)
+    affectedItemList.push(patientPhoneSelector)
+    affectedItemList.push(termsAcceptSelector)
+    affectedItemList.push('#book-appointment #book-appointment-btn button[type="submit"]')
+
+    disableItems(affectedItemList)
+
+
+    // get data
+    let doctorId = $(doctorIdSelector).val()
+    let communicationId = $(communicationSelector).val()
+    let patientPhoneNumber = $(patientPhoneSelector).val();
+    let shortExplanation = $(shortExplanationSelector).val();
+
+    let termsAccept = $(termsAcceptSelector).prop('checked')
+
+    if(termsAccept === undefined)
+        termsAccept = false;
+
+
+    // ********** form data (begin) ********** //
+    let formData = new FormData();
+
+    console.log(shortExplanation)
+
+    // profile photo
+    formData.append("doctorId", doctorId);
+    formData.append("communicationId", communicationId);
+    formData.append("patientPhoneNumber", patientPhoneNumber);
+    formData.append("shortExplanation", shortExplanation);
+    formData.append("termsAccept", termsAccept);
+    // ********** form data (end) ********** //
+
+
+    return {
+        affectedItemList,
+        formData
+    };
+}
+
+async function bookAppointment() {
+    //jQuery
+    var token = $("meta[name='_csrf']").attr("content");
+    var header = $("meta[name='_csrf_header']").attr("content");
+
+    let resultObject = getAppointmentData();
+    let formData = resultObject.formData;
+    let affectedItemList = resultObject.affectedItemList;
+
+    let response = await fetch($('#book-appointment').attr('action'), {
+        headers: {
+            'X-CSRF-Token': token,
+            'X-CSRF-HEADER': header
+        },
+        method: $('#book-appointment').attr('method'),
+        enctype: 'multipart/form-data',
+        body: formData
+    });
+
+    let res = await response.json()
+
+    if (res.status === 'login') { // not auth or not patient
+        location.replace('/login')
+    }
+    else if (res.status === 'success') { // success
+        // enable items
+        enableItems(affectedItemList)
+
+        // hide errors
+        hideAppointmentErrors()
+
+        // show success message
+        showAppointmentSuccessMessage()
+
+        // clear items
+        clearAppointmentItems()
+    }
+    else { // error
+        // hide success message
+        hideAppointmentSuccessMessage()
+
+        // hide errors
+        hideAppointmentErrors()
+
+        // show errors
+        if (res.errors != null) {
+            for (let j = 0; j < res.errors.length; j++) {
+
+                showAppointmentErrors(
+                    res.errors[j].field,
+                    res.errors[j].defaultMessage
+                )
+            }
+
+        }
+
+        let formErrorArea = `#book-appointment .form-error`;
+        let headerHeight = $('.header').height()
+        let position = $(formErrorArea).offset().top - headerHeight;
+        $("html, body").animate({ scrollTop: position }, "slow");
+
+        // enable items
+        enableItems(affectedItemList)
+    }
+}

@@ -186,7 +186,7 @@ public class UserServiceImpl implements UserService {
 
                 Long fileId = fileService.saveFile(fileDto);
 
-                if (userEntity.getClinicImgIds().equals("") || userEntity.getClinicImgIds() == null || userEntity.getClinicImgIds().equals(" "))
+                if (userEntity.getClinicImgIds() == null /*userEntity.getClinicImgIds().equals("") ||  || userEntity.getClinicImgIds().equals(" ")*/)
                     userEntity.setClinicImgIds(String.valueOf(fileId));
                 else
                     userEntity.setClinicImgIds(userEntity.getClinicImgIds() + "," + fileId);
@@ -717,6 +717,25 @@ public class UserServiceImpl implements UserService {
         doctorDto.setAddressShort(addressShort);
 
         return doctorDto;
+    }
+
+    @Override
+    public CommunicationInfoDto getCommunicationInfo() {
+        CommunicationInfoDto communicationInfoDto = new CommunicationInfoDto();
+
+        if(!authService.isAuthenticated()) { // Not Authenticated
+            return communicationInfoDto;
+        }
+
+        Long userId = authService.getUserId();
+        UserEntity userEntity = findById(userId);
+
+        communicationInfoDto.setUserId(userId);
+        communicationInfoDto.setPhone(userEntity.getPhoneNumber());
+        communicationInfoDto.setWhatsapp(userEntity.getPhoneNumber());
+        communicationInfoDto.setEmail(userEntity.getEmail());
+
+        return communicationInfoDto;
     }
 
 

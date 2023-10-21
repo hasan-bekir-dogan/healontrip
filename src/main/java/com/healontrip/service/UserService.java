@@ -19,6 +19,7 @@ public interface UserService {
     List<DoctorsDto> getDoctors();
     List<DoctorsDto> getDoctors(SearchFilterDto searchFilterDto);
     DoctorDto getDoctor(Long id);
+    CommunicationInfoDto getCommunicationInfo();
 
     // model mapper
     UserBarDto UserEntityToUserBarDto(UserEntity userEntity);

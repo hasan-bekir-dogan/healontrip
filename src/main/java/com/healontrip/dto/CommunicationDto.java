@@ -5,15 +5,13 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.extern.log4j.Log4j2;
-import org.springframework.web.multipart.MultipartFile;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
 @Log4j2
-public class EmailDetailsDto {
-    private String receiver;
-    private String subject;
-    private Object data;
+public class CommunicationDto {
+    private Long id;
+    private String name;
 }
