@@ -1,7 +1,9 @@
 package com.healontrip.controller.crm;
 
 import com.healontrip.dto.*;
+import com.healontrip.entity.CommunicationEntity;
 import com.healontrip.service.AuthService;
+import com.healontrip.service.CommunicationService;
 import com.healontrip.service.UserService;
 import com.healontrip.util.IpConfigUtil;
 import jakarta.servlet.http.HttpServletRequest;
@@ -21,6 +23,9 @@ public class ProfileController {
 
     @Autowired
     private AuthService authService;
+
+    @Autowired
+    private CommunicationService communicationService;
 
     @GetMapping("/profile")
     public String profile(Model model,

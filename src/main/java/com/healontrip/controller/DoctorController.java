@@ -1,11 +1,10 @@
 package com.healontrip.controller;
 
 import com.healontrip.dto.*;
+import com.healontrip.entity.CommunicationEntity;
 import com.healontrip.entity.ExperienceYearEntity;
 import com.healontrip.repository.ExperienceYearRepository;
-import com.healontrip.service.ReviewService;
-import com.healontrip.service.SpecialistService;
-import com.healontrip.service.UserService;
+import com.healontrip.service.*;
 import com.healontrip.util.IpConfigUtil;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
@@ -23,6 +22,9 @@ import java.util.List;
 @Controller
 public class DoctorController {
     @Autowired
+    private AuthService authService;
+
+    @Autowired
     private UserService userService;
 
     @Autowired
@@ -32,7 +34,13 @@ public class DoctorController {
     private ReviewService reviewService;
 
     @Autowired
+    private CommunicationService communicationService;
+
+    @Autowired
     private ExperienceYearRepository experienceYearRepository;
+
+    @Autowired
+    private AppointmentService appointmentService;
 
     @GetMapping("/doctors/{id}")
     public String detail(Model model,
@@ -46,6 +54,7 @@ public class DoctorController {
         DoctorDto doctorDto = userService.getDoctor(id);
         List<ReviewsDto> reviewsDtoList = reviewService.getReviews(id, 5, 0);
         ReviewsDto reviewsDto = reviewService.getReview(id);
+        List<CommunicationDto> communicationDtoList = communicationService.getAllCommunications();
 
         model.addAttribute("user", userBarDto);
         model.addAttribute("doctor", doctorDto);
@@ -58,6 +67,7 @@ public class DoctorController {
         model.addAttribute("membershipList", doctorDto.getMembershipList());
         model.addAttribute("reviewList", reviewsDtoList);
         model.addAttribute("reviewInfo", reviewsDto);
+        model.addAttribute("communications", communicationDtoList);
 
         return "doctor-detail";
     }
@@ -159,6 +169,54 @@ public class DoctorController {
         model.addAttribute("currentPage", pageNumber);
 
         return "doctor-reviews";
+    }
+
+    @PostMapping("/doctors/book-appointment")
+    public ResponseEntity<Object> bookAppointment(@ModelAttribute @Valid AppointmentDto appointmentDto,
+                                                  HttpServletRequest request){
+        // coming soon
+        if(!IpConfigUtil.checkAdminIp(request))
+            return new ResponseEntity<>(new GeneralResponseWithDataDto("fail", new Object()), HttpStatus.NOT_FOUND);
+
+        if (!authService.isAuthenticated())
+            return new ResponseEntity<>(new GeneralResponseWithoutDataDto("login"), HttpStatus.OK);
+        else if (!authService.getRole().equals(Role.PATIENT.toString()))
+            return new ResponseEntity<>(new GeneralResponseWithoutDataDto("login"), HttpStatus.OK);
+
+        try {
+            appointmentService.createAppointment(appointmentDto);
+
+            return new ResponseEntity<>(new GeneralResponseWithoutDataDto("success"), HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(e, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @GetMapping("/doctors/communication-info/{id}")
+    public ResponseEntity<Object> getCommunicationInfo(@PathVariable Long id,
+                                                       HttpServletRequest request){
+        // coming soon
+        if(!IpConfigUtil.checkAdminIp(request))
+            return new ResponseEntity<>(new GeneralResponseWithDataDto("fail", new Object()), HttpStatus.NOT_FOUND);
+
+        try {
+            CommunicationInfoDto communicationInfoDto = new CommunicationInfoDto();
+
+            if (!authService.isAuthenticated())
+                return new ResponseEntity<>(new GeneralResponseWithDataDto("success", communicationInfoDto), HttpStatus.OK);
+            else if (!authService.getRole().equals(Role.PATIENT.toString()))
+                return new ResponseEntity<>(new GeneralResponseWithDataDto("success", communicationInfoDto), HttpStatus.OK);
+
+            communicationInfoDto = userService.getCommunicationInfo();
+
+            CommunicationEntity communicationEntity = communicationService.findById(id);
+            communicationInfoDto.setName(communicationEntity.getName().toUpperCase());
+            communicationInfoDto.setId(id);
+
+            return new ResponseEntity<>(new GeneralResponseWithDataDto("success", communicationInfoDto), HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(e, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 
 }
