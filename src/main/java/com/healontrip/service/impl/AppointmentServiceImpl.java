@@ -1,15 +1,12 @@
 package com.healontrip.service.impl;
 
 import com.healontrip.dto.AppointmentDto;
-import com.healontrip.dto.EmailDetailsDto;
 import com.healontrip.entity.AppointmentEntity;
-import com.healontrip.entity.UserEntity;
 import com.healontrip.exception.ResourceNotFoundException;
 import com.healontrip.repository.AppointmentRepository;
 import com.healontrip.service.AppointmentService;
 import com.healontrip.service.AuthService;
-import com.healontrip.service.EmailService;
-import com.healontrip.service.UserService;
+import com.healontrip.service.MailService;
 import jakarta.mail.MessagingException;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,7 +25,7 @@ public class AppointmentServiceImpl implements AppointmentService {
     private AuthService authService;
 
     @Autowired
-    private EmailService emailService;
+    private MailService mailService;
 
     @Autowired
     private ModelMapper modelMapper;
@@ -47,11 +44,11 @@ public class AppointmentServiceImpl implements AppointmentService {
 
         // send email to patient
         AppointmentDto patientData = EntitytoDto(appointmentEntity);
-        emailService.sendMailToPatientForAppointment(patientData);
+        mailService.sendMailToPatientForAppointment(patientData);
 
         // send email to doctor
         AppointmentDto doctorData = EntitytoDto(appointmentEntity);
-        emailService.sendMailToDoctorForAppointment(doctorData); // this is temporary function. It will be adjusted in the future
+        mailService.sendMailToDoctorForAppointment(doctorData); // this is temporary function. It will be adjusted in the future
     }
 
     @Override

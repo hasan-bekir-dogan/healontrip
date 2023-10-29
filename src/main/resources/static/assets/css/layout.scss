@@ -47,14 +47,18 @@ input[type=number] {
     padding-left: 1px;
   }
 }
+.alert.alert-danger {
+  >ul {
+    margin-bottom: unset;
+  }
+}
 
 
-
-// error pages (begin)
+/*// error pages (begin)
 .main{
   background-color: $form-red-color;
 }
-// error pages (end)
+// error pages (end)*/
 
 
 

@@ -429,8 +429,6 @@ function getAppointmentData() {
     // ********** form data (begin) ********** //
     let formData = new FormData();
 
-    console.log(shortExplanation)
-
     // profile photo
     formData.append("doctorId", doctorId);
     formData.append("communicationId", communicationId);
@@ -503,6 +501,194 @@ async function bookAppointment() {
         }
 
         let formErrorArea = `#book-appointment .form-error`;
+        let headerHeight = $('.header').height()
+        let position = $(formErrorArea).offset().top - headerHeight;
+        $("html, body").animate({ scrollTop: position }, "slow");
+
+        // enable items
+        enableItems(affectedItemList)
+    }
+}
+
+
+function clearResetPasswordItems() {
+    // define query selector
+    let passwordSelector = '#reset-password #password input'
+    let passwordRepeatSelector = '#reset-password #passwordRepeat input'
+
+    // clear items
+    $(passwordSelector).val('')
+    $(passwordRepeatSelector).val('')
+}
+
+function hideResetPasswordErrors() {
+    let jQuerySelector = `#reset-password .form-error`
+
+    // remove error alert message
+    $('#reset-password-fail').remove()
+
+    // remove error inline
+    $(jQuerySelector).removeClass('form-error')
+    $(`#reset-password .reset-password-text-danger`).remove()
+}
+
+function showResetPasswordErrors(field, message) {
+    let jQuerySelector = `#reset-password #${field}`
+
+    // show error alert message
+    if ($(jQuerySelector).html() == '' || $(jQuerySelector).html() == undefined) {
+
+        if ($('#reset-password-fail').html() == '' || $('#reset-password-fail').html() == undefined) {
+            let messagefail = ` <div id="reset-password-fail" class="alert alert-danger" role="alert">
+                                    <ul>
+                                        <li>${message}</li>
+                                    </ul>
+                                </div>`;
+
+            $(messagefail).insertBefore($('#reset-password'));
+        } else {
+            $('#reset-password-fail >ul').append(`<li>${message}</li>`)
+        }
+    }
+
+    // show error inline
+    $(jQuerySelector).addClass('form-error')
+    $(jQuerySelector).append(`<p class="reset-password-text-danger text-danger error-reset-password-${field}">${message}</p>`)
+}
+
+function hideResetPasswordSuccessMessage() {
+    $('#reset-password-success').remove()
+}
+
+function showResetPasswordSuccessMessage() {
+    hideResetPasswordSuccessMessage()
+
+    let message = ` <div id="reset-password-success" class="alert alert-success alert-dismissible fade show" role="alert">
+                        Your password has been changed successfully.
+                        <br>
+                        You will be redirected to login page in <span id="count-down">3</span> second.
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>`;
+
+    $(message).insertBefore($('#reset-password'));
+
+    let formErrorArea = `#reset-password-success`;
+    let headerHeight = $('.header').height()
+    let position = $(formErrorArea).offset().top - headerHeight;
+    $("html, body").animate({ scrollTop: position }, "slow");
+
+    // count down and redirect to login page
+    let count = 2;
+    let countdown = setInterval(function () {
+        $("#reset-password-success #count-down").html(count);
+
+        if (count == 1) {
+            setTimeout(function () {
+                window.location.replace("/login");
+            },1000);
+
+            clearInterval(countdown)
+        }
+
+        count --
+    }, 1000)
+}
+
+function getResetPasswordData() {
+    // define query selector
+    let userIdSelector = '#reset-password #userId'
+    let resetTokenSelector = '#reset-password #resetToken'
+    let passwordSelector = '#reset-password #password input'
+    let passwordRepeatSelector = '#reset-password #passwordRepeat input'
+
+    // disable input and button
+    let affectedItemList = []
+
+    affectedItemList.push(userIdSelector)
+    affectedItemList.push(resetTokenSelector)
+    affectedItemList.push(passwordSelector)
+    affectedItemList.push(passwordRepeatSelector)
+    affectedItemList.push('#reset-password button[type="submit"]')
+
+    disableItems(affectedItemList)
+
+
+    // get data
+    let userId = $(userIdSelector).val()
+    let resetToken = $(resetTokenSelector).val()
+    let password = $(passwordSelector).val();
+    let passwordRepeat = $(passwordRepeatSelector).val();
+
+
+    // ********** form data (begin) ********** //
+    let formData = new FormData();
+
+    // profile photo
+    formData.append("userId", userId);
+    formData.append("resetToken", resetToken);
+    formData.append("password", password);
+    formData.append("passwordRepeat", passwordRepeat);
+    // ********** form data (end) ********** //
+
+
+    return {
+        affectedItemList,
+        formData
+    };
+}
+
+async function resetPassword() {
+    //jQuery
+    var token = $("meta[name='_csrf']").attr("content");
+    var header = $("meta[name='_csrf_header']").attr("content");
+
+    let resultObject = getResetPasswordData();
+    let formData = resultObject.formData;
+    let affectedItemList = resultObject.affectedItemList;
+
+    let response = await fetch($('#reset-password').attr('action'), {
+        headers: {
+            'X-CSRF-Token': token,
+            'X-CSRF-HEADER': header
+        },
+        method: $('#reset-password').attr('method'),
+        enctype: 'multipart/form-data',
+        body: formData
+    });
+
+    let res = await response.json()
+
+    if (res.status === 'success') { // success
+        // enable items
+        enableItems(affectedItemList)
+
+        // hide errors
+        hideResetPasswordErrors()
+
+        // show success message
+        showResetPasswordSuccessMessage()
+
+        // clear items
+        clearResetPasswordItems()
+    }
+    else { // error
+        // hide success message
+        hideResetPasswordSuccessMessage()
+
+        // hide errors
+        hideResetPasswordErrors()
+
+        // show errors
+        if (res.errors != null) {
+            for (let j = 0; j < res.errors.length; j++) {
+                showResetPasswordErrors(
+                    res.errors[j].field,
+                    res.errors[j].defaultMessage
+                )
+            }
+        }
+
+        let formErrorArea = `#reset-password .form-error`;
         let headerHeight = $('.header').height()
         let position = $(formErrorArea).offset().top - headerHeight;
         $("html, body").animate({ scrollTop: position }, "slow");

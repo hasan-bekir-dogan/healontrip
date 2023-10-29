@@ -74,10 +74,15 @@ input[type=number] {
   padding-left: 1px;
 }
 
-.main {
-  background-color: #ff0100;
+.alert.alert-danger > ul {
+  margin-bottom: unset;
 }
 
+/*// error pages (begin)
+.main{
+  background-color: $form-red-color;
+}
+// error pages (end)*/
 .dashboard-menu > ul > li > form > a {
   color: #757575;
   display: block;

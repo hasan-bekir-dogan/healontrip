@@ -44,13 +44,18 @@ $('#review-doctor').on('submit', function (e) {
 })
 
 // book appointment
+$('#book-appointment #appointment-communicationId select.form-select').on('change', function (e) {
+    addCommunicationInfo($(this).val());
+})
 $('#book-appointment').on('submit', function (e) {
     e.preventDefault();
 
     bookAppointment();
 })
 
-// book appointment
-$('#book-appointment #appointment-communicationId select.form-select').on('change', function (e) {
-    addCommunicationInfo($(this).val());
+// reset password
+$('#reset-password').on('submit', function (e) {
+    e.preventDefault();
+
+    resetPassword()
 })

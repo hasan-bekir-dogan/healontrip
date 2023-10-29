@@ -20,6 +20,8 @@ public interface UserService {
     List<DoctorsDto> getDoctors(SearchFilterDto searchFilterDto);
     DoctorDto getDoctor(Long id);
     CommunicationInfoDto getCommunicationInfo();
+    void createPasswordResetToken(String email, String token);
+    void updatePassword(ResetPasswordDto passwordDto);
 
     // model mapper
     UserBarDto UserEntityToUserBarDto(UserEntity userEntity);
