@@ -1,15 +1,14 @@
 package com.healontrip.service.impl;
 
 import com.healontrip.dto.AppointmentDto;
-import com.healontrip.dto.EmailDetailsDto;
 import com.healontrip.entity.UserEntity;
 import com.healontrip.service.*;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.InternetAddress;
 import jakarta.mail.internet.MimeMessage;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.i18n.LocaleContextHolder;
-import org.springframework.core.io.ClassPathResource;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
@@ -19,9 +18,10 @@ import org.thymeleaf.context.Context;
 import org.thymeleaf.spring6.SpringTemplateEngine;
 
 import java.io.UnsupportedEncodingException;
+import java.util.UUID;
 
 @Service
-public class EmailServiceImpl implements EmailService {
+public class MailServiceImpl implements MailService {
 
     @Autowired
     private JavaMailSender mailSender;
@@ -100,6 +100,38 @@ public class EmailServiceImpl implements EmailService {
         //ClassPathResource clr = new ClassPathResource(SPRING_LOGO_IMAGE);
 
         //email.addInline("springLogo", clr, pngMime);
+
+        mailSender.send(mimeMessage);
+    }
+
+    public void sendMailToUserForResetPassword(HttpServletRequest request, String receiverMail) throws MessagingException, UnsupportedEncodingException {
+        String tempplateName = "emails/reset-password";
+        String subject = "Reset Password";
+
+        final MimeMessage mimeMessage = mailSender.createMimeMessage();
+        final MimeMessageHelper email = new MimeMessageHelper(mimeMessage, true, "UTF-8");
+
+        // properties
+        email.setTo(receiverMail);
+        email.setSubject(subject);
+        email.setFrom(new InternetAddress(sender, mailFromName));
+
+        // HTML Body
+        final Context ctx = new Context(LocaleContextHolder.getLocale());
+
+        String token = UUID.randomUUID().toString();
+        userService.createPasswordResetToken(receiverMail, token);
+
+        String baseUrl = request.getScheme() + "://" + request.getServerName();
+        UserEntity userEntity = userService.findByEmail(receiverMail);
+        String url = baseUrl + "/reset-password?uid=" + userEntity.getId() + "&token=" + token;
+
+        ctx.setVariable("subject", subject);
+        ctx.setVariable("url", url);
+
+        final String htmlContent = templateEngine.process(tempplateName, ctx);
+
+        email.setText(htmlContent, true);
 
         mailSender.send(mimeMessage);
     }

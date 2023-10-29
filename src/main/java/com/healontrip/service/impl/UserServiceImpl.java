@@ -1,17 +1,12 @@
 package com.healontrip.service.impl;
 
 import com.healontrip.dto.*;
-import com.healontrip.entity.EducationEntity;
-import com.healontrip.entity.FileEntity;
-import com.healontrip.entity.SpecialistEntity;
-import com.healontrip.entity.UserEntity;
+import com.healontrip.entity.*;
 import com.healontrip.exception.ResourceNotFoundException;
-import com.healontrip.repository.EducationRepository;
-import com.healontrip.repository.FileRepository;
-import com.healontrip.repository.SpecialistRepository;
-import com.healontrip.repository.UserRepository;
+import com.healontrip.repository.*;
 import com.healontrip.service.*;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.time.DateUtils;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -22,6 +17,7 @@ import jakarta.servlet.http.HttpSession;
 import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.Instant;
 import java.util.*;
 
 
@@ -68,6 +64,9 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     private ModelMapper modelMapper;
+
+    @Autowired
+    private PasswordResetTokenRepository passwordResetTokenRepository;
 
     @Autowired
     HttpSession session;
@@ -738,6 +737,31 @@ public class UserServiceImpl implements UserService {
         return communicationInfoDto;
     }
 
+    @Override
+    public void createPasswordResetToken(String email, String token) {
+        PasswordResetTokenEntity myToken = new PasswordResetTokenEntity();
+
+        myToken.setToken(token);
+
+        UserEntity userEntity = findByEmail(email);
+        myToken.setUserId(userEntity.getId());
+
+        passwordResetTokenRepository.save(myToken);
+
+        myToken.setExpiryDate(DateUtils.addMinutes(myToken.getCreatedDate(), PasswordResetTokenEntity.EXPIRATION));
+
+        passwordResetTokenRepository.save(myToken);
+    }
+
+    @Override
+    public void updatePassword(ResetPasswordDto resetPasswordDto) {
+        // update user password
+        UserEntity userEntity = findById(resetPasswordDto.getUserId());
+
+        userEntity.setPassword(passwordEncoder.encode(resetPasswordDto.getPassword()));
+
+        userRepository.save(userEntity);
+    }
 
     ////////////////////////////////////////////////////////////////////////////////////////
     // Model Mapper
