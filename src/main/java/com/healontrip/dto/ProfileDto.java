@@ -23,8 +23,14 @@ public class ProfileDto {
     private Long id;
     private String email;
 
-    @NotEmpty(message = "Name must have value")
-    private String name;
+    @NotEmpty(message = "Username must have value")
+    private String userName;
+
+    @NotEmpty(message = "First Name must have value")
+    private String firstName;
+
+    @NotEmpty(message = "Last Name must have value")
+    private String lastName;
 
     private String role;
     private String phone;

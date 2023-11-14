@@ -5,6 +5,7 @@ import com.healontrip.entity.UserEntity;
 import com.healontrip.service.MailService;
 import com.healontrip.service.SecurityService;
 import com.healontrip.service.UserService;
+import com.healontrip.service.ValidationService;
 import com.healontrip.util.IpConfigUtil;
 import jakarta.mail.MessagingException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -31,6 +32,9 @@ public class AuthController {
     private SecurityService securityService;
 
     @Autowired
+    private ValidationService validationService;
+
+    @Autowired
     private MailService mailService;
 
     @GetMapping("/login")
@@ -53,73 +57,23 @@ public class AuthController {
 
         model.addAttribute("user", userDto);
 
-        return "auth/register-patient";
+        return "auth/register";
     }
 
     @PostMapping("/register")
-    public String registration(@Valid @ModelAttribute("user") UserDto userDto,
-                               BindingResult result,
-                               Model model,
-                               HttpServletRequest request) {
+    public ResponseEntity<Object> register(@ModelAttribute UserDto userDto,
+                                           HttpServletRequest request) {
         // coming soon
         if(!IpConfigUtil.checkAdminIp(request))
-            return IpConfigUtil.getRedirectPage();
+            return new ResponseEntity<>(new GeneralResponseWithDataDto("fail", new Object()), HttpStatus.NOT_FOUND);
 
-        UserEntity existing = userService.findByEmail(userDto.getEmail());
+        try {
+            userService.saveUser(userDto);
 
-        if(existing != null){
-            result.rejectValue("email", null, "There is already an account registered with that email");
+            return new ResponseEntity<>(new GeneralResponseWithoutDataDto("success"), HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(e, HttpStatus.INTERNAL_SERVER_ERROR);
         }
-        if(result.hasErrors()) {
-            model.addAttribute("user", userDto);
-
-            return "auth/register-patient";
-        }
-
-        userDto.setRole(Role.PATIENT);
-        userService.saveUser(userDto);
-
-        return "redirect:/register?success";
-    }
-
-    @GetMapping("/doctor-register")
-    public String registerDoctor(Model model,
-                                 HttpServletRequest request) {
-        // coming soon
-        if(!IpConfigUtil.checkAdminIp(request))
-            return IpConfigUtil.getRedirectPage();
-
-        UserDto userDto = new UserDto();
-
-        model.addAttribute("user", userDto);
-
-        return "auth/register-doctor";
-    }
-
-    @PostMapping("/doctor-register")
-    public String registrationDoctor(@Valid @ModelAttribute("user") UserDto userDto,
-                                     BindingResult result,
-                                     Model model,
-                                     HttpServletRequest request) {
-        // coming soon
-        if(!IpConfigUtil.checkAdminIp(request))
-            return IpConfigUtil.getRedirectPage();
-
-        UserEntity existing = userService.findByEmail(userDto.getEmail());
-
-        if(existing != null){
-            result.rejectValue("email", null, "There is already an account registered with that email");
-        }
-        if(result.hasErrors()) {
-            model.addAttribute("user", userDto);
-
-            return "auth/register-doctor";
-        }
-
-        userDto.setRole(Role.DOCTOR);
-        userService.saveUser(userDto);
-
-        return "redirect:/doctor-register?success";
     }
 
     @GetMapping("/forgot-password")
@@ -176,10 +130,10 @@ public class AuthController {
             List<GeneralErrorsDto> errors = new ArrayList<>();
             GeneralErrorsDto errorsDto;
 
+            UserEntity userEntity = userService.findById(resetPasswordDto.getUserId());
+            boolean validateToken = securityService.validateToken(userEntity.getEmail(), resetPasswordDto.getResetToken(), TokenType.RESET_PASSWORD);
 
-            boolean validatePasswordResetToken = securityService.validatePasswordResetToken(resetPasswordDto.getUserId(), resetPasswordDto.getResetToken());
-
-            if (!validatePasswordResetToken) {
+            if (!validateToken) {
                 errorsDto = new GeneralErrorsDto();
                 errorsDto.setField("resetToken");
                 errorsDto.setDefaultMessage("Activation code is invalid");
@@ -210,6 +164,150 @@ public class AuthController {
             // validation (end)
 
             userService.updatePassword(resetPasswordDto);
+
+            return new ResponseEntity<>(new GeneralResponseWithoutDataDto("success"), HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(e, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @PostMapping("/check-account-info")
+    public ResponseEntity<Object> checkAccountInfo(@ModelAttribute UserDto userDto,
+                                                   HttpServletRequest request) {
+        // coming soon
+        if(!IpConfigUtil.checkAdminIp(request))
+            return new ResponseEntity<>(new GeneralResponseWithDataDto("fail", new Object()), HttpStatus.NOT_FOUND);
+
+        try {
+            // validation (begin)
+            List<GeneralErrorsDto> errors = new ArrayList<>();
+            GeneralErrorsDto errorsDto;
+
+            if (userDto.getFirstName() == null || userDto.getFirstName().trim().equals("")) {
+                errorsDto = new GeneralErrorsDto();
+                errorsDto.setField("firstName");
+                errorsDto.setDefaultMessage("First Name must have a value");
+                errors.add(errorsDto);
+            }
+            if (userDto.getLastName() == null || userDto.getLastName().trim().equals("")) {
+                errorsDto = new GeneralErrorsDto();
+                errorsDto.setField("lastName");
+                errorsDto.setDefaultMessage("Last Name must have a value");
+                errors.add(errorsDto);
+            }
+            if (userDto.getPhoneNumber() == null || userDto.getPhoneNumber().trim().equals("")) {
+                errorsDto = new GeneralErrorsDto();
+                errorsDto.setField("phoneNumber");
+                errorsDto.setDefaultMessage("Phone Number must have a value");
+                errors.add(errorsDto);
+            }
+            if (userDto.getPassword() == null || userDto.getPassword().trim().equals("")) {
+                errorsDto = new GeneralErrorsDto();
+                errorsDto.setField("password");
+                errorsDto.setDefaultMessage("Password must have a value");
+                errors.add(errorsDto);
+            } else if (!validationService.validPassword(userDto.getPassword())){
+                errorsDto = new GeneralErrorsDto();
+                errorsDto.setField("password");
+                errorsDto.setDefaultMessage("At least one lowercase letter(a - z).</br>" +
+                                            "At least one uppercase letter(A - Z).</br>" +
+                                            "At least one numeric value(0-9).</br>" +
+                                            "At least one special symbol(!@#$%^&*=+-_)</br>" +
+                                            "The total length should be greater than or equal to 8 and less or equal to 16.");
+                errors.add(errorsDto);
+            }
+
+            UserEntity existingUserName = userService.findByUserName(userDto.getUserName());
+
+            if (userDto.getUserName() == null || userDto.getUserName().trim().equals("")) {
+                errorsDto = new GeneralErrorsDto();
+                errorsDto.setField("userName");
+                errorsDto.setDefaultMessage("Username must have a value");
+                errors.add(errorsDto);
+            } else if (!validationService.validUsername(userDto.getUserName())){
+                errorsDto = new GeneralErrorsDto();
+                errorsDto.setField("userName");
+                errorsDto.setDefaultMessage("Username must be between 8 and 20 characters.</br>Allowed characters: a-z, A-Z, 0-9");
+                errors.add(errorsDto);
+            } else if (existingUserName != null){
+                errorsDto = new GeneralErrorsDto();
+                errorsDto.setField("userName");
+                errorsDto.setDefaultMessage("There is already an account registered with that username");
+                errors.add(errorsDto);
+            }
+
+            UserEntity existingUserEmail = userService.findByEmail(userDto.getEmail());
+
+            if (userDto.getEmail() == null || userDto.getEmail().trim().equals("")) {
+                errorsDto = new GeneralErrorsDto();
+                errorsDto.setField("email");
+                errorsDto.setDefaultMessage("Email must have a value");
+                errors.add(errorsDto);
+            } else if (!validationService.validEmail(userDto.getEmail())){
+                errorsDto = new GeneralErrorsDto();
+                errorsDto.setField("email");
+                errorsDto.setDefaultMessage("Email must be valid");
+                errors.add(errorsDto);
+            } else if (existingUserEmail != null){
+                errorsDto = new GeneralErrorsDto();
+                errorsDto.setField("email");
+                errorsDto.setDefaultMessage("There is already an account registered with that email");
+                errors.add(errorsDto);
+            }
+
+
+            if (!errors.isEmpty())
+                return new ResponseEntity<>(new GeneralResponseWithErrorsDto("fail", errors), HttpStatus.BAD_REQUEST);
+            // validation (end)
+
+            mailService.sendMailToUserForMailVerification(userDto.getEmail());
+
+            return new ResponseEntity<>(new GeneralResponseWithoutDataDto("success"), HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(e, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @PostMapping("/email-verification-code")
+    public ResponseEntity<Object> emailVerificationCode(@ModelAttribute UserDto userDto,
+                                                        HttpServletRequest request) {
+        // coming soon
+        if(!IpConfigUtil.checkAdminIp(request))
+            return new ResponseEntity<>(new GeneralResponseWithDataDto("fail", new Object()), HttpStatus.NOT_FOUND);
+
+        try {
+            mailService.sendMailToUserForMailVerification(userDto.getEmail());
+
+            return new ResponseEntity<>(new GeneralResponseWithoutDataDto("success"), HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(e, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @PostMapping("/verify-account")
+    public ResponseEntity<Object> verifyAccount(@ModelAttribute VerifyAccountDto verifyAccountDto,
+                                                HttpServletRequest request) {
+        // coming soon
+        if(!IpConfigUtil.checkAdminIp(request))
+            return new ResponseEntity<>(new GeneralResponseWithDataDto("fail", new Object()), HttpStatus.NOT_FOUND);
+
+        try {
+            // validation (begin)
+            List<GeneralErrorsDto> errors = new ArrayList<>();
+            GeneralErrorsDto errorsDto;
+
+            boolean validateToken = securityService.validateToken(verifyAccountDto.getEmail(), verifyAccountDto.getCode(), TokenType.EMAIL_VERIFICATION);
+
+            if (!validateToken) {
+                errorsDto = new GeneralErrorsDto();
+                errorsDto.setField("verificationCode");
+                errorsDto.setDefaultMessage("Verification code is invalid");
+                errors.add(errorsDto);
+            }
+
+            if (!errors.isEmpty())
+                return new ResponseEntity<>(new GeneralResponseWithErrorsDto("fail", errors), HttpStatus.BAD_REQUEST);
+            // validation (end)
 
             return new ResponseEntity<>(new GeneralResponseWithoutDataDto("success"), HttpStatus.OK);
         } catch (Exception e) {

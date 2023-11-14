@@ -135,7 +135,7 @@ public class BlogServiceImpl implements BlogService {
             imgSrc = fileService.getFileSrc(fileEntity.getId());
 
             blog.setUserImgSrc(imgSrc);
-            blog.setUserName(RolePrefix.DOCTOR.getPre() + userEntity.getName());
+            blog.setUserName(RolePrefix.DOCTOR.getPre() + userEntity.getFirstName() + userEntity.getLastName());
             blog.setUserImgAlt(fileEntity.getAlt());
             // User info (end)
 
@@ -181,7 +181,7 @@ public class BlogServiceImpl implements BlogService {
         // User info (begin)
         UserEntity userEntity = userService.findById(blogEntity.getUserId());
 
-        blogsDto.setUserName(RolePrefix.DOCTOR.getPre() + userEntity.getName());
+        blogsDto.setUserName(RolePrefix.DOCTOR.getPre() + userEntity.getFirstName() + userEntity.getLastName());
         blogsDto.setBiography(userEntity.getBiography());
 
         // Profile Photo

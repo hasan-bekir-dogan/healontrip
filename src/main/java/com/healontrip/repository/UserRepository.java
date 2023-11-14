@@ -62,4 +62,9 @@ public interface UserRepository extends JpaRepository<UserEntity, Long> {
                                          @Param("specialistNullCheck") boolean specialistNullCheck,
                                          @Param("experienceYearId") int experienceYearId,
                                          @Param("experienceYearNullCheck") boolean experienceYearNullCheck);
+
+    @Query(value = "Select *" +
+            "       From users" +
+            "       Where user_name = :userName", nativeQuery = true)
+    UserEntity findByUserName(@Param("userName") String userName);
 }

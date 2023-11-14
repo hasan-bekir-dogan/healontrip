@@ -59,3 +59,35 @@ $('#reset-password').on('submit', function (e) {
 
     resetPassword()
 })
+
+// select role
+$('.login-content-info .account-content .signup-option-btns .signup-btn-info').on('click', function () {
+    $('.login-content-info .account-content .signup-option-btns .signup-btn-info').removeClass('active')
+    $(this).addClass('active')
+    $('.login-content-info .account-content #first .widget-btn >a').removeClass('disabled')
+})
+
+// next button on first step
+$('.login-content-info .account-content .widget-set .widget-content #first .widget-btn >a').on('click', function () {
+    let role = $('.login-content-info .account-content .signup-option-btns input[type="radio"]:checked').val();
+    addUserAccountRole(role)
+})
+
+// second step
+$('#create-account').on('submit', function (e) {
+    e.preventDefault();
+
+    checkUserAccountInfo()
+})
+
+// get verification code on third step
+$('fieldset#third #verify-account .forgot-link').on('click', function (e) {
+    getEmailVerificationCode()
+})
+
+// verify account on third step
+$('fieldset#third #verify-account').on('submit', function (e) {
+    e.preventDefault();
+
+    verifyAccount()
+})

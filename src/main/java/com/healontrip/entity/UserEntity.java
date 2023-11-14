@@ -22,8 +22,14 @@ public class UserEntity extends BaseEntity implements Serializable{
     @Column(name = "profile_img_id")
     private Long profileImgId;
 
-    @Column(name = "name", nullable = false)
-    private String name;
+    @Column(name = "user_name", nullable = false)
+    private String userName;
+
+    @Column(name = "first_name", nullable = false)
+    private String firstName;
+
+    @Column(name = "last_name", nullable = false)
+    private String lastName;
 
     @Column(name = "phone_number")
     private String phoneNumber;
@@ -70,11 +76,13 @@ public class UserEntity extends BaseEntity implements Serializable{
     @Column(name = "clinic_img_ids")
     private String clinicImgIds;
 
-    public UserEntity(Long profileImgId, String name, String phoneNumber, String email, String password, Role role, Gender gender, Date dateOfBirth,
-                      String biography, String city, String state, String country, String postalCode, String addressLine, String clinicName,
-                      String clinicAddress, String clinicImgIds){
+    public UserEntity(Long profileImgId, String userName, String firstName, String lastName, String phoneNumber, String email, String password,
+                      Role role, Gender gender, Date dateOfBirth, String biography, String city, String state, String country, String postalCode,
+                      String addressLine, String clinicName, String clinicAddress, String clinicImgIds){
         this.profileImgId = profileImgId;
-        this.name = name;
+        this.userName = userName;
+        this.firstName = firstName;
+        this.lastName = lastName;
         this.phoneNumber = phoneNumber;
         this.email = email;
         this.password = password;

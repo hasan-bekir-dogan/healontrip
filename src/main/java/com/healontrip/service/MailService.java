@@ -10,4 +10,5 @@ public interface MailService {
     void sendMailToPatientForAppointment(AppointmentDto data) throws MessagingException, UnsupportedEncodingException;
     void sendMailToDoctorForAppointment(AppointmentDto data) throws MessagingException, UnsupportedEncodingException;
     void sendMailToUserForResetPassword(HttpServletRequest request, String receiverMail) throws MessagingException, UnsupportedEncodingException;
+    void sendMailToUserForMailVerification(String receiverMail) throws MessagingException, UnsupportedEncodingException;
 }

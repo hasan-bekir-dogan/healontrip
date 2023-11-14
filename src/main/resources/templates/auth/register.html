@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+
+    <th:block th:include="fragments/head"></th:block>
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" th:href="@{/assets/css/bootstrap.min.css}">
+
+    <!-- Fontawesome CSS -->
+    <link rel="stylesheet" th:href="@{/assets/plugins/fontawesome/css/fontawesome.min.css}">
+    <link rel="stylesheet" th:href="@{/assets/plugins/fontawesome/css/all.min.css}">
+
+    <!-- Feathericon CSS -->
+    <link rel="stylesheet" th:href="@{/assets/css/feather.css}">
+
+    <!-- Animation CSS -->
+    <link rel="stylesheet" th:href="@{/assets/css/aos.css}">
+
+    <!-- Mobile CSS-->
+    <link rel="stylesheet" th:href="@{/assets/plugins/intltelinput/css/intlTelInput.css}">
+    <link rel="stylesheet" th:href="@{/assets/plugins/intltelinput/css/demo.css}">
+
+    <!-- Main CSS -->
+    <link rel="stylesheet" th:href="@{/assets/css/custom.css}">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" th:href="@{/assets/css/layout.css}">
+
+</head>
+<body class="login-body">
+
+    <!-- Main Wrapper -->
+    <div class="main-wrapper">
+
+        <!-- Header -->
+        <th:block th:include="fragments/header-login"></th:block>
+        <!-- /Header -->
+
+        <!-- Page Content -->
+        <div class="login-content-info">
+            <div class="container">
+
+                <!-- Doctor Signup -->
+                <div class="row justify-content-center">
+                    <div class="col-lg-4 col-md-6">
+                        <div class="account-content">
+                            <div class="login-shapes">
+                                <div class="shape-img-left">
+                                    <img th:src="@{assets/img/shape-01.png}" alt="">
+                                </div>
+                                <div class="shape-img-right">
+                                    <img th:src="@{assets/img/shape-02.png}" alt="">
+                                </div>
+                            </div>
+                            <div class="widget-set">
+                                <div class="account-info">
+                                    <div class="widget-content multistep-form">
+
+                                        <!-- First -->
+                                        <fieldset id="first">
+                                            <div class="login-back">
+                                                <a th:href="@{/login}"><i class="fa-solid fa-arrow-left-long"></i> Back to Login</a>
+                                            </div>
+
+                                            <div class="login-title">
+                                                <h3>Signup</h3>
+                                                <p class="mb-0">Please select your role.</p>
+                                            </div>
+
+                                            <div class="widget-setcount">
+                                                <ul id="progressbar">
+                                                    <li class="progress-active">
+                                                        <div class="step-box">
+                                                            <div class="step-icon">
+                                                                <span>
+                                                                    <img th:src="@{/assets/img/icons/signup-users.svg}" alt="icon">
+                                                                </span>
+                                                            </div>
+                                                            <div class="step-content">
+                                                                <p>Step 1</p>
+                                                                <h4>Select Role</h4>
+                                                            </div>
+                                                        </div>
+                                                    </li>
+                                                    <li>
+                                                        <div class="step-box">
+                                                            <div class="step-icon">
+                                                                <span>
+                                                                    <img th:src="@{/assets/img/icons/signup-users.svg}" alt="icon">
+                                                                </span>
+                                                            </div>
+                                                            <div class="step-content">
+                                                                <p>Step 2</p>
+                                                                <h4>Create Account</h4>
+                                                            </div>
+                                                        </div>
+                                                    </li>
+                                                </ul>
+                                            </div>
+
+                                            <div class="signup-option-btns">
+                                                <input type="radio" id="doctor-role" name="role" value="DOCTOR">
+                                                <label for="doctor-role" class="signup-btn-info">
+                                                    <div class="signup-info">
+                                                        <div class="signup-icon">
+                                                            <img th:src="@{assets/img/icons/doctor-icon.svg}" alt="Doctor Icon">
+                                                        </div>
+                                                        <div class="signup-content">
+                                                            <h4>Doctor</h4>
+                                                            <p>A doctor treats and prevents illnesses.</p>
+                                                        </div>
+                                                    </div>
+                                                </label>
+
+                                                <input type="radio" id="patient-role" name="role" value="PATIENT">
+                                                <label for="patient-role" class="signup-btn-info">
+                                                    <div class="signup-info">
+                                                        <div class="signup-icon">
+                                                            <img th:src="@{assets/img/icons/patient-icon.svg}" alt="Patient Icon">
+                                                        </div>
+                                                        <div class="signup-content">
+                                                            <h4>Patient</h4>
+                                                            <p>A patient receives medical care.</p>
+                                                        </div>
+                                                    </div>
+                                                </label>
+                                            </div>
+
+                                            <div class="widget-btn">
+                                                <a href="javascript:void(0);" class="btn btn-primary btn-block next_btn disabled">Next</a>
+                                            </div>
+                                        </fieldset>
+                                        <!-- /First -->
+
+                                        <!-- Second -->
+                                        <fieldset id="second" class="field-card">
+                                            <div class="login-back">
+                                                <a href="javascript:void(0);" class="prev_btn">
+                                                    <i class="fa-solid fa-arrow-left-long"></i> Back
+                                                </a>
+                                            </div>
+
+                                            <div class="login-title">
+                                                <h3>Signup</h3>
+                                                <p class="mb-0">Welcome back! Please enter your details.</p>
+                                            </div>
+
+                                            <div class="widget-setcount">
+                                                <ul id="progressbar2">
+                                                    <li class="progress-active">
+                                                        <div class="step-box">
+                                                            <div class="step-icon">
+                                                                <span>
+                                                                    <img th:src="@{/assets/img/icons/signup-users.svg}" alt="icon">
+                                                                </span>
+                                                            </div>
+                                                            <div class="step-content">
+                                                                <p>Step 2</p>
+                                                                <h4>Create Account</h4>
+                                                            </div>
+                                                        </div>
+                                                    </li>
+                                                    <li>
+                                                        <div class="step-box">
+                                                            <div class="step-icon">
+                                                                <span>
+                                                                    <img th:src="@{/assets/img/icons/signup-unlock.svg}" alt="icon">
+                                                                </span>
+                                                            </div>
+                                                            <div class="step-content">
+                                                                <p>Step 3</p>
+                                                                <h4>Verify Account</h4>
+                                                            </div>
+                                                        </div>
+                                                    </li>
+                                                </ul>
+                                            </div>
+
+                                            <form method="post" id="create-account" role="form" autocomplete="off" class="form-validation" th:action="@{/check-account-info}">
+                                                <div id="userName" class="form-group">
+                                                    <label>Username <span class="text-danger">*</span></label>
+                                                    <input type="text" class="form-control" name="userName" placeholder="Enter an Username">
+                                                </div>
+                                                <div id="firstName" class="form-group">
+                                                    <label>First Name <span class="text-danger">*</span></label>
+                                                    <input type="text" class="form-control" name="firstName" placeholder="Enter Your First Name">
+                                                </div>
+                                                <div id="lastName" class="form-group">
+                                                    <label>Last Name <span class="text-danger">*</span></label>
+                                                    <input type="text" class="form-control" name="lastName" placeholder="Enter Your Last Name">
+                                                </div>
+                                                <div id="phoneNumber" class="form-group">
+                                                    <label>Phone Number <span class="text-danger">*</span></label>
+                                                    <input type="number" class="form-control form-control-lg group_formcontrol form-control-phone" name="phoneNumber" placeholder="Enter Your Phone Number">
+                                                </div>
+                                                <div id="email" class="form-group">
+                                                    <label>Email <span class="text-danger">*</span></label>
+                                                    <input type="text" class="form-control" name="email" placeholder="Enter Your Email">
+                                                </div>
+                                                <div id="password" class="form-group">
+                                                    <label>Password <span class="text-danger">*</span></label>
+                                                    <div class="pass-group">
+                                                        <input type="password" class="form-control pass-input-sub" placeholder="*************">
+                                                        <span class="feather-eye toggle-password-sub"></span>
+                                                    </div>
+                                                </div>
+
+                                                <div class="widget-btn">
+                                                    <button type="submit" class="btn btn-primary btn-block">Next</button>
+                                                </div>
+                                            </form>
+                                        </fieldset>
+                                        <!-- /Second -->
+
+                                        <!-- Third -->
+                                        <fieldset id="third" class="field-card">
+                                            <div class="login-back">
+                                                <a href="javascript:void(0);" class="prev_btn">
+                                                    <i class="fa-solid fa-arrow-left-long"></i> Back
+                                                </a>
+                                            </div>
+
+                                            <div class="login-title">
+                                                <h3>Security Verification</h3>
+                                                <p class="mb-0">To Secure your Account create complete the following verify request.</p>
+                                            </div>
+
+                                            <div class="widget-setcount">
+                                                <ul id="progressbar3">
+                                                    <li class="progress-active">
+                                                        <div class="step-box">
+                                                            <div class="step-icon">
+                                                                <span>
+                                                                    <img th:src="@{/assets/img/icons/signup-users.svg}" alt="icon">
+                                                                </span>
+                                                            </div>
+                                                            <div class="step-content">
+                                                                <p>Step 2</p>
+                                                                <h4>Create Account</h4>
+                                                            </div>
+                                                        </div>
+                                                    </li>
+                                                    <li class="progress-active">
+                                                        <div class="step-box">
+                                                            <div class="step-icon">
+                                                                <span>
+                                                                    <img th:src="@{/assets/img/icons/signup-unlock.svg}" alt="icon">
+                                                                </span>
+                                                            </div>
+                                                            <div class="step-content">
+                                                                <p>Step 3</p>
+                                                                <h4>Verify Account</h4>
+                                                            </div>
+                                                        </div>
+                                                    </li>
+                                                </ul>
+                                            </div>
+
+                                            <form method="post" id="verify-account" role="form" autocomplete="off" class="form-validation signup-verfication-form" th:action="@{/verify-account}">
+                                                <div id="verificationCode" class="form-group">
+                                                    <div class="form-group-flex">
+                                                        <label>Email Verification Code</label>
+                                                        <a href="javascript:void(0);" class="forgot-link">Get Code</a>
+                                                    </div>
+                                                    <div class="pass-group">
+                                                        <input type="number" class="form-control form-control-phone" name="verificationCode">
+                                                    </div>
+                                                    <p class="signup-code">Enter the 6 digit code sent to email</p>
+                                                </div>
+
+                                                <div class="form-group mb-0">
+                                                    <button type="submit" class="btn btn-primary btn-block">Submit</button>
+                                                </div>
+                                            </form>
+                                        </fieldset>
+                                        <!-- /Third -->
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- /Doctor Signup -->
+
+            </div>
+        </div>
+        <!-- /Page Content -->
+
+    </div>
+    <!-- /Main Wrapper -->
+
+    <!-- jQuery -->
+    <script th:src="@{/assets/js/jquery-3.6.4.min.js}"></script>
+
+    <!-- Bootstrap Core JS -->
+    <script th:src="@{/assets/js/bootstrap.bundle.min.js}"></script>
+
+    <!-- Feather Icon JS -->
+    <script th:src="@{/assets/js/feather.min.js}"></script>
+
+    <!-- Mobile Input -->
+    <script th:src="@{/assets/plugins/intltelinput/js/intlTelInput.js}"></script>
+
+    <!-- Custom JS -->
+    <script th:src="@{/assets/js/script.js}"></script>
+    <script th:src="@{/assets/js/custom/function.js}"></script>
+    <script th:src="@{/assets/js/custom/custom.js}"></script>
+
+</body>
+</html>

@@ -1,3 +1,4 @@
+let userAccountInfo = new FormData()
 
 function searchFilter() {
     let gender, specialist, experience, rating;
@@ -511,6 +512,17 @@ async function bookAppointment() {
 }
 
 
+function maskEmail(email) {
+    var parts = email.split('@');
+    var namePart = parts[0];
+    var domain = parts[1];
+
+    var maskedName = namePart.substring(0, 2) + '****';
+    var maskedEmail = maskedName + '@' + domain;
+
+    return maskedEmail;
+}
+
 function clearResetPasswordItems() {
     // define query selector
     let passwordSelector = '#reset-password #password input'
@@ -695,5 +707,388 @@ async function resetPassword() {
 
         // enable items
         enableItems(affectedItemList)
+    }
+}
+
+
+function addUserAccountRole(role) {
+    userAccountInfo.append("role", role);
+}
+
+function addUserAccountInfo(formData) {
+    userAccountInfo.append("userName", formData.get("userName"));
+    userAccountInfo.append("firstName", formData.get("firstName"));
+    userAccountInfo.append("lastName", formData.get("lastName"));
+    userAccountInfo.append("phoneNumber", formData.get("phoneNumber"));
+    userAccountInfo.append("email", formData.get("email"));
+    userAccountInfo.append("password", formData.get("password"));
+}
+
+function hideCheckAccountInfoErrors() {
+    let jQuerySelector = `#create-account .form-error`
+
+    $(jQuerySelector).removeClass('form-error')
+    $(`#create-account .create-account-text-danger`).remove()
+}
+
+function showCheckAccountInfoErrors(field, message) {
+    let jQuerySelector = `#create-account #${field}`
+
+    // show error inline
+    $(jQuerySelector).addClass('form-error')
+    $(jQuerySelector).append(`<p class="create-account-text-danger text-danger error-create-account-${field}">${message}</p>`)
+}
+
+function getCheckAccountInfoData() {
+    // define query selector
+    let userNameSelector = '#create-account #userName input[type="text"]'
+    let firstNameSelector = '#create-account #firstName input[type="text"]'
+    let lastNameSelector = '#create-account #lastName input[type="text"]'
+    let phoneNumberSelector = '#create-account #phoneNumber input[type="number"]'
+    let emailSelector = '#create-account #email input[type="text"]'
+    let passwordSelector = '#create-account #password input'
+
+    // disable input and button
+    let affectedItemList = []
+
+    affectedItemList.push(userNameSelector)
+    affectedItemList.push(firstNameSelector)
+    affectedItemList.push(lastNameSelector)
+    affectedItemList.push(phoneNumberSelector)
+    affectedItemList.push(emailSelector)
+    affectedItemList.push(passwordSelector)
+    affectedItemList.push('#create-account .widget-btn button[type="submit"]')
+
+    disableItems(affectedItemList)
+
+
+    // get data
+    let userName = $(userNameSelector).val()
+    let firstName = $(firstNameSelector).val()
+    let lastName = $(lastNameSelector).val()
+    let phoneNumber = $(phoneNumberSelector).val()
+    let email = $(emailSelector).val()
+    let password = $(passwordSelector).val()
+
+
+    // ********** form data (begin) ********** //
+    let formData = new FormData();
+
+    // profile photo
+    formData.append("userName", userName);
+    formData.append("firstName", firstName);
+    formData.append("lastName", lastName);
+    formData.append("phoneNumber", phoneNumber);
+    formData.append("email", email);
+    formData.append("password", password);
+    // ********** form data (end) ********** //
+
+
+    return {
+        affectedItemList,
+        formData
+    };
+}
+
+async function checkUserAccountInfo() {
+    //jQuery
+    var token = $("meta[name='_csrf']").attr("content");
+    var header = $("meta[name='_csrf_header']").attr("content");
+
+    let resultObject = getCheckAccountInfoData();
+    let formData = resultObject.formData;
+    let affectedItemList = resultObject.affectedItemList;
+
+    let response = await fetch($('#create-account').attr('action'), {
+        headers: {
+            'X-CSRF-Token': token,
+            'X-CSRF-HEADER': header
+        },
+        method: $('#create-account').attr('method'),
+        enctype: 'multipart/form-data',
+        body: formData
+    });
+
+    let res = await response.json()
+
+    if (res.status === 'success') { // success
+        // enable items
+        enableItems(affectedItemList)
+
+        // hide errors
+        hideCheckAccountInfoErrors()
+
+        // go to next step
+        addUserAccountInfo(formData)
+        $('.login-content-info .account-content #second').css('display', 'none')
+        $('.login-content-info .account-content #third #verify-account .signup-code').html('Enter the 6 digit code sent to ' + maskEmail(formData.get('email')))
+        $('.login-content-info .account-content #third').css('display', 'block')
+    } else { // error
+        // hide errors
+        hideCheckAccountInfoErrors()
+
+        // show errors
+        if (res.errors != null) {
+            for (let j = 0; j < res.errors.length; j++) {
+                showCheckAccountInfoErrors(
+                    res.errors[j].field,
+                    res.errors[j].defaultMessage
+                )
+            }
+        }
+
+        let formErrorArea = `#create-account .form-error`;
+        let headerHeight = $('.header').height()
+        let position = $(formErrorArea).offset().top - headerHeight;
+        $("html, body").animate({ scrollTop: position }, "slow");
+
+        // enable items
+        enableItems(affectedItemList)
+    }
+}
+
+
+function hideEmailVerificationCodeSuccessMessage() {
+    $(`#verification-code-success`).remove()
+}
+
+function showEmailVerificationCodeSuccessMessage() {
+    let message = ` <div id="verification-code-success" class="alert alert-success alert-dismissible fade show" role="alert">
+                        6 digit code sent to ${maskEmail(formData.get("email"))}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>`;
+
+    $(message).insertBefore($('fieldset#third #verify-account'))
+}
+
+async function getEmailVerificationCode() {
+    //jQuery
+    var token = $("meta[name='_csrf']").attr("content");
+    var header = $("meta[name='_csrf_header']").attr("content");
+
+    $('fieldset#third #verify-account .forgot-link').css('pointer-events', 'none')
+    $('fieldset#third #verification-code-success').remove()
+
+    // ********** form data (begin) ********** //
+    let formData = new FormData();
+
+    formData.append("email", userAccountInfo.get("email"));
+    // ********** form data (end) ********** //
+
+    let response = await fetch('/email-verification-code', {
+        headers: {
+            'X-CSRF-Token': token,
+            'X-CSRF-HEADER': header
+        },
+        method: 'POST',
+        enctype: 'multipart/form-data',
+        body: formData
+    });
+
+    let res = await response.json()
+
+    if (res.status === 'success') { // success
+        $('fieldset#third #verify-account .forgot-link').css('pointer-events', 'all')
+
+        // show success message
+        showEmailVerificationCodeSuccessMessage()
+    } else { // error
+        $('fieldset#third #verify-account .forgot-link').css('pointer-events', 'all')
+
+        console.error('Email verification code error')
+    }
+}
+
+
+function hideVerifyAccountErrors() {
+    $(`#verify-account-fail`).remove()
+}
+
+function showVerifyAccountErrors(message) {
+    let text = ` <div id="verify-account-fail" class="alert alert-danger alert-dismissible fade show" role="alert">
+                        ${message}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>`;
+
+    $(text).insertBefore($('fieldset#third #verify-account'))
+}
+
+function getVerifyAccountData() {
+    // define query selector
+    let verificationCodeSelector = '#verify-account #verificationCode input[type="number"]'
+
+    // disable input and button
+    let affectedItemList = []
+
+    affectedItemList.push(verificationCodeSelector)
+    affectedItemList.push('#verify-account .widget-btn button[type="submit"]')
+
+    disableItems(affectedItemList)
+
+
+    // get data
+    let verificationCode = $(verificationCodeSelector).val()
+
+
+    // ********** form data (begin) ********** //
+    let formData = new FormData();
+
+    // profile photo
+    formData.append("email", userAccountInfo.get("email"));
+    formData.append("code", verificationCode);
+    // ********** form data (end) ********** //
+
+
+    return {
+        affectedItemList,
+        formData
+    };
+}
+
+async function verifyAccount() {
+    //jQuery
+    var token = $("meta[name='_csrf']").attr("content");
+    var header = $("meta[name='_csrf_header']").attr("content");
+
+    let resultObject = getVerifyAccountData();
+    let formData = resultObject.formData;
+    let affectedItemList = resultObject.affectedItemList;
+
+    let response = await fetch($('#verify-account').attr('action'), {
+        headers: {
+            'X-CSRF-Token': token,
+            'X-CSRF-HEADER': header
+        },
+        method: $('#verify-account').attr('method'),
+        enctype: 'multipart/form-data',
+        body: formData
+    });
+
+    let res = await response.json()
+
+    if (res.status === 'success') { // success
+        // hide email verification code success message
+        hideEmailVerificationCodeSuccessMessage()
+
+        // hide errors
+        hideVerifyAccountErrors()
+
+        // go to next step
+        let result = register()
+
+        if (result) {
+            // enable items
+            enableItems(affectedItemList)
+        }
+
+    } else { // error
+        // hide email verification code success message
+        hideEmailVerificationCodeSuccessMessage()
+
+        // hide errors
+        hideVerifyAccountErrors()
+
+        // show errors
+        let errorMessage = ''
+
+        if (res.errors != null) {
+            errorMessage = `<ul>`
+
+            for (let j = 0; j < res.errors.length; j++) {
+                errorMessage += `<li>
+                                    ${res.errors[j].defaultMessage}
+                                 </li>`
+            }
+
+            errorMessage += `</ul>`
+        }
+
+        showVerifyAccountErrors(
+            errorMessage
+        )
+
+        let formErrorArea = `#verify-account-fail`;
+        let headerHeight = $('.header').height()
+        let position = $(formErrorArea).offset().top - headerHeight;
+        $("html, body").animate({ scrollTop: position }, "slow");
+
+        // enable items
+        enableItems(affectedItemList)
+    }
+}
+
+
+function showRegisterErrors(message) {
+    let text = ` <div id="register-fail" class="alert alert-danger alert-dismissible fade show" role="alert">
+                        ${message}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>`;
+
+    $(text).insertBefore($('fieldset#third #verify-account'))
+}
+
+function showRegisterSuccessMessage() {
+    let message = ` <div id="register-success" class="alert alert-success alert-dismissible fade show" role="alert">
+                        You has been registered successfully.
+                        <br>
+                        You will be redirected to login page in <span id="count-down">3</span> second.
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>`;
+
+    $(message).insertBefore($('#verify-account'));
+
+    let formErrorArea = `#register-success`;
+    let headerHeight = $('.header').height()
+    let position = $(formErrorArea).offset().top - headerHeight;
+    $("html, body").animate({ scrollTop: position }, "slow");
+
+    // count down and redirect to login page
+    let count = 2;
+    let countdown = setInterval(function () {
+        $("#register-success #count-down").html(count);
+
+        if (count == 1) {
+            setTimeout(function () {
+                window.location.replace("/login");
+            },1000);
+
+            clearInterval(countdown)
+        }
+
+        count --
+    }, 1000)
+}
+
+async function register() {
+    //jQuery
+    var token = $("meta[name='_csrf']").attr("content");
+    var header = $("meta[name='_csrf_header']").attr("content");
+
+    let formData = userAccountInfo;
+
+    let response = await fetch('/register', {
+        headers: {
+            'X-CSRF-Token': token,
+            'X-CSRF-HEADER': header
+        },
+        method: 'POST',
+        enctype: 'multipart/form-data',
+        body: formData
+    });
+
+    let res = await response.json()
+
+    if (res.status === 'success') { // success
+        // show success message
+        showRegisterSuccessMessage()
+
+        return true
+    } else { // error
+        console.error('register error')
+
+        // show errors
+        showRegisterErrors('Something went wrong!')
+
+        return false
     }
 }

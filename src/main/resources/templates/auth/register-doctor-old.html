@@ -69,19 +69,19 @@
                                             <input type="text" class="form-control floating" id="phoneNumber" name="phoneNumber" th:field="*{phoneNumber}">
                                             <label class="focus-label">Mobile Number</label>
                                             <p th:errors="*{phoneNumber}" class="text-danger"
-                                                th:if="${#fields.hasErrors('phoneNumber')}"></p>
+                                               th:if="${#fields.hasErrors('phoneNumber')}"></p>
                                         </div>
                                         <div class="form-group form-focus" th:classappend="${#fields.hasErrors('email')} ? 'form-error'">
                                             <input type="email" class="form-control floating" id="email" name="email" th:field="*{email}">
                                             <label class="focus-label">Your Email Address</label>
                                             <p th:errors="*{email}" class="text-danger"
-                                                th:if="${#fields.hasErrors('email')}"></p>
+                                               th:if="${#fields.hasErrors('email')}"></p>
                                         </div>
                                         <div class="form-group form-focus" th:classappend="${#fields.hasErrors('password')} ? 'form-error'">
                                             <input type="password" class="form-control floating" id="password" name="password">
                                             <label class="focus-label">Password</label>
                                             <p th:errors="*{password}" class="text-danger"
-                                                th:if="${#fields.hasErrors('password')}"></p>
+                                               th:if="${#fields.hasErrors('password')}"></p>
                                         </div>
                                         <div class="text-end">
                                             <a class="forgot-link" th:href="@{/login}">Already have an account?</a>

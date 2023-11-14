@@ -20,36 +20,46 @@ public class SpringSecurity {
     @Autowired
     public PasswordEncoder passwordEncoder;
 
+    public static final String[] ENDPOINTS_WHITELIST = {
+            "/register",
+            "/assets/**",
+            "/uploads/**",
+            "/blogs/**",
+            "/doctors/**",
+            "/search",
+            "/review",
+            "/forgot-password",
+            "/reset-password",
+            "/check-account-info",
+            "/email-verification-code",
+            "/verify-account"
+    };
+    public static final String LOGIN_URL = "/login";
+    public static final String LOGOUT_URL = "/logout";
+    public static final String LOGOUT_SUCCESS_URL = "/";
+    public static final String LOGIN_FAIL_URL = LOGIN_URL + "?error=true";
+    public static final String DEFAULT_SUCCESS_URL = "/dashboard";
+    public static final String USERNAME = "email";
+
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 
         http.authorizeHttpRequests((authorize) ->
-            authorize.requestMatchers(
-                            "/register",
-                            "/doctor-register",
-                            "/assets/**",
-                            "/uploads/**",
-                            "/blogs/**",
-                            "/doctors/**",
-                            "/search",
-                            "/review",
-                            "/forgot-password",
-                            "/reset-password"
-                    ).permitAll()
+            authorize.requestMatchers(ENDPOINTS_WHITELIST).permitAll()
                     .anyRequest().authenticated()
             ).formLogin(
                     form -> form
-                            .loginPage("/login")
-                            .usernameParameter("email")
-                            .loginProcessingUrl("/login")
-                            .defaultSuccessUrl("/dashboard", true)
+                            .loginPage(LOGIN_URL)
+                            .usernameParameter(USERNAME)
+                            .loginProcessingUrl(LOGIN_URL)
+                            .defaultSuccessUrl(DEFAULT_SUCCESS_URL, true)
                             .permitAll()
-                            .failureUrl("/login?error=true")
+                            .failureUrl(LOGIN_FAIL_URL)
             ).logout(
                     logout -> logout
-                            .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
+                            .logoutRequestMatcher(new AntPathRequestMatcher(LOGOUT_URL))
                             .permitAll()
-                            .logoutSuccessUrl("/")
+                            .logoutSuccessUrl(LOGOUT_SUCCESS_URL)
             );
 
         return http.build();

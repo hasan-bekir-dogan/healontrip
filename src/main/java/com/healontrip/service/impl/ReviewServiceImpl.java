@@ -116,12 +116,12 @@ public class ReviewServiceImpl implements ReviewService {
             // doctor
             reviewsDto.setDoctorId(reviewEntity.getDoctorId());
             UserEntity doctor = userService.findById(reviewEntity.getDoctorId());
-            reviewsDto.setDoctorUserName(doctor.getName());
+            reviewsDto.setDoctorUserName(doctor.getUserName());
 
             // patient
             reviewsDto.setPatientId(reviewEntity.getPatientId());
             UserEntity patient = userService.findById(reviewEntity.getPatientId());
-            reviewsDto.setPatientUserName(patient.getName());
+            reviewsDto.setPatientUserName(patient.getUserName());
 
             // patient img src
             String imgSrc = fileService.getFileSrc(patient.getProfileImgId());

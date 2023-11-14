@@ -17,7 +17,6 @@ import jakarta.servlet.http.HttpSession;
 import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.time.Instant;
 import java.util.*;
 
 
@@ -66,7 +65,7 @@ public class UserServiceImpl implements UserService {
     private ModelMapper modelMapper;
 
     @Autowired
-    private PasswordResetTokenRepository passwordResetTokenRepository;
+    private TokenRepository tokenRepository;
 
     @Autowired
     HttpSession session;
@@ -77,7 +76,9 @@ public class UserServiceImpl implements UserService {
     @Override
     public void saveUser(UserDto userDto){
         UserEntity userEntity = new UserEntity();
-        userEntity.setName(userDto.getName());
+        userEntity.setUserName(userDto.getUserName());
+        userEntity.setFirstName(userDto.getFirstName());
+        userEntity.setLastName(userDto.getLastName());
         userEntity.setEmail(userDto.getEmail());
         userEntity.setRole(userDto.getRole());
 
@@ -109,7 +110,9 @@ public class UserServiceImpl implements UserService {
         UserEntity userEntity = findByEmail(profileDto.getEmail());
         Long userId = userEntity.getId();
 
-        userEntity.setName(profileDto.getName());
+        userEntity.setUserName(profileDto.getUserName());
+        userEntity.setFirstName(profileDto.getFirstName());
+        userEntity.setLastName(profileDto.getLastName());
         userEntity.setPhoneNumber(profileDto.getPhone());
         userEntity.setGender(profileDto.getGender());
 
@@ -290,7 +293,9 @@ public class UserServiceImpl implements UserService {
         UserEntity userEntity = findByEmail(profileDto.getEmail());
         Long userId = userEntity.getId();
 
-        userEntity.setName(profileDto.getName());
+        userEntity.setUserName(profileDto.getUserName());
+        userEntity.setFirstName(profileDto.getFirstName());
+        userEntity.setLastName(profileDto.getLastName());
         userEntity.setPhoneNumber(profileDto.getPhone());
         userEntity.setGender(profileDto.getGender());
 
@@ -333,8 +338,8 @@ public class UserServiceImpl implements UserService {
         userBarDto.setRole(userRole);
         userBarDto.setRoleInitCap(StringUtils.capitalize(userRole.toLowerCase()));
 
-        // user name
-        String extendedName = ((userRole.equals("DOCTOR")) ? RolePrefix.DOCTOR.getPre() : "") + userEntity.getName();
+        // user first and last name
+        String extendedName = ((userRole.equals("DOCTOR")) ? RolePrefix.DOCTOR.getPre() : "") + userEntity.getFirstName() + " " + userEntity.getLastName();
         userBarDto.setUserName(extendedName);
 
         // profile photo src
@@ -409,7 +414,9 @@ public class UserServiceImpl implements UserService {
 
         profileDto.setRole(StringUtils.capitalize(userRole.toLowerCase()));
 
-        profileDto.setName(userEntity.getName());
+        profileDto.setUserName(userEntity.getUserName());
+        profileDto.setFirstName(userEntity.getFirstName());
+        profileDto.setLastName(userEntity.getLastName());
         profileDto.setEmail(userEntity.getEmail());
         profileDto.setPhone(userEntity.getPhoneNumber());
         profileDto.setGender(userEntity.getGender());
@@ -503,6 +510,11 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public UserEntity findByUserName(String userName) {
+        return userRepository.findByUserName(userName);
+    }
+
+    @Override
     public UserEntity findById(Long id) {
         return userRepository.findById(id).orElseThrow(() ->
                 new ResourceNotFoundException("User not found with id: " + id));
@@ -519,7 +531,7 @@ public class UserServiceImpl implements UserService {
             doctorsDto.setUserId(userEntity.getId());
 
             String userRole = String.valueOf(Role.DOCTOR);
-            String extendedName = ((userRole.equals("DOCTOR")) ? RolePrefix.DOCTOR.getPre() : "") + userEntity.getName();
+            String extendedName = ((userRole.equals("DOCTOR")) ? RolePrefix.DOCTOR.getPre() : "") + userEntity.getFirstName() + " " + userEntity.getLastName();
             doctorsDto.setUserName(extendedName);
 
             // User image (begin)
@@ -609,7 +621,7 @@ public class UserServiceImpl implements UserService {
             doctorsDto.setUserId(userEntity.getId());
 
             String userRole = String.valueOf(Role.DOCTOR);
-            String extendedName = ((userRole.equals("DOCTOR")) ? RolePrefix.DOCTOR.getPre() : "") + userEntity.getName();
+            String extendedName = ((userRole.equals("DOCTOR")) ? RolePrefix.DOCTOR.getPre() : "") + userEntity.getFirstName() + " " + userEntity.getLastName();
             doctorsDto.setUserName(extendedName);
 
             // User image (begin)
@@ -633,7 +645,7 @@ public class UserServiceImpl implements UserService {
 
         doctorDto.setUserId(id);
 
-        String extendedName = RolePrefix.DOCTOR.getPre() + userEntity.getName();
+        String extendedName = RolePrefix.DOCTOR.getPre() + userEntity.getFirstName() + " " + userEntity.getLastName();
         doctorDto.setUserName(extendedName);
 
         // User image (begin)
@@ -738,19 +750,22 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void createPasswordResetToken(String email, String token) {
-        PasswordResetTokenEntity myToken = new PasswordResetTokenEntity();
+    public void createToken(String email, String token, TokenType type) {
+        TokenEntity myToken = tokenRepository.findByEmail(email);
 
+        if (myToken != null)
+            tokenRepository.delete(myToken);
+
+        myToken = new TokenEntity();
         myToken.setToken(token);
+        myToken.setUserEmail(email);
+        myToken.setType(type);
 
-        UserEntity userEntity = findByEmail(email);
-        myToken.setUserId(userEntity.getId());
+        tokenRepository.save(myToken);
 
-        passwordResetTokenRepository.save(myToken);
+        myToken.setExpiryDate(DateUtils.addMinutes(myToken.getCreatedDate(), TokenEntity.EXPIRATION));
 
-        myToken.setExpiryDate(DateUtils.addMinutes(myToken.getCreatedDate(), PasswordResetTokenEntity.EXPIRATION));
-
-        passwordResetTokenRepository.save(myToken);
+        tokenRepository.save(myToken);
     }
 
     @Override

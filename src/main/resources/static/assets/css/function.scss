@@ -61,6 +61,11 @@ $breakpoints: (
 }
 
 
+@mixin transition($__property) {
+  -webkit-transition: $__property;
+  -ms-transition: $__property;
+  transition: $__property;
+}
 
 /*---------------------------------------*/
 %flex-align-center{
