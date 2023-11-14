@@ -11,10 +11,7 @@ import lombok.extern.log4j.Log4j2;
 @AllArgsConstructor
 @Builder
 @Log4j2
-public class ResetPasswordDto {
-    private Long userId;
-    private String userEmail;
-    private String resetToken;
-    private String password;
-    private String passwordRepeat;
+public class VerifyAccountDto {
+    private String email;
+    private String code;
 }

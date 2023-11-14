@@ -2561,7 +2561,7 @@ Version      : 1.3
 			'display': 'none'
 		});
 		progressVal = progressVal + 1;
-		$('.progress-active').removeClass('progress-active').addClass('progress-activated').next().addClass('progress-active');
+		//$('.progress-active').removeClass('progress-active').addClass('progress-activated').next().addClass('progress-active');
 	});
 
 	$(".prev_btn").click(function () {
@@ -2570,7 +2570,7 @@ Version      : 1.3
 			'display': 'none'
 		});
 		progressVal = progressVal - 1;
-		$('.progress-active').removeClass('progress-active').prev().removeClass('progress-activated').addClass('progress-active');
+		//$('.progress-active').removeClass('progress-active').prev().removeClass('progress-activated').addClass('progress-active');
 	});
 	// Select Favourite
 

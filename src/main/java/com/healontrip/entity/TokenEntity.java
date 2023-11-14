@@ -1,5 +1,6 @@
 package com.healontrip.entity;
 
+import com.healontrip.dto.TokenType;
 import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Data;
@@ -15,23 +16,27 @@ import java.util.Date;
 @Log4j2
 
 @Entity
-@Table(name = "password_reset_tokens")
-public class PasswordResetTokenEntity extends BaseEntity implements Serializable {
+@Table(name = "tokens")
+public class TokenEntity extends BaseEntity implements Serializable {
 
     public static final int EXPIRATION = 30; // 30 min.
+
+    @Enumerated(EnumType.STRING)
+    private TokenType type;
 
     @Column(name = "token", nullable = false)
     private String token;
 
-    @Column(name = "user_id", nullable = false)
-    private Long userId;
+    @Column(name = "user_email", nullable = false)
+    private String userEmail;
 
     @Column(name = "expiry_date")
     private Date expiryDate;
 
-    public PasswordResetTokenEntity(String token, Long userId, Date expiryDate) {
+    public TokenEntity(TokenType type, String token, String userEmail, Date expiryDate) {
+        this.type = type;
         this.token = token;
-        this.userId = userId;
+        this.userEmail = userEmail;
         this.expiryDate = expiryDate;
     }
 }

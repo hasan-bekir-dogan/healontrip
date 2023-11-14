@@ -1,5 +1,7 @@
 package com.healontrip.service;
 
+import com.healontrip.dto.TokenType;
+
 public interface SecurityService {
-    boolean validatePasswordResetToken(Long userId, String token);
+    boolean validateToken(String userEmail, String token, TokenType type);
 }

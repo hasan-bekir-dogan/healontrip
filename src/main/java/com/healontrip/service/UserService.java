@@ -15,12 +15,13 @@ public interface UserService {
     UserBarDto getUser() throws ParseException;
     ProfileDto getProfile() throws ParseException;
     UserEntity findByEmail(String email);
+    UserEntity findByUserName(String userName);
     UserEntity findById(Long id);
     List<DoctorsDto> getDoctors();
     List<DoctorsDto> getDoctors(SearchFilterDto searchFilterDto);
     DoctorDto getDoctor(Long id);
     CommunicationInfoDto getCommunicationInfo();
-    void createPasswordResetToken(String email, String token);
+    void createToken(String email, String token, TokenType type);
     void updatePassword(ResetPasswordDto passwordDto);
 
     // model mapper

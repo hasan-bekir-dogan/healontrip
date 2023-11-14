@@ -504,3 +504,60 @@ header .nav.header-navbar-rht .has-submenu >a {
   padding: 9px 17px;
 }
 
+// register (begin)
+.login-content-info .account-content .signup-option-btns {
+  margin-bottom: 20px;
+}
+fieldset#first {
+  .widget-setcount ul li:first-child {
+    &:before {
+      right: -95px;
+    }
+  }
+  .widget-btn {
+    >a.disabled {
+      background-color: $blue_15;
+      border-color: $blue_15;
+      pointer-events: none;
+      text-decoration: none;
+    }
+  }
+}
+.signup-option-btns {
+  >input {
+    display: none;
+  }
+  .signup-btn-info {
+    &:hover{
+      cursor: pointer;
+      background: $grey_400;
+      border: 1px solid $white_shade;
+      box-shadow: none;
+      .signup-arrow {
+        background: $white;
+        color: $black;
+      }
+    }
+    &.active {
+      background: $white;
+      border: 1px solid $blue_14;
+      box-shadow: 0px 22px 38px rgba(0, 0, 0, 0.12);
+      @include transition(0.7s);
+      .signup-arrow {
+        background: $blue_14;
+        color: $white;
+        @include transition(0.4s);
+      }
+    }
+  }
+}
+/*fieldset#third #verify-account .forgot-link {
+  padding: 0;
+  border: none;
+  background-color: transparent;
+}*/
+/*.form-control:disabled {
+  background-color: #e9ecef $i;
+}*/
+
+// register (end)
