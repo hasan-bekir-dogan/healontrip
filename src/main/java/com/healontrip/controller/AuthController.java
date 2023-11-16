@@ -227,7 +227,8 @@ public class AuthController {
             } else if (!validationService.validUsername(userDto.getUserName())){
                 errorsDto = new GeneralErrorsDto();
                 errorsDto.setField("userName");
-                errorsDto.setDefaultMessage("Username must be between 8 and 20 characters.</br>Allowed characters: a-z, A-Z, 0-9");
+                errorsDto.setDefaultMessage("Username must be between 5 and 29 characters.</br>" +
+                                            "Allowed characters: a-z, A-Z, 0-9, -");
                 errors.add(errorsDto);
             } else if (existingUserName != null){
                 errorsDto = new GeneralErrorsDto();
