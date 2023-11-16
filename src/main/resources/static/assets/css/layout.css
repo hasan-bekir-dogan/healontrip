@@ -541,5 +541,11 @@ fieldset#first .widget-btn > a.disabled {
 /*.form-control:disabled {
   background-color: #e9ecef $i;
 }*/
+.login-content-info .account-info .remember-password-area {
+  margin-bottom: 10px;
+}
+.login-content-info .account-info .remember-password-area .forgot-link {
+  margin-bottom: 0;
+}
 
 /*# sourceMappingURL=layout.css.map */

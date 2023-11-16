@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+
+    <th:block th:include="fragments/head"></th:block>
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" th:href="@{/assets/css/bootstrap.min.css}">
+
+    <!-- Fontawesome CSS -->
+    <link rel="stylesheet" th:href="@{/assets/plugins/fontawesome/css/fontawesome.min.css}">
+    <link rel="stylesheet" th:href="@{/assets/plugins/fontawesome/css/all.min.css}">
+
+    <!-- Feathericon CSS -->
+    <link rel="stylesheet" th:href="@{/assets/css/feather.css}">
+
+    <!-- Animation CSS -->
+    <link rel="stylesheet" th:href="@{/assets/css/aos.css}">
+
+    <!-- Main CSS -->
+    <link rel="stylesheet" th:href="@{/assets/css/custom.css}">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" th:href="@{/assets/css/layout.css}">
+
+</head>
+<body class="account-page">
+
+    <!-- Main Wrapper -->
+    <div class="main-wrapper">
+
+        <!-- Header -->
+        <th:block th:include="./fragments/header-login"></th:block>
+        <!-- /Header -->
+
+        <!-- Page Content -->
+        <div class="content top-space">
+            <div class="container-fluid">
+
+                <div class="row">
+                    <div class="col-md-8 offset-md-2">
+
+                        <!-- Login Tab Content -->
+                        <div class="account-content">
+                            <div class="row align-items-center justify-content-center">
+                                <div class="col-md-7 col-lg-6 login-left">
+                                    <img th:src="@{/assets/img/login-banner.png}" class="img-fluid" alt="Doccure Login">
+                                </div>
+                                <div class="col-md-12 col-lg-6 login-right">
+                                    <div class="login-header">
+                                        <h3>Login</h3>
+                                    </div>
+                                    <div th:if="${param.error}">
+                                        <div class="alert alert-danger">Invalid Email or Password.</div>
+                                    </div>
+                                    <form method="post" class="form-validation" th:action="@{/login}" role="form">
+                                        <div class="form-group form-focus">
+                                            <input type="email" class="form-control floating" id="email" name="email">
+                                            <label class="focus-label">Email</label>
+                                        </div>
+                                        <div class="form-group form-focus">
+                                            <input type="password" class="form-control floating" id="password" name="password">
+                                            <label class="focus-label">Password</label>
+                                        </div>
+                                        <div class="text-end">
+                                            <a class="forgot-link" th:href="@{/forgot-password}">Forgot Password?</a>
+                                        </div>
+                                        <button class="btn btn-primary w-100 btn-lg login-btn" type="submit">Login</button>
+                                        <div class="text-center dont-have">Don’t have an account? <a th:href="@{/register}">Register</a></div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- /Login Tab Content -->
+
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+        <!-- /Page Content -->
+
+        <!-- Footer -->
+        <th:block th:include="./fragments/footer-login"></th:block>
+        <!-- /Footer -->
+
+    </div>
+    <!-- /Main Wrapper -->
+
+    <!-- jQuery -->
+    <script th:src="@{/assets/js/jquery-3.6.4.min.js}"></script>
+
+    <!-- Bootstrap Core JS -->
+    <script th:src="@{/assets/js/bootstrap.bundle.min.js}"></script>
+
+    <!-- Feather Icon JS -->
+    <script th:src="@{/assets/js/feather.min.js}"></script>
+
+    <!-- Animation JS -->
+    <script th:src="@{/assets/js/aos.js}"></script>
+
+    <!-- Sticky Sidebar JS -->
+    <script th:src="@{assets/plugins/theia-sticky-sidebar/ResizeSensor.js}"></script>
+    <script th:src="@{assets/plugins/theia-sticky-sidebar/theia-sticky-sidebar.js}"></script>
+
+    <!-- Circle Progress JS -->
+    <script th:src="@{assets/js/circle-progress.min.js}"></script>
+
+    <!-- Custom JS -->
+    <script th:src="@{/assets/js/script.js}"></script>
+
+</body>
+</html>
