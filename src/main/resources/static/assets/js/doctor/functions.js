@@ -9,6 +9,8 @@ let edu_t_index = 0;
 let exp_t_index = 0;
 let award_t_index = 0;
 let mem_t_index = 0;
+let cropperProfilePhoto;
+let profilePhotoFormData = new FormData();
 
 function previewBlogImage() {
     const [file] = $('.doctor-add-blog .service-fields .service-upload #image')[0].files
@@ -34,12 +36,10 @@ function previewBlogImage() {
     }
 }
 
-function previewProfileImage() {
-    const [file] = $('#profile-settings #user-profile-photo input[type="file"]')[0].files
+function previewProfileImage(uri) {
+    //const [file] = $('#profile-settings #user-profile-photo input[type="file"]')[0].files
 
-    if (file) {
-        $('#profile-settings #user-profile-photo .profile-img >img').attr('src', URL.createObjectURL(file));
-    }
+    $('#profile-settings #user-profile-photo .profile-img >img').attr('src', uri);
 }
 
 function changeBlogStatus(id, status) {
@@ -371,7 +371,9 @@ function showSuccessMessage() {
 function getProfileData() {
     // define query selector
     let profilePhotoSelector = '#profile-settings #user-profile-photo input[type="file"]'
-    let nameSelector = '#profile-settings #user-name input[type="text"]'
+    let userNameSelector = '#profile-settings #user-userName input[type="text"]'
+    let firstNameSelector = '#profile-settings #user-firstName input[type="text"]'
+    let lastNameSelector = '#profile-settings #user-lastName input[type="text"]'
     let emailSelector = '#profile-settings #user-email input[type="email"]'
     let phoneSelector = '#profile-settings #user-phone-number input[type="number"]'
     let genderSelector = '#profile-settings #user-gender #gender'
@@ -393,7 +395,9 @@ function getProfileData() {
     let affectedItemList = []
 
     affectedItemList.push(profilePhotoSelector)
-    affectedItemList.push(nameSelector)
+    affectedItemList.push(userNameSelector)
+    affectedItemList.push(firstNameSelector)
+    affectedItemList.push(lastNameSelector)
     affectedItemList.push(emailSelector)
     affectedItemList.push(phoneSelector)
     affectedItemList.push(genderSelector)
@@ -416,8 +420,10 @@ function getProfileData() {
 
 
     // get data
-    let profilePhoto = $(profilePhotoSelector)[0].files
-    let name = $(nameSelector).val()
+    //let profilePhoto = $(profilePhotoSelector)[0].files
+    let userName = $(userNameSelector).val()
+    let firstName = $(firstNameSelector).val()
+    let lastName = $(lastNameSelector).val()
     let email = $(emailSelector).val()
     let phone = $(phoneSelector).val()
     let gender = $(genderSelector).val()
@@ -438,19 +444,25 @@ function getProfileData() {
     let formData = new FormData();
 
     // profile photo
-    if (profilePhoto.length > 0)
-        formData.append("image", profilePhoto[0]);
+    if (profilePhotoFormData.get("image") != null)
+        formData.append("image", profilePhotoFormData.get("image"));
     else
         formData.append("image", new File([""], "filename.txt", {type: "text/plain", lastModified: null}))
 
-    formData.append("name", name);
+    formData.append("userName", userName);
+    formData.append("firstName", firstName);
+    formData.append("lastName", lastName);
     formData.append("email", email);
     formData.append("phone", phone);
     formData.append("gender", gender);
-    formData.append("dateOfBirth", birthDate);
+
+    if (birthDate !== '')
+        formData.append("dateOfBirth", birthDate);
+
     formData.append("biography", biography);
     formData.append("clinicName", clinicName);
     formData.append("clinicAddress", clinicAddress);
+
 
     // added clinic image list
     if (addedClinicImages.length > 0) {

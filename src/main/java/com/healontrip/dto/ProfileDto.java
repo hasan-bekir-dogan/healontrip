@@ -1,7 +1,10 @@
 package com.healontrip.dto;
 
+import com.healontrip.constraint.EmailUniqueConstraint;
+import com.healontrip.constraint.UsernameUniqueConstraint;
 import com.healontrip.constraint.ServiceNotNullConstraint;
 import com.healontrip.constraint.SpecialistNotNullConstraint;
+import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
@@ -21,9 +24,14 @@ import java.util.List;
 @Log4j2
 public class ProfileDto {
     private Long id;
+
+    /*@NotEmpty(message = "Email must have value")
+    @Email
+    @EmailUniqueConstraint(message = "There is already an account registered with that email")*/
     private String email;
 
     @NotEmpty(message = "Username must have value")
+    @UsernameUniqueConstraint(message = "There is already an account registered with that username")
     private String userName;
 
     @NotEmpty(message = "First Name must have value")
@@ -33,7 +41,10 @@ public class ProfileDto {
     private String lastName;
 
     private String role;
+
+    @NotEmpty(message = "Phone Number must have value")
     private String phone;
+
     private String profileImgSrc;
     private String profileImgAlt;
     private String dateOfBirth;
