@@ -1,9 +1,7 @@
 package com.healontrip.controller.crm;
 
 import com.healontrip.dto.*;
-import com.healontrip.entity.CommunicationEntity;
 import com.healontrip.service.AuthService;
-import com.healontrip.service.CommunicationService;
 import com.healontrip.service.UserService;
 import com.healontrip.util.IpConfigUtil;
 import jakarta.servlet.http.HttpServletRequest;
@@ -14,6 +12,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+
 import java.text.ParseException;
 
 @Controller("ProfileController")
@@ -23,9 +23,6 @@ public class ProfileController {
 
     @Autowired
     private AuthService authService;
-
-    @Autowired
-    private CommunicationService communicationService;
 
     @GetMapping("/profile")
     public String profile(Model model,
@@ -72,5 +69,4 @@ public class ProfileController {
             return new ResponseEntity<>(e, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-
 }

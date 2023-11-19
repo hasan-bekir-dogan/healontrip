@@ -137,3 +137,53 @@ $('#profile-settings').on('submit', function (e) {
     updateProfile()
 })
 
+// crop and upload profile photo
+$('#profile-settings #user-profile-photo .upload-img .change-photo-btn2 input[type="file"]').on('change', function (e) {
+    $('#changeProfilePhotoModal .modal-body').html('<div id="overlay">\n' +
+        '                                                   <div class="cv-spinner">\n' +
+        '                                                       <div class="spinner">\n' +
+        '                                                       </div>\n' +
+        '                                                   </div>\n' +
+        '                                                 </div>')
+    $("#overlay").fadeIn(300);
+    $('#changeProfilePhotoModal').modal('show')
+
+    setTimeout(function () {
+        const files = e.target.files;
+        const done = (url) => {
+            e.target.value = '';
+
+            $("#overlay").fadeOut(300);
+
+            $('#changeProfilePhotoModal .modal-body').html('<div class="crop-frame">\n' +
+                '                                                     <img id="profilePhotoCropPreview" src="' + url + '" style="max-width: 100%; min-width: 100%; max-height: 100%; min-height: 100%;">\n' +
+                '                                                 </div>')
+
+            cropperProfilePhoto = new Cropper(document.getElementById('profilePhotoCropPreview'), {
+                aspectRatio: 1,
+                viewMode: 3,
+                preview: '.preview',
+            });
+        };
+        if (files && files.length > 0) {
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                done(reader.result);
+            };
+            reader.readAsDataURL(files[0]);
+        }
+    },200)
+});
+
+$('#changeProfilePhotoModal .modal-footer #changeProfilePhotoYesButton').on('click', function () {
+    cropperProfilePhoto.getCroppedCanvas().toBlob((blob) => {
+        profilePhotoFormData.delete("image")
+        profilePhotoFormData.append('image', blob);
+
+        $('#changeProfilePhotoModal').modal('hide')
+    });
+    var uri = cropperProfilePhoto.getCroppedCanvas().toDataURL("image/jpeg", 0.7);
+    previewProfileImage(uri)
+});
+
+

@@ -20,6 +20,74 @@ input[type=number] {
 }
 // error pages (end)
 
+
+// ajax loader (begin)
+#overlay{
+  //position: fixed;
+  //top: 0;
+  //z-index: 100;
+  width: 100%;
+  height:100%;
+  display: none;
+  //background: rgba(0,0,0,0.6);
+}
+.cv-spinner {
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.spinner {
+  /*position: absolute;
+  top: 50%;
+  left: 50%;*/
+  transform: translate(-50%, -50%);
+  height: 56px;
+  width: 56px;
+  box-sizing: border-box;
+  background: conic-gradient(
+                  from 90deg at 50% 50%,
+                  rgba(39, 174, 96, 0) 0deg,
+                  rgba(31, 144, 255, 0) 0.04deg,
+                  $ajax-loader 360deg
+  );
+  border-radius: 56px;
+  /* previous code */
+  animation: 1s rotate infinite linear;
+}
+.spinner::before {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  height: 40px;
+  width: 40px;
+  background: #fff;
+  border-radius: 48px;
+}
+.spinner::after {
+  content: "";
+  position: absolute;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  height: 8px;
+  width: 8px;
+  background: $ajax-loader;
+  border-radius: 8px;
+}
+@keyframes rotate {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+// ajax loader (end)
+
+
 .form-validation {
   .form-error {
     height: auto;
@@ -354,10 +422,96 @@ header .nav.header-navbar-rht .has-submenu >a {
   }
 }
 
+// email
+#profile-settings #user-email {
+  position: relative;
+  z-index: 99;
+  .changeEmailButton{
+    z-index: 999;
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    min-height:46px;
+    min-width: 46px;
+    @extend %flex-align-center;
+    border: 1px solid $detail_btn_color;
+    background-color: $detail_btn_color;
+    color: $white;
+    border-top-right-radius: .375rem;
+    border-bottom-right-radius: .375rem;
+  }
+}
+
+// profile photo
+#profile-settings #user-profile-photo .change-photo-btn{
+  &:hover{
+    color: $white;
+  }
+  /*color: $white;
+  display: block;
+  width: 100%;
+  height: 100%;
+  @extend %flex-align-center;*/
+}
+
+#changeProfilePhotoModal {
+  .modal-body {
+    @extend %flex-align-center;
+    min-height: 300px;
+    max-height: 80vh;
+    padding: 0;
+    .crop-frame{
+      height: auto;
+      max-height: 80vh;
+      width: 100%;
+    }
+  }
+  .modal-footer {
+    @extend %flex-align-space-between;
+    button {
+      color: $white;
+      &.si_accept_cancel {
+        background-color: $font-color;
+      }
+      &.si_accept_confirm {
+        background-color: $blue_1;
+      }
+    }
+  }
+}
+
 // upload profile photo
-#user-profile-photo .change-photo-btn input.upload{
-  width:100%;
-  border-radius: 50px;
+#user-profile-photo .change-photo-btn2 {
+  label {
+    margin: 0 0 10px;
+    background-color: $blue_button_background;
+    color: $white;
+    cursor: pointer;
+    font-size: 13px;
+    font-weight: 600;
+    position: relative;
+    text-align: center;
+    width: 150px;
+    -webkit-transition: 0.3s;
+    -ms-transition: 0.3s;
+    transition: 0.3s;
+    border-radius: 50px;
+    height: 40px;
+    @extend %flex-align-center;
+
+    i{
+      cursor: pointer;
+      margin-right: 8px;
+    }
+    span {
+      cursor: pointer;
+    }
+  }
+  input.upload{
+    width:100%;
+    border-radius: 50px;
+    display:none;
+  }
 }
 
 // clinic
