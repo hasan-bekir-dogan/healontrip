@@ -184,7 +184,7 @@
                         <div class="item">
                             <div class="doctor-profile-widget">
                                 <div class="doc-pro-img">
-                                    <a th:href="@{'/doctor/' + ${doctor.userId}}">
+                                    <a th:href="@{'/doctor/' + ${doctor.userName}}">
                                         <div class="doctor-profile-img">
                                             <img th:src="@{'/' + ${doctor.userImgSrc}}" class="img-fluid" th:alt="${doctor.userImgAlt}">
                                         </div>
@@ -193,7 +193,7 @@
                                 <div class="doc-content">
                                     <div class="doc-pro-info">
                                         <div class="doc-pro-name">
-                                            <a th:href="@{#}" th:text="${doctor.userName}"></a>
+                                            <a th:href="@{'/doctor/' + ${doctor.userName}}" th:text="${doctor.extendedUserName}"></a>
                                             <p>Cardiology</p>
                                         </div>
                                         <div class="reviews-ratings">
