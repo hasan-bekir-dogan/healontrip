@@ -59,7 +59,7 @@
                         <div class="profile-sidebar">
                             <div class="widget-profile pro-widget-content">
                                 <div class="profile-info-widget">
-                                    <a th:href="@{'/doctors/' + ${doctor.userId}}" class="booking-doc-img">
+                                    <a th:href="@{'/doctor/' + ${doctor.userId}}" class="booking-doc-img">
                                         <img th:src="@{'/' + ${doctor.userImgSrc}}" th:alt="${doctor.userImgAlt}">
                                     </a>
                                     <div class="profile-det-info">
@@ -128,7 +128,7 @@
                                         <nav>
                                             <ul class="pagination justify-content-center">
                                                 <li class="page-item" th:classappend="${currentPage == 1} ? 'disabled'">
-                                                    <a class="page-link" th:href="@{'/doctors/' + ${doctor.userId} + '/reviews?page=' + ${1}}" tabindex="-1">
+                                                    <a class="page-link" th:href="@{'/doctor/' + ${doctor.userId} + '/reviews?page=' + ${1}}" tabindex="-1">
                                                         <i class="fas fa-angle-double-left"></i>
                                                     </a>
                                                 </li>
@@ -136,7 +136,7 @@
                                                 <th:block th:each="i: ${#numbers.sequence(1, pageCount)}">
 
                                                     <li class="page-item" th:classappend="${currentPage == i} ? 'active'">
-                                                        <a class="page-link" th:href="@{'/doctors/' + ${doctor.userId} + '/reviews?page=' + ${i}}">
+                                                        <a class="page-link" th:href="@{'/doctor/' + ${doctor.userId} + '/reviews?page=' + ${i}}">
                                                             <th:block th:text="${i}"></th:block>
                                                         </a>
                                                     </li>
@@ -144,7 +144,7 @@
                                                 </th:block>
 
                                                 <li class="page-item" th:classappend="${currentPage >= pageCount} ? 'disabled'">
-                                                    <a class="page-link" th:href="@{'/doctors/' + ${doctor.userId} + '/reviews?page=' + ${pageCount}}">
+                                                    <a class="page-link" th:href="@{'/doctor/' + ${doctor.userId} + '/reviews?page=' + ${pageCount}}">
                                                         <i class="fas fa-angle-double-right"></i>
                                                     </a>
                                                 </li>

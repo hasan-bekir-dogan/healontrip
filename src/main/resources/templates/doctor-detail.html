@@ -494,7 +494,7 @@
 
                                     <!-- Show All -->
                                     <div class="all-feedback text-center">
-                                        <a id="show-all-reviews-btn" th:href="@{'/doctors/' + ${doctor.userId} + '/reviews'}" class="btn btn-primary btn-sm">
+                                        <a id="show-all-reviews-btn" th:href="@{'/doctor/' + ${doctor.userId} + '/reviews'}" class="btn btn-primary btn-sm">
                                             Show all reviews <strong>(<th:block th:text="${reviewInfo.ratingCount}"></th:block>)</strong>
                                         </a>
                                     </div>
@@ -654,7 +654,7 @@
                 <div class="modal-body">
 
                     <!-- Book Appointment Form -->
-                    <form method="post" id="book-appointment" role="form" autocomplete="off" class="form-validation" th:action="@{'/doctors/book-appointment'}">
+                    <form method="post" id="book-appointment" role="form" autocomplete="off" class="form-validation" th:action="@{'/doctor/book-appointment'}">
 
                         <div class="row form-row">
                             <div class="col-md-12">

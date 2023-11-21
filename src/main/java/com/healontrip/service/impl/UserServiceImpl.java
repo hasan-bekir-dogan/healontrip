@@ -533,7 +533,9 @@ public class UserServiceImpl implements UserService {
 
             String userRole = String.valueOf(Role.DOCTOR);
             String extendedName = ((userRole.equals("DOCTOR")) ? RolePrefix.DOCTOR.getPre() : "") + userEntity.getFirstName() + " " + userEntity.getLastName();
-            doctorsDto.setUserName(extendedName);
+            doctorsDto.setExtendedUserName(extendedName);
+
+            doctorsDto.setUserName(userEntity.getUserName());
 
             // User image (begin)
             FileEntity fileEntity = fileService.findById(userEntity.getProfileImgId());
@@ -623,7 +625,9 @@ public class UserServiceImpl implements UserService {
 
             String userRole = String.valueOf(Role.DOCTOR);
             String extendedName = ((userRole.equals("DOCTOR")) ? RolePrefix.DOCTOR.getPre() : "") + userEntity.getFirstName() + " " + userEntity.getLastName();
-            doctorsDto.setUserName(extendedName);
+            doctorsDto.setExtendedUserName(extendedName);
+
+            doctorsDto.setUserName(userEntity.getUserName());
 
             // User image (begin)
             FileEntity fileEntity = fileService.findById(userEntity.getProfileImgId());
