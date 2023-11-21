@@ -285,13 +285,13 @@
                                             <div class="doctor-widget-one">
                                                 <div class="doc-info-left">
                                                     <div class="doctor-img">
-                                                        <a th:href="@{'/doctors/' + ${doctor.userId}}">
+                                                        <a th:href="@{'/doctor/' + ${doctor.userName}}">
                                                             <img th:src="@{'/' + ${doctor.userImgSrc}}" class="img-fluid" th:alt="${doctor.userImgAlt}">
                                                         </a>
                                                     </div>
                                                     <div class="doc-info-cont">
                                                         <h4 class="doc-name">
-                                                            <a th:href="@{#}" th:text="${doctor.userName}"></a>
+                                                            <a th:href="@{'/doctor/' + ${doctor.userName}}" th:text="${doctor.extendedUserName}"></a>
                                                             <i class="fas fa-circle-check"></i>
                                                         </h4>
                                                         <p class="doc-speciality">BDS, MDS - Oral & Maxillofacial Surgery</p>

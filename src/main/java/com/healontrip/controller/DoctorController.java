@@ -3,6 +3,7 @@ package com.healontrip.controller;
 import com.healontrip.dto.*;
 import com.healontrip.entity.CommunicationEntity;
 import com.healontrip.entity.ExperienceYearEntity;
+import com.healontrip.entity.UserEntity;
 import com.healontrip.repository.ExperienceYearRepository;
 import com.healontrip.service.*;
 import com.healontrip.util.IpConfigUtil;
@@ -42,18 +43,19 @@ public class DoctorController {
     @Autowired
     private AppointmentService appointmentService;
 
-    @GetMapping("/doctors/{id}")
+    @GetMapping("/doctor/{username}")
     public String detail(Model model,
-                         @PathVariable Long id,
+                         @PathVariable String username,
                          HttpServletRequest request) throws ParseException {
         // coming soon
         if(!IpConfigUtil.checkAdminIp(request))
             return IpConfigUtil.getRedirectPage();
 
         UserBarDto userBarDto = userService.getUser();
-        DoctorDto doctorDto = userService.getDoctor(id);
-        List<ReviewsDto> reviewsDtoList = reviewService.getReviews(id, 5, 0);
-        ReviewsDto reviewsDto = reviewService.getReview(id);
+        UserEntity userEntity = userService.findByUserName(username);
+        DoctorDto doctorDto = userService.getDoctor(userEntity.getId());
+        List<ReviewsDto> reviewsDtoList = reviewService.getReviews(userEntity.getId(), 5, 0);
+        ReviewsDto reviewsDto = reviewService.getReview(userEntity.getId());
         List<CommunicationDto> communicationDtoList = communicationService.getAllCommunications();
 
         model.addAttribute("user", userBarDto);
@@ -136,9 +138,9 @@ public class DoctorController {
         }
     }
 
-    @GetMapping("/doctors/{id}/reviews")
+    @GetMapping("/doctor/{username}/reviews")
     public String index(Model model,
-                        @PathVariable Long id,
+                        @PathVariable String username,
                         @RequestParam(value = "page", required = false) Integer pageNumber,
                         HttpServletRequest request) throws ParseException {
         // coming soon
@@ -152,10 +154,11 @@ public class DoctorController {
 
         int LIMITPRODUCT = 40;
         UserBarDto userBarDto = userService.getUser();
-        DoctorDto doctorDto = userService.getDoctor(id);
-        ReviewsDto reviewsDto = reviewService.getReview(id);
+        UserEntity userEntity = userService.findByUserName(username);
+        DoctorDto doctorDto = userService.getDoctor(userEntity.getId());
+        ReviewsDto reviewsDto = reviewService.getReview(userEntity.getId());
 
-        List<ReviewsDto> reviewsDtoList = reviewService.getReviews(id, LIMITPRODUCT, ((pageNumber - 1) * LIMITPRODUCT) + 1);
+        List<ReviewsDto> reviewsDtoList = reviewService.getReviews(userEntity.getId(), LIMITPRODUCT, ((pageNumber - 1) * LIMITPRODUCT) + 1);
 
         // page count
         Integer reviewCount = reviewsDto.getRatingCount();
@@ -171,7 +174,7 @@ public class DoctorController {
         return "doctor-reviews";
     }
 
-    @PostMapping("/doctors/book-appointment")
+    @PostMapping("/doctor/book-appointment")
     public ResponseEntity<Object> bookAppointment(@ModelAttribute @Valid AppointmentDto appointmentDto,
                                                   HttpServletRequest request){
         // coming soon
@@ -192,7 +195,7 @@ public class DoctorController {
         }
     }
 
-    @GetMapping("/doctors/communication-info/{id}")
+    @GetMapping("/doctor/communication-info/{id}")
     public ResponseEntity<Object> getCommunicationInfo(@PathVariable Long id,
                                                        HttpServletRequest request){
         // coming soon

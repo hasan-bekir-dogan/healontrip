@@ -326,7 +326,7 @@ async function addCommunicationInfo(communicationId) {
     var token = $("meta[name='_csrf']").attr("content");
     var header = $("meta[name='_csrf_header']").attr("content");
 
-    let response = await fetch('/doctors/communication-info/' + communicationId, {
+    let response = await fetch('/doctor/communication-info/' + communicationId, {
         headers: {
             'X-CSRF-Token': token,
             'X-CSRF-HEADER': header
