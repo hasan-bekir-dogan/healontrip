@@ -185,6 +185,24 @@ header .nav.header-navbar-rht .has-submenu >a {
   }
 }
 
+// header (begin)
+.header .container .navbar.navbar-expand-lg.header-nav {
+  .navbar-header {
+    height: 74px;
+    .navbar-brand.logo {
+      height: 100%;
+      width: 100%;
+      >img.img-fluid {
+        width: auto;
+        max-height: 100%;
+      }
+    }
+  }
+  .main-menu-wrapper .main-nav >li.text >a{
+    padding: 25.5px 0 25.5px !important;
+  }
+}
+// header (end)
 
 // blogs (begin)
 .blog.grid-blog {
@@ -249,6 +267,20 @@ header .nav.header-navbar-rht .has-submenu >a {
 
 
 // home (begin)
+.banner-section.home-banner .container .banner-img {
+  @extend %flex-align-center;
+}
+
+.banner-content .header-icon {
+  right: 112px;
+}
+
+@media only screen and (max-width: 1399.98px) {
+  .banner-content .header-icon {
+    right: 22px;
+  }
+}
+
 @media only screen and (min-width: 991.98px) {
   .home-banner .banner-content {
     padding-bottom: 100px;

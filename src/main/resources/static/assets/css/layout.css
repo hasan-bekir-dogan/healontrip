@@ -9,7 +9,7 @@
 }
 
 /*---------------------------------------*/
-#book-appointment .submit-section.submit-btn-bottom, #user-profile-photo .change-photo-btn2 label, #changeProfilePhotoModal .modal-body, #profile-settings #user-email .changeEmailButton, .view-all-area, #error-page {
+#book-appointment .submit-section.submit-btn-bottom, #user-profile-photo .change-photo-btn2 label, #changeProfilePhotoModal .modal-body, #profile-settings #user-email .changeEmailButton, .view-all-area, .banner-section.home-banner .container .banner-img, #error-page {
   display: flex;
   display: -webkit-flex;
   flex-direction: row;
@@ -212,6 +212,21 @@ header .nav.header-navbar-rht .has-submenu > a:hover {
   color: #0E82FD;
 }
 
+.header .container .navbar.navbar-expand-lg.header-nav .navbar-header {
+  height: 74px;
+}
+.header .container .navbar.navbar-expand-lg.header-nav .navbar-header .navbar-brand.logo {
+  height: 100%;
+  width: 100%;
+}
+.header .container .navbar.navbar-expand-lg.header-nav .navbar-header .navbar-brand.logo > img.img-fluid {
+  width: auto;
+  max-height: 100%;
+}
+.header .container .navbar.navbar-expand-lg.header-nav .main-menu-wrapper .main-nav > li.text > a {
+  padding: 25.5px 0 25.5px !important;
+}
+
 .blog.grid-blog .blog-image .img-fluid {
   aspect-ratio: 3/2;
   object-fit: cover;
@@ -262,6 +277,15 @@ header .nav.header-navbar-rht .has-submenu > a:hover {
   text-overflow: ellipsis;
 }
 
+.banner-content .header-icon {
+  right: 112px;
+}
+
+@media only screen and (max-width: 1399.98px) {
+  .banner-content .header-icon {
+    right: 22px;
+  }
+}
 @media only screen and (min-width: 991.98px) {
   .home-banner .banner-content {
     padding-bottom: 100px;
