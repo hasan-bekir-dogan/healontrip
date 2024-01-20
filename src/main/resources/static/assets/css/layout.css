@@ -419,7 +419,7 @@ header .nav.header-navbar-rht .has-submenu > a:hover {
 
 /*-----------------------------------*/
 .doctors-section .owl-stage-outer .owl-item .item .doctor-profile-widget .doc-pro-img .doctor-profile-img > img {
-  aspect-ratio: 3/2;
+  aspect-ratio: 1;
   object-fit: cover;
 }
 .doctors-section .owl-stage-outer .owl-item .item .doctor-profile-widget .doc-content .doc-pro-info .doc-pro-name {
@@ -434,6 +434,14 @@ header .nav.header-navbar-rht .has-submenu > a:hover {
     max-width: 145px;
   }
 }
+.doctor-filter-select {
+  width: 200px;
+}
+
+.footer-one .footer-bottom .copyright .policy-menu li:first-child {
+  margin-right: 27.5px;
+}
+
 .clinic-section .image-upload {
   background-color: #fbfbfb;
   border: 2px dashed rgba(0, 0, 0, 0.1);

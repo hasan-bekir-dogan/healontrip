@@ -6,7 +6,7 @@
                 <div class="col-lg-3 col-md-4">
                     <div class="footer-widget footer-about">
                         <div class="footer-logo">
-                            <img th:src="@{assets/img/logo-footer.png}" alt="logo">
+                            <img th:src="@{/assets/img/logo-footer.png}" alt="logo">
                         </div>
                         <div class="footer-about-content">
                             <p>
@@ -38,9 +38,36 @@
                     <div class="footer-widget footer-contact">
                         <h2 class="footer-title">Contact Us</h2>
                         <div class="footer-contact-info">
-                            <div class="footer-address">
-                                <p><i class="feather-map-pin"></i> 3556 Beech Street, USA</p>
+                            <div class="footer-address mb-0">
+                                <p><i class="feather-mail"></i> healontrip@gmail.com</p>
                             </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-7">
+                    <div class="footer-widget">
+                        <h2 class="footer-title">Join Our Newsletter</h2>
+                        <div class="subscribe-form">
+                            <form action="#">
+                                <input type="email" class="form-control" placeholder="Enter Email">
+                                <button type="submit" class="btn">Submit</button>
+                            </form>
+                        </div>
+                        <div class="social-icon">
+                            <ul>
+                                <li>
+                                    <a th:href="@{#}" target="_blank"><i class="fab fa-facebook"></i> </a>
+                                </li>
+                                <li>
+                                    <a th:href="@{#}" target="_blank"><i class="fab fa-instagram"></i></a>
+                                </li>
+                                <li>
+                                    <a th:href="@{#}" target="_blank"><i class="fab fa-twitter"></i> </a>
+                                </li>
+                                <li>
+                                    <a th:href="@{#}" target="_blank"><i class="fab fa-linkedin-in"></i></a>
+                                </li>
+                            </ul>
                         </div>
                     </div>
                 </div>
@@ -63,10 +90,14 @@
                         <div class="copyright-menu">
                             <ul class="policy-menu">
                                 <li>
-                                    <a href="#">Privacy Policy</a>
+                                    <a th:href="@{/privacy-policy}">
+                                        Privacy Policy
+                                    </a>
                                 </li>
                                 <li>
-                                    <a href="#">Terms and Conditions</a>
+                                    <a th:href="@{/terms-condition}">
+                                        Terms and Conditions
+                                    </a>
                                 </li>
                             </ul>
                         </div>

@@ -9,7 +9,9 @@
                             <img th:src="@{assets/img/logo-footer.png}" alt="logo">
                         </div>
                         <div class="footer-about-content">
-                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore.</p>
+                            <p>
+                                Health Beyond Borders: Your Path to Excellence in Turkish Healthcare.
+                            </p>
                         </div>
                     </div>
                 </div>
@@ -17,9 +19,9 @@
                     <div class="footer-widget footer-menu">
                         <h2 class="footer-title">For Patients</h2>
                         <ul>
-                            <li><a href="search.html">Search for Doctors</a></li>
-                            <li><a href="login.html">Login</a></li>
-                            <li><a href="register.html">Register</a></li>
+                            <li><a th:href="@{/search}">Search for Doctors</a></li>
+                            <li><a th:href="@{/login}">Login</a></li>
+                            <li><a th:href="@{/register}">Register</a></li>
                         </ul>
                     </div>
                 </div>
@@ -27,9 +29,8 @@
                     <div class="footer-widget footer-menu">
                         <h2 class="footer-title">For Doctors</h2>
                         <ul>
-                            <li><a href="appointments.html">Appointments</a></li>
-                            <li><a href="chat.html">Chat</a></li>
-                            <li><a href="login.html">Login</a></li>
+                            <li><a th:href="@{/login}">Login</a></li>
+                            <li><a th:href="@{/register}">Register</a></li>
                         </ul>
                     </div>
                 </div>
@@ -37,14 +38,8 @@
                     <div class="footer-widget footer-contact">
                         <h2 class="footer-title">Contact Us</h2>
                         <div class="footer-contact-info">
-                            <div class="footer-address">
-                                <p><i class="feather-map-pin"></i> 3556 Beech Street, USA</p>
-                            </div>
-                            <div class="footer-address">
-                                <p><i class="feather-phone-call"></i> +1 315 369 5943</p>
-                            </div>
                             <div class="footer-address mb-0">
-                                <p><i class="feather-mail"></i> doccure@example.com</p>
+                                <p><i class="feather-mail"></i> healontrip@gmail.com</p>
                             </div>
                         </div>
                     </div>
@@ -94,8 +89,16 @@
                         <!-- Copyright Menu -->
                         <div class="copyright-menu">
                             <ul class="policy-menu">
-                                <li><a href="privacy-policy.html">Privacy Policy</a></li>
-                                <li><a href="terms-condition.html">Terms and Conditions</a></li>
+                                <li>
+                                    <a th:href="@{/privacy-policy}">
+                                        Privacy Policy
+                                    </a>
+                                </li>
+                                <li>
+                                    <a th:href="@{/terms-condition}">
+                                        Terms and Conditions
+                                    </a>
+                                </li>
                             </ul>
                         </div>
                         <!-- /Copyright Menu -->

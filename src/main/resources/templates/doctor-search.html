@@ -258,19 +258,19 @@
                                     <div class="doctor-filter-inner">
                                         <div>
                                             <div class="doctors-found">
-                                                <p><span>100 Doctors found</span></p>
+                                                <p><span><th:block th:text="${doctorCount}"></th:block> Doctors found</span></p>
                                             </div>
                                         </div>
                                         <div class="doctor-filter-option">
                                             <div class="doctor-filter-sort">
-                                                <p>Sort</p>
+                                                <p>Sort By</p>
                                                 <div class="doctor-filter-select">
                                                     <select class="select">
-                                                        <option>A to Z</option>
-                                                        <option>B to Z</option>
-                                                        <option>C to Z</option>
-                                                        <option>D to Z</option>
-                                                        <option>E to Z</option>
+                                                        <option value="name_asc">Name: A to Z</option>
+                                                        <option value="name_desc">Name: Z to A</option>
+                                                        <option value="rate_desc">Most rated</option>
+                                                        <option value="review_desc">Most reviewed</option>
+                                                        <option value="exp_desc">Most experienced</option>
                                                     </select>
                                                 </div>
                                             </div>
@@ -318,7 +318,7 @@
                                                         </ul>
                                                     </div>
                                                     <div class="clinic-booking book-appoint">
-                                                        <a class="btn btn-primary" href="booking.html">Book Appointment</a>
+                                                        <a class="btn btn-primary-light" th:href="@{'/doctor/' + ${doctor.userName}}">View Profile</a>
                                                     </div>
                                                 </div>
                                             </div>
