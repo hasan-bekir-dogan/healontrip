@@ -36,3 +36,4 @@ build/
 uploads/
 log/
 src/main/resources/application.properties
+src/main/java/com/healontrip/dto/AdminIp.java
