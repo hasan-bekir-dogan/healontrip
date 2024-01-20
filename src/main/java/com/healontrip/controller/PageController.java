@@ -39,4 +39,30 @@ public class PageController {
 
         return "index";
     }
+
+    @GetMapping("/privacy-policy")
+    public String privacyPolicy(Model model, HttpServletRequest request) throws ParseException {
+        // coming soon
+        if(!IpConfigUtil.checkAdminIp(request))
+            return IpConfigUtil.getPage();
+
+        UserBarDto userBarDto = userService.getUser();
+
+        model.addAttribute("user", userBarDto);
+
+        return "privacy-policy";
+    }
+
+    @GetMapping("/terms-condition")
+    public String termsCondition(Model model, HttpServletRequest request) throws ParseException {
+        // coming soon
+        if(!IpConfigUtil.checkAdminIp(request))
+            return IpConfigUtil.getPage();
+
+        UserBarDto userBarDto = userService.getUser();
+
+        model.addAttribute("user", userBarDto);
+
+        return "terms-condition";
+    }
 }

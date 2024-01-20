@@ -32,7 +32,9 @@ public class SpringSecurity {
             "/reset-password",
             "/check-account-info",
             "/email-verification-code",
-            "/verify-account"
+            "/verify-account",
+            "/privacy-policy",
+            "/terms-condition"
     };
     public static final String LOGIN_URL = "/login";
     public static final String LOGOUT_URL = "/logout";

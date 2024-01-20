@@ -111,12 +111,14 @@ public class DoctorController {
         else
             doctorsDtoList = userService.getDoctors();
 
+        System.out.println(doctorsDtoList);
 
         model.addAttribute("user", userBarDto);
         model.addAttribute("genderList", genderDtoList);
         model.addAttribute("specialists", specialistDtoList);
         model.addAttribute("experienceList", experienceYearEntityList);
         model.addAttribute("doctors", doctorsDtoList);
+        model.addAttribute("doctorCount", doctorsDtoList.size());
 
         return "doctor-search";
     }

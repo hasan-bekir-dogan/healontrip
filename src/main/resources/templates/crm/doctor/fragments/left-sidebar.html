@@ -25,12 +25,6 @@
                             <span>Dashboard</span>
                         </a>
                     </li>
-                    <li>
-                        <a th:href="@{#}">
-                            <i class="fas fa-calendar-check"></i>
-                            <span>Appointments</span>
-                        </a>
-                    </li>
                     <li th:classappend="${#ctx.springRequestContext.requestUri.startsWith('/blogs-crm')} ? 'active'">
                         <a th:href="@{/blogs-crm}">
                             <i class="fas fa-pager"></i>
