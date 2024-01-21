@@ -51,12 +51,19 @@ public class DoctorController {
         if(!IpConfigUtil.checkAdminIp(request))
             return IpConfigUtil.getRedirectPage();
 
+        System.out.println("test");
         UserBarDto userBarDto = userService.getUser();
+        System.out.println("test");
         UserEntity userEntity = userService.findByUserName(username);
+        System.out.println("test");
         DoctorDto doctorDto = userService.getDoctor(userEntity.getId());
+        System.out.println("test");
         List<ReviewsDto> reviewsDtoList = reviewService.getReviews(userEntity.getId(), 5, 0);
+        System.out.println("test");
         ReviewsDto reviewsDto = reviewService.getReview(userEntity.getId());
+        System.out.println("test");
         List<CommunicationDto> communicationDtoList = communicationService.getAllCommunications();
+        System.out.println("test");
 
         model.addAttribute("user", userBarDto);
         model.addAttribute("doctor", doctorDto);

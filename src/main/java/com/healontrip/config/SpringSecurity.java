@@ -25,7 +25,7 @@ public class SpringSecurity {
             "/assets/**",
             "/uploads/**",
             "/blogs/**",
-            "/doctors/**",
+            "/doctor/**",
             "/search",
             "/review",
             "/forgot-password",
@@ -34,7 +34,8 @@ public class SpringSecurity {
             "/email-verification-code",
             "/verify-account",
             "/privacy-policy",
-            "/terms-condition"
+            "/terms-condition",
+            "/social-media"
     };
     public static final String LOGIN_URL = "/login";
     public static final String LOGOUT_URL = "/logout";

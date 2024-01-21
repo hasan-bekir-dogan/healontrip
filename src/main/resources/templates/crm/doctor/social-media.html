@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+
+    <th:block th:include="fragments/head"></th:block>
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" th:href="@{/assets/css/bootstrap.min.css}">
+
+    <!-- Fontawesome CSS -->
+    <link rel="stylesheet" th:href="@{/assets/plugins/fontawesome/css/fontawesome.min.css}">
+    <link rel="stylesheet" th:href="@{/assets/plugins/fontawesome/css/all.min.css}">
+
+    <!-- Feathericon CSS -->
+    <link rel="stylesheet" th:href="@{/assets/css/feather.css}">
+
+    <!-- Main CSS -->
+    <link rel="stylesheet" th:href="@{/assets/css/custom.css}">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" th:href="@{/assets/css/layout.css}">
+
+</head>
+<body>
+
+    <!-- Main Wrapper -->
+    <div class="main-wrapper">
+
+        <!-- Header -->
+        <th:block th:include="fragments/header"></th:block>
+        <!-- /Header -->
+
+        <!-- Breadcrumb -->
+        <div class="breadcrumb-bar-two">
+            <div class="container">
+                <div class="row align-items-center inner-banner">
+                    <div class="col-md-12 col-12 text-center">
+                        <h2 class="breadcrumb-title">Social Media</h2>
+                        <nav aria-label="breadcrumb" class="page-breadcrumb">
+                            <ol class="breadcrumb">
+                                <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+                                <li class="breadcrumb-item" aria-current="page">Social Media</li>
+                            </ol>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- /Breadcrumb -->
+
+        <!-- Page Content -->
+        <div class="content">
+            <div class="container">
+
+                <div class="row">
+                    <th:block th:include="crm/doctor/fragments/left-sidebar"></th:block>
+
+
+                    <div class="col-md-7 col-lg-8 col-xl-9">
+                        <div class="card">
+                            <div class="card-body">
+
+                                <!-- Social Form -->
+                                <form>
+                                    <div class="row">
+                                        <div class="col-md-12 col-lg-8">
+                                            <div class="form-group">
+                                                <label>Facebook URL</label>
+                                                <input type="text" class="form-control">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-12 col-lg-8">
+                                            <div class="form-group">
+                                                <label>Twitter URL</label>
+                                                <input type="text" class="form-control">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-12 col-lg-8">
+                                            <div class="form-group">
+                                                <label>Instagram URL</label>
+                                                <input type="text" class="form-control">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-12 col-lg-8">
+                                            <div class="form-group">
+                                                <label>Pinterest URL</label>
+                                                <input type="text" class="form-control">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-12 col-lg-8">
+                                            <div class="form-group">
+                                                <label>Linkedin URL</label>
+                                                <input type="text" class="form-control">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-12 col-lg-8">
+                                            <div class="form-group">
+                                                <label>Youtube URL</label>
+                                                <input type="text" class="form-control">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="submit-section">
+                                        <button type="submit" class="btn btn-primary submit-btn">Save Changes</button>
+                                    </div>
+                                </form>
+                                <!-- /Social Form -->
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+        <!-- /Page Content -->
+
+        <!-- Footer -->
+        <th:block th:include="fragments/footer"></th:block>
+        <!-- /Footer -->
+
+    </div>
+    <!-- /Main Wrapper -->
+
+
+    <!-- jQuery -->
+    <script th:src="@{/assets/js/jquery-3.6.4.min.js}"></script>
+
+    <!-- Bootstrap Core JS -->
+    <script th:src="@{/assets/js/bootstrap.bundle.min.js}"></script>
+
+    <!-- Sticky Sidebar JS -->
+    <script th:src="@{/assets/plugins/theia-sticky-sidebar/ResizeSensor.js}"></script>
+    <script th:src="@{/assets/plugins/theia-sticky-sidebar/theia-sticky-sidebar.js}"></script>
+
+    <!-- Custom JS -->
+    <script th:src="@{/assets/js/script.js}"></script>
+
+</body>
+</html>

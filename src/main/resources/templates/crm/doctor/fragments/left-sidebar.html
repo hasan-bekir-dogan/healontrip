@@ -43,8 +43,8 @@
                             <span>Profile Settings</span>
                         </a>
                     </li>
-                    <li>
-                        <a th:href="@{#}">
+                    <li th:classappend="${#ctx.springRequestContext.requestUri.startsWith('/social-media')} ? 'active'">
+                        <a th:href="@{/social-media}">
                             <i class="fas fa-share-alt"></i>
                             <span>Social Media</span>
                         </a>
