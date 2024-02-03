@@ -23,5 +23,6 @@ public class ReviewsDto {
     private int rating;
     private String detail;
     private Double ratingAvg;
+    private String ratingAvgStr;
     private int ratingCount;
 }

@@ -23,7 +23,7 @@
                         <i class="fas fa-times"></i>
                     </a>
                 </div>
-                <ul class="main-nav" th:if="${user.userName == null}">
+                <ul class="main-nav" th:if="${user.extendedUserName == null}">
                     <li class="text">
                         <a th:href="@{/search}">Doctors</a>
                     </li>
@@ -43,7 +43,7 @@
                 </ul>
             </div>
 
-            <ul th:unless="${user.userName == null}" class="nav header-navbar-rht">
+            <ul th:unless="${user.extendedUserName == null}" class="nav header-navbar-rht">
                 <li class="text">
                     <a th:href="@{/search}">Doctors</a>
                 </li>
@@ -124,7 +124,7 @@
                 <li class="nav-item dropdown has-arrow logged-item">
                     <a th:href="@{#}" class="dropdown-toggle nav-link" data-bs-toggle="dropdown">
                         <span class="user-img">
-                            <img class="rounded-circle" th:src="@{'/' + ${user.profileImgSrc}}" width="31" th:alt="${user.userName}">
+                            <img class="rounded-circle" th:src="@{'/' + ${user.profileImgSrc}}" width="31" th:alt="${user.extendedUserName}">
                         </span>
                     </a>
                     <div class="dropdown-menu dropdown-menu-end">
@@ -133,7 +133,7 @@
                                 <img th:src="@{'/' + ${user.profileImgSrc}}" th:alt="${user.profileImgAlt}" class="avatar-img rounded-circle">
                             </div>
                             <div class="user-text">
-                                <h6 th:text="${user.userName}"></h6>
+                                <h6 th:text="${user.extendedUserName}"></h6>
                                 <p class="text-muted mb-0" th:text="${user.roleInitCap}"></p>
                             </div>
                         </div>

@@ -35,6 +35,8 @@ public class IpConfigUtil {
             }
         }
 
+        System.out.println("ip address: " + ipAddress);
+
         if(!StringUtils.isEmpty(ipAddress)
                 && ipAddress.length() > 15
                 && ipAddress.indexOf(",") > 0) {

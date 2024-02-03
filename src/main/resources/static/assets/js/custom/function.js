@@ -159,7 +159,8 @@ function addReviewHtml(reviewList, reviewInfo) {
     $('#doc_reviews .review-listing .comments-list').html(reviews)
 
     // change review rating average and count
-    $('.doctor-widget .doc-info-left .doc-info-cont .rating .rating-avg').html(reviewInfo.ratingAvg)
+    $('.doctor-widget .doc-info-left .doc-info-cont .rating .rating-avg').html(reviewInfo.ratingAvgStr)
+    $('.doctor-widget .doc-info-left .doc-info-cont .rating .review-stars').css('--rating', reviewInfo.ratingAvgStr)
     $('.doctor-widget .doc-info-left .doc-info-cont .rating .rating-count').html(reviewInfo.ratingCount + ' Reviews')
     $('#show-all-reviews-btn >strong').html(reviewInfo.ratingCount)
 }

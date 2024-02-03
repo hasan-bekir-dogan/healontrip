@@ -645,7 +645,7 @@ header .nav.header-navbar-rht .has-submenu >a {
   padding-top: 30px;
   margin-top: 30px;
 }
-.rating {
+#doc_reviews .rating {
   @extend %flex-align-center-row-flex-start;
   margin-bottom: 25px;
   .rating-avg {
@@ -767,3 +767,70 @@ fieldset#first {
   }
 }
 // forgot password (end)
+
+.doctor-content .search-left-side-bar .collapse.scroll-area .filter-collapse >ul{
+  max-height: 188px;
+  overflow: auto;
+  &::-webkit-scrollbar {
+    width: 7px;
+  }
+
+  /* Track */
+  &::-webkit-scrollbar-track {
+    box-shadow: inset 0 0 5px #F1F1F1;
+    border-radius: 3px;
+  }
+
+  /* Handle */
+  &::-webkit-scrollbar-thumb {
+    background: #C1C1C1;
+    border-radius: 3px;
+  }
+
+  /* Handle on hover */
+  &::-webkit-scrollbar-thumb:hover {
+    background: #A8A8A8;
+  }
+  li .custom_check .checkmark::after {
+    width: 9px;
+    height: 9px;
+  }
+}
+
+#rating-star {
+  @extend %flex-align-center-row-flex-start;
+  .review-stars {
+    --star-size: 15px;
+    --star-color: #dedfe0;
+    --star-background: #f4c150;
+    --percent: calc(var(--rating) / 5 * 100%);
+
+    display: inline-block;
+    font-size: var(--star-size);
+    font-family: "Poppins", sans-serif; // make sure ★ appears correctly
+    //line-height: 1;
+    margin: 0 8px;
+    &::before {
+      //content: '★★★★★';
+      content: '\f005\f005\f005\f005\f005';
+      font-family: "Font Awesome 6 Free";
+      font-weight: 900;
+      letter-spacing: 3px;
+      background: linear-gradient(90deg, var(--star-background) var(--percent), var(--star-color) var(--percent));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+  }
+  .dot {
+    @extend %flex-align-center;
+    margin-right: 8px;
+    >i {
+      background: #757575;
+      border-radius: 50%;
+      width: 3px;
+      height: 3px;
+      display:inline-block;
+      //margin: 0 8px;
+    }
+  }
+}

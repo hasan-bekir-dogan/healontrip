@@ -51,25 +51,18 @@ public class DoctorController {
         if(!IpConfigUtil.checkAdminIp(request))
             return IpConfigUtil.getRedirectPage();
 
-        System.out.println("test");
         UserBarDto userBarDto = userService.getUser();
-        System.out.println("test");
         UserEntity userEntity = userService.findByUserName(username);
-        System.out.println("test");
         DoctorDto doctorDto = userService.getDoctor(userEntity.getId());
-        System.out.println("test");
         List<ReviewsDto> reviewsDtoList = reviewService.getReviews(userEntity.getId(), 5, 0);
-        System.out.println("test");
         ReviewsDto reviewsDto = reviewService.getReview(userEntity.getId());
-        System.out.println("test");
         List<CommunicationDto> communicationDtoList = communicationService.getAllCommunications();
-        System.out.println("test");
 
         model.addAttribute("user", userBarDto);
         model.addAttribute("doctor", doctorDto);
         model.addAttribute("clinicImages", doctorDto.getClinicImageList());
         model.addAttribute("serviceList", doctorDto.getServiceList());
-        model.addAttribute("specialistList", doctorDto.getSpecialistList());
+        model.addAttribute("specialistId", doctorDto.getSpecialistId());
         model.addAttribute("educationList", doctorDto.getEducationList());
         model.addAttribute("experienceList", doctorDto.getExperienceList());
         model.addAttribute("awardList", doctorDto.getAwardList());
@@ -99,8 +92,8 @@ public class DoctorController {
         genderDtoList.add(new GenderDto(GenderCode.MALE.getId(), GenderCode.MALE.getName()));
         genderDtoList.add(new GenderDto(GenderCode.FEMALE.getId(), GenderCode.FEMALE.getName()));
 
-        // specialist list
-        List<SpecialistDto> specialistDtoList = specialistService.getSpecialistDistinctList();
+        // specialist
+        List<SpecialistDto> specialistDtoList = specialistService.getSpecialists();
 
         // experience years
         List<ExperienceYearEntity> experienceYearEntityList = experienceYearRepository.findAll();
@@ -108,17 +101,56 @@ public class DoctorController {
         // doctor list
         List<DoctorsDto> doctorsDtoList;
 
+        SearchFilterDto searchFilter = new SearchFilterDto(genderList, specialityList, experienceYearList, ratingList);
+
         if((genderList != null && !genderList.isEmpty()) || (specialityList != null && !specialityList.isEmpty()) ||
-                (experienceYearList != null && !experienceYearList.isEmpty()) || (ratingList != null && !ratingList.isEmpty())) {
-
-            SearchFilterDto searchFilterDto = new SearchFilterDto(genderList, specialityList, experienceYearList, ratingList);
-            doctorsDtoList = userService.getDoctors(searchFilterDto);
-
-        }
+                (experienceYearList != null && !experienceYearList.isEmpty()) || (ratingList != null && !ratingList.isEmpty()))
+            doctorsDtoList = userService.getDoctors(searchFilter);
         else
             doctorsDtoList = userService.getDoctors();
 
-        System.out.println(doctorsDtoList);
+        // filter values (begin)
+        FilterDto filterUnselectedValues = new FilterDto();
+        FilterDto filterSelectedValues = new FilterDto();
+        List<GenderDto> filteredGenderList = new ArrayList<>();
+        List<SpecialistDto> filteredSpecialists = new ArrayList<>();
+        List<ExperienceYearEntity> filteredExperienceList = new ArrayList<>();
+
+        if (genderList != null && !genderList.isEmpty()) {
+            for (GenderDto genderDto : genderDtoList) {
+                if (genderList.contains(genderDto.getId()))
+                    filteredGenderList.add(genderDto);
+            }
+        }
+
+        if (specialityList != null && !specialityList.isEmpty()) {
+            for (SpecialistDto specialistDto: specialistDtoList) {
+                if (specialityList.contains(specialistDto.getId()))
+                    filteredSpecialists.add(specialistDto);
+            }
+        }
+
+        if (experienceYearList != null && !experienceYearList.isEmpty()) {
+            for (ExperienceYearEntity experienceYearEntity: experienceYearEntityList) {
+                Integer i = experienceYearEntity.getId() != null ? experienceYearEntity.getId().intValue() : null;
+
+                if (experienceYearList.contains(i))
+                    filteredExperienceList.add(experienceYearEntity);
+            }
+        }
+
+        filterSelectedValues.setGenderList(filteredGenderList);
+        filterSelectedValues.setSpecialityList(filteredSpecialists);
+        filterSelectedValues.setExperienceYearList(filteredExperienceList);
+
+        genderDtoList.removeAll(filteredGenderList);
+        specialistDtoList.removeAll(filteredSpecialists);
+        experienceYearEntityList.removeAll(filteredExperienceList);
+
+        filterUnselectedValues.setGenderList(genderDtoList);
+        filterUnselectedValues.setSpecialityList(specialistDtoList);
+        filterUnselectedValues.setExperienceYearList(experienceYearEntityList);
+        // filter values (end)
 
         model.addAttribute("user", userBarDto);
         model.addAttribute("genderList", genderDtoList);
@@ -126,6 +158,8 @@ public class DoctorController {
         model.addAttribute("experienceList", experienceYearEntityList);
         model.addAttribute("doctors", doctorsDtoList);
         model.addAttribute("doctorCount", doctorsDtoList.size());
+        model.addAttribute("filterSelectedValues", filterSelectedValues);
+        model.addAttribute("filterUnselectedValues", filterUnselectedValues);
 
         return "doctor-search";
     }

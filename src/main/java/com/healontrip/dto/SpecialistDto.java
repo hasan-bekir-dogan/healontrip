@@ -14,5 +14,4 @@ import lombok.extern.log4j.Log4j2;
 public class SpecialistDto {
     private Long id;
     private String name;
-    private Long userId;
 }

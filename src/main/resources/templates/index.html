@@ -191,16 +191,16 @@
                                     <div class="doc-pro-info">
                                         <div class="doc-pro-name">
                                             <a th:href="@{'/doctor/' + ${doctor.userName}}" th:text="${doctor.extendedUserName}"></a>
-                                            <p>Cardiology</p>
+                                            <p th:text="${doctor.specialist} ? ${doctor.specialist} : '&nbsp;'"></p>
                                         </div>
                                         <div class="reviews-ratings">
                                             <p>
-                                                <span><i class="fas fa-star"></i> 4.5</span> (35)
+                                                <span><i class="fas fa-star"></i> <th:block th:text="${doctor.reviews.ratingAvg}"></th:block></span> (<th:block th:text="${doctor.reviews.ratingCount <= 999} ? ${doctor.reviews.ratingCount} : '999+'"></th:block>)
                                             </p>
                                         </div>
                                     </div>
                                     <div class="doc-pro-location">
-                                        <p><i class="feather-map-pin"></i> Newyork, USA</p>
+                                        <p><i class="feather-map-pin"></i> <th:block th:text="${doctor.addressShort}"></th:block></p>
                                     </div>
                                 </div>
                             </div>

@@ -17,4 +17,9 @@ public class DoctorsDto {
     private String userName;
     private String userImgSrc;
     private String userImgAlt;
+    private String infoShort;
+    private String addressShort;
+    private String specialist;
+    private ReviewsDto reviews;
+    private int experienceYear;
 }

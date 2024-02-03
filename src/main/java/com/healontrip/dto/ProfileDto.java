@@ -72,7 +72,7 @@ public class ProfileDto {
     private String service;
 
     @SpecialistNotNullConstraint(message = "Specialization must have value")
-    private String specialist;
+    private Long specialist;
 
     private List<EducationDto> educationList;
     private List<Long> deletedEducationList;

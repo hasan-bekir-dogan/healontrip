@@ -10,5 +10,6 @@ public interface ExperienceService {
     void updateExperience(ExperienceDto experienceDto);
     void deleteExperience(Long id);
     List<ExperienceDto> getExperienceList(Long userId);
+    int getExperienceYear(Long userId);
     ExperienceEntity findById(Long id);
 }

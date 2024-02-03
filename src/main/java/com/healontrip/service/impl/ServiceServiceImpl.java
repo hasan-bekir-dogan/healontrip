@@ -78,12 +78,12 @@ public class ServiceServiceImpl implements ServiceService {
     @Override
     public List<ServiceDto> getServiceList(Long userId) {
         List<ServiceEntity> serviceEntityList = serviceRepository.findServiceByUserId(userId);
-        List<ServiceDto> specializationDtoList = new ArrayList<>();
+        List<ServiceDto> serviceDtoList = new ArrayList<>();
 
         for (ServiceEntity serviceEntity: serviceEntityList) {
-            specializationDtoList.add(new ServiceDto(serviceEntity.getName()));
+            serviceDtoList.add(new ServiceDto(serviceEntity.getName()));
         }
 
-        return specializationDtoList;
+        return serviceDtoList;
     }
 }

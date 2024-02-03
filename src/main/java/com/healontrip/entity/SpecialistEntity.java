@@ -18,14 +18,10 @@ import java.io.Serializable;
 @Entity
 @Table(name = "specialist")
 public class SpecialistEntity extends BaseEntity implements Serializable {
-    @Column(name = "user_id", nullable = false)
-    private Long userId;
-
     @Column(name = "name", nullable = false)
     private String name;
 
-    public SpecialistEntity(Long userId, String name) {
-        this.userId = userId;
+    public SpecialistEntity(String name) {
         this.name = name;
     }
 }

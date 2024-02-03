@@ -84,6 +84,26 @@ public class ExperienceServiceImpl implements ExperienceService {
     }
 
     @Override
+    public int getExperienceYear(Long userId) {
+        List<ExperienceEntity> experienceEntityList = experienceRepository.findExperienceByUserId(userId);
+        int totalExperienceYear = 0;
+
+        for (ExperienceEntity experienceEntity: experienceEntityList) {
+            String from = experienceEntity.getFromDate();
+            String to = experienceEntity.getToDate();
+
+            // year
+            Date currentDate = new Date();
+            int currentYear = (int) (currentDate.getYear() + 1900);
+            int experienceYear = (to == null || to.equals("") ? currentYear : Integer.parseInt(to)) - Integer.parseInt(from);
+
+            totalExperienceYear += experienceYear;
+        }
+
+        return totalExperienceYear;
+    }
+
+    @Override
     public ExperienceEntity findById(Long id) {
         return experienceRepository.findById(id).orElseThrow(() ->
                 new ResourceNotFoundException("Experience not found with id: " + id));

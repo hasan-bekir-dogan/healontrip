@@ -388,7 +388,7 @@ function getProfileData() {
     let contactPostalCodeSelector = '#profile-settings #user-contact-postal-code input[type="text"]'
     let contactAddressLineSelector = '#profile-settings #user-contact-address-line input[type="text"]'
     let serviceSelector = '#profile-settings #user-service input[type="text"]'
-    let specialistSelector = '#profile-settings #user-specialist input[type="text"]'
+    let specialistSelector = '#profile-settings #user-specialist #specialist'
 
 
     // disable input and button
@@ -437,7 +437,7 @@ function getProfileData() {
     let contactPostalCode = $(contactPostalCodeSelector).val()
     let contactAddressLine = $(contactAddressLineSelector).val()
     let service = $(serviceSelector)[1].value
-    let specialist = $(specialistSelector)[1].value
+    let specialist = $(specialistSelector).val()
 
 
     // ********** form data (begin) ********** //

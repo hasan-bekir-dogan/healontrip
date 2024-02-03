@@ -153,6 +153,7 @@ public class ReviewServiceImpl implements ReviewService {
         double ratingAvg = reviewRepository.findReviewAvgByDoctorId(doctorId);
         BigDecimal roundedRatingAvg = new BigDecimal(ratingAvg).setScale(1, RoundingMode.HALF_UP);
         reviewsDto.setRatingAvg(roundedRatingAvg.doubleValue());
+        reviewsDto.setRatingAvgStr(Double.toString(roundedRatingAvg.doubleValue()));
 
         int ratingCount = reviewRepository.findReviewCountByDoctorId(doctorId);
         reviewsDto.setRatingCount(ratingCount);
