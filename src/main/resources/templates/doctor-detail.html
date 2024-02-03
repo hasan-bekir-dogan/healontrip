@@ -41,7 +41,7 @@
                         <h2 class="breadcrumb-title">Doctor Profile</h2>
                         <nav aria-label="breadcrumb" class="page-breadcrumb">
                             <ol class="breadcrumb">
-                                <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+                                <li class="breadcrumb-item"><a th:href="@{/}">Home</a></li>
                                 <li class="breadcrumb-item" aria-current="page">Doctor Profile</li>
                             </ol>
                         </nav>
@@ -65,17 +65,15 @@
                                 </div>
                                 <div class="doc-info-cont">
                                     <input type="hidden" id="doctor-id" th:value="${doctor.userId}">
-                                    <h4 class="doc-name" th:text="${doctor.userName}"></h4>
-                                    <p class="doc-speciality" th:text="${doctor.infoShort}"></p>
-                                    <div class="rating">
+                                    <h4 class="doc-name">[[${doctor.extendedUserName}]]</h4>
+                                    <p class="doc-speciality">[[${doctor.infoShort}]]</p>
+                                    <div id="rating-star" class="rating">
                                         <span class="d-inline-block average-rating rating-avg" th:text="${reviewInfo.ratingAvg}"></span>
-                                        <i class="fas fa-star filled"></i>
-                                        <i class="fas fa-star filled"></i>
-                                        <i class="fas fa-star filled"></i>
-                                        <i class="fas fa-star filled"></i>
-                                        <i class="fas fa-star"></i>
-                                        <span class="dot"></span>
-                                        <span class="d-inline-block average-rating rating-count"><th:block th:text="${reviewInfo.ratingCount}"></th:block> Reviews</span>
+                                        <div class="review-stars" th:style="${'--rating: ' + reviewInfo.ratingAvg}"></div>
+                                        <span class="dot">
+                                            <i></i>
+                                        </span>
+                                        <span class="d-inline-block average-rating rating-count">[[${reviewInfo.ratingCount}]] Reviews</span>
                                     </div>
                                     <div class="clinic-details">
                                         <ul class="clinic-gallery">
@@ -493,8 +491,8 @@
                                     </ul>
 
                                     <!-- Show All -->
-                                    <div class="all-feedback text-center">
-                                        <a id="show-all-reviews-btn" th:href="@{'/doctor/' + ${doctor.userId} + '/reviews'}" class="btn btn-primary btn-sm">
+                                    <div class="all-feedback text-center" th:if="${reviewInfo.ratingCount > 5}">
+                                        <a id="show-all-reviews-btn" th:href="@{'/doctor/' + ${doctor.userName} + '/reviews'}" class="btn btn-primary btn-sm">
                                             Show all reviews <strong>(<th:block th:text="${reviewInfo.ratingCount}"></th:block>)</strong>
                                         </a>
                                     </div>
@@ -505,7 +503,7 @@
 
                                 <div class="write-review" th:if="${user.role == 'PATIENT'}">
                                 <!-- Write Review -->
-                                    <h4>Write a review for <strong>Dr. Darren Elder</strong></h4>
+                                    <h4>Write a review for <strong>[[${doctor.extendedUserName}]]</strong></h4>
 
                                     <!-- Write Review Form -->
                                     <form method="post" id="review-doctor" role="form" autocomplete="off" class="form-validation" th:action="@{/review}">
@@ -558,74 +556,6 @@
                             </div>
                             <!-- /Reviews Content -->
 
-                            <!-- Business Hours Content -->
-                            <div role="tabpanel" id="doc_business_hours" class="tab-pane fade">
-                                <div class="row">
-                                    <div class="col-md-6 offset-md-3">
-
-                                        <!-- Business Hours Widget -->
-                                        <div class="widget business-widget">
-                                            <div class="widget-content">
-                                                <div class="listing-hours">
-                                                    <div class="listing-day current">
-                                                        <div class="day">Today <span>5 Nov 2019</span></div>
-                                                        <div class="time-items">
-                                                            <span class="open-status"><span class="badge bg-success-light">Open Now</span></span>
-                                                            <span class="time">07:00 AM - 09:00 PM</span>
-                                                        </div>
-                                                    </div>
-                                                    <div class="listing-day">
-                                                        <div class="day">Monday</div>
-                                                        <div class="time-items">
-                                                            <span class="time">07:00 AM - 09:00 PM</span>
-                                                        </div>
-                                                    </div>
-                                                    <div class="listing-day">
-                                                        <div class="day">Tuesday</div>
-                                                        <div class="time-items">
-                                                            <span class="time">07:00 AM - 09:00 PM</span>
-                                                        </div>
-                                                    </div>
-                                                    <div class="listing-day">
-                                                        <div class="day">Wednesday</div>
-                                                        <div class="time-items">
-                                                            <span class="time">07:00 AM - 09:00 PM</span>
-                                                        </div>
-                                                    </div>
-                                                    <div class="listing-day">
-                                                        <div class="day">Thursday</div>
-                                                        <div class="time-items">
-                                                            <span class="time">07:00 AM - 09:00 PM</span>
-                                                        </div>
-                                                    </div>
-                                                    <div class="listing-day">
-                                                        <div class="day">Friday</div>
-                                                        <div class="time-items">
-                                                            <span class="time">07:00 AM - 09:00 PM</span>
-                                                        </div>
-                                                    </div>
-                                                    <div class="listing-day">
-                                                        <div class="day">Saturday</div>
-                                                        <div class="time-items">
-                                                            <span class="time">07:00 AM - 09:00 PM</span>
-                                                        </div>
-                                                    </div>
-                                                    <div class="listing-day closed">
-                                                        <div class="day">Sunday</div>
-                                                        <div class="time-items">
-                                                            <span class="time"><span class="badge bg-danger-light">Closed</span></span>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <!-- /Business Hours Widget -->
-
-                                    </div>
-                                </div>
-                            </div>
-                            <!-- /Business Hours Content -->
-
                         </div>
                     </div>
                 </div>
@@ -660,7 +590,7 @@
                             <div class="col-md-12">
                                 <div class="form-group">
                                     <label>Name of Doctor or Clinic <span class="text-danger">*</span></label>
-                                    <input type="text" class="form-control" th:value="${doctor.userName}" readonly>
+                                    <input type="text" class="form-control" th:value="${doctor.extendedUserName}" readonly>
                                 </div>
                             </div>
 

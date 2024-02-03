@@ -12,6 +12,7 @@ import lombok.extern.log4j.Log4j2;
 @Builder
 @Log4j2
 public class UserBarDto {
+    private String extendedUserName;
     private String userName;
     private String profileImgSrc;
     private String profileImgAlt;

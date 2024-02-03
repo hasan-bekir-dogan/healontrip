@@ -44,7 +44,7 @@
                         <h2 class="breadcrumb-title">Search Doctors</h2>
                         <nav aria-label="breadcrumb" class="page-breadcrumb">
                             <ol class="breadcrumb">
-                                <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+                                <li class="breadcrumb-item"><a th:href="@{/}">Home</a></li>
                                 <li class="breadcrumb-item" aria-current="page">Search Doctors</li>
                             </ol>
                         </nav>
@@ -74,16 +74,27 @@
                                             <h4>
                                                 <a href="#collapseone" data-bs-toggle="collapse">Gender</a>
                                             </h4>
-                                            <div id="collapseone" class="collapse show">
+                                            <div id="collapseone" class="collapse scroll-area show">
                                                 <div class="filter-collapse">
                                                     <ul>
 
-                                                        <th:block th:each="gender: ${genderList}">
+                                                        <th:block th:each="gender: ${filterSelectedValues.genderList}">
 
                                                             <li>
                                                                 <label class="custom_check d-inline-flex">
-                                                                    <input type="checkbox" th:value="${gender.id}" th:if="${param.gen == null || (param.gen != null && !#strings.contains(#strings.toUpperCase(param.gen), #strings.toUpperCase(gender.id)))}">
-                                                                    <input type="checkbox" th:value="${gender.id}" th:if="${param.gen != null && #strings.contains(#strings.toUpperCase(param.gen), #strings.toUpperCase(gender.id))}" checked>
+                                                                    <input type="checkbox" th:value="${gender.id}" checked>
+                                                                    <span class="checkmark"></span>
+                                                                    [[${gender.name}]] Gender
+                                                                </label>
+                                                            </li>
+
+                                                        </th:block>
+
+                                                        <th:block th:each="gender: ${filterUnselectedValues.genderList}">
+
+                                                            <li>
+                                                                <label class="custom_check d-inline-flex">
+                                                                    <input type="checkbox" th:value="${gender.id}">
                                                                     <span class="checkmark"></span>
                                                                     [[${gender.name}]] Gender
                                                                 </label>
@@ -102,16 +113,27 @@
                                             <h4>
                                                 <a href="#collapsefour" data-bs-toggle="collapse">Speciality</a>
                                             </h4>
-                                            <div id="collapsefour" class="collapse show">
+                                            <div id="collapsefour" class="collapse scroll-area show">
                                                 <div class="filter-collapse">
                                                     <ul>
 
-                                                        <th:block th:each="specialist: ${specialists}">
+                                                        <th:block th:each="specialist: ${filterSelectedValues.specialityList}">
 
                                                             <li>
                                                                 <label class="custom_check d-inline-flex">
-                                                                    <input type="checkbox" th:value="${specialist.id}" th:if="${param.spe == null || (param.spe != null && !#strings.contains(param.spe, specialist.id))}">
-                                                                    <input type="checkbox" th:value="${specialist.id}" th:if="${param.spe != null && #strings.contains(param.spe, specialist.id)}" checked>
+                                                                    <input type="checkbox" th:value="${specialist.id}" checked>
+                                                                    <span class="checkmark"></span>
+                                                                    [[${specialist.name}]]
+                                                                </label>
+                                                            </li>
+
+                                                        </th:block>
+
+                                                        <th:block th:each="specialist: ${filterUnselectedValues.specialityList}">
+
+                                                            <li>
+                                                                <label class="custom_check d-inline-flex">
+                                                                    <input type="checkbox" th:value="${specialist.id}">
                                                                     <span class="checkmark"></span>
                                                                     [[${specialist.name}]]
                                                                 </label>
@@ -130,16 +152,27 @@
                                             <h4>
                                                 <a href="#collapsefive" data-bs-toggle="collapse">Experience</a>
                                             </h4>
-                                            <div id="collapsefive" class=" collapse show">
+                                            <div id="collapsefive" class=" collapse scroll-area show">
                                                 <div class="filter-collapse">
                                                     <ul>
 
-                                                        <th:block th:each="experience: ${experienceList}">
+                                                        <th:block th:each="experience: ${filterSelectedValues.experienceYearList}">
 
                                                             <li>
                                                                 <label class="custom_check d-inline-flex">
-                                                                    <input type="checkbox" th:value="${experience.id}" th:if="${param.exp == null || (param.exp != null && !#strings.contains(param.exp, experience.id))}">
-                                                                    <input type="checkbox" th:value="${experience.id}" th:if="${param.exp != null && #strings.contains(param.exp, experience.id)}" checked>
+                                                                    <input type="checkbox" th:value="${experience.id}" checked>
+                                                                    <span class="checkmark"></span>
+                                                                    [[${experience.name}]]
+                                                                </label>
+                                                            </li>
+
+                                                        </th:block>
+
+                                                        <th:block th:each="experience: ${filterUnselectedValues.experienceYearList}">
+
+                                                            <li>
+                                                                <label class="custom_check d-inline-flex">
+                                                                    <input type="checkbox" th:value="${experience.id}">
                                                                     <span class="checkmark"></span>
                                                                     [[${experience.name}]]
                                                                 </label>
@@ -158,7 +191,7 @@
                                             <h4>
                                                 <a href="#collapseseven" data-bs-toggle="collapse">By Rating</a>
                                             </h4>
-                                            <div id="collapseseven" class="collapse show">
+                                            <div id="collapseseven" class="collapse scroll-area show">
                                                 <div class="filter-collapse">
                                                     <ul>
                                                         <li>
@@ -253,12 +286,13 @@
                                     </div>
                                 </div>
                             </div>
+
                             <div class="col-lg-9 search-body">
                                 <div class="doctor-filter-info">
                                     <div class="doctor-filter-inner">
                                         <div>
                                             <div class="doctors-found">
-                                                <p><span><th:block th:text="${doctorCount}"></th:block> Doctors found</span></p>
+                                                <p><span>[[${doctorCount}]] Doctors found</span></p>
                                             </div>
                                         </div>
                                         <div class="doctor-filter-option">
@@ -291,22 +325,26 @@
                                                     </div>
                                                     <div class="doc-info-cont">
                                                         <h4 class="doc-name">
-                                                            <a th:href="@{'/doctor/' + ${doctor.userName}}" th:text="${doctor.extendedUserName}"></a>
+                                                            <a th:href="@{'/doctor/' + ${doctor.userName}}">
+                                                                [[${doctor.extendedUserName}]]
+                                                            </a>
                                                             <i class="fas fa-circle-check"></i>
                                                         </h4>
-                                                        <p class="doc-speciality">BDS, MDS - Oral & Maxillofacial Surgery</p>
+                                                        <p class="doc-speciality">[[${doctor.infoShort}]]</p>
                                                         <div class="clinic-details">
                                                             <p class="doc-location">
                                                                 <i class="feather-map-pin"></i>
-                                                                Newyork, USA
+                                                                [[${doctor.addressShort}]]
                                                             </p>
                                                             <p class="doc-location">
-                                                                <i class="feather-award"></i> 15 Years of Experience
+                                                                <i class="feather-award"></i> [[${doctor.experienceYear}]] Years of Experience
                                                             </p>
                                                         </div>
                                                         <div class="reviews-ratings">
                                                             <p>
-                                                                <span><i class="fas fa-star"></i> 4.3</span> (22 Reviews)
+                                                                <span>
+                                                                    <i class="fas fa-star"></i> [[${doctor.reviews.ratingAvg}]]
+                                                                </span> ([[${doctor.reviews.ratingCount}]] Reviews)
                                                             </p>
                                                         </div>
                                                     </div>

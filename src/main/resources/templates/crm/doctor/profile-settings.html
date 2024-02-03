@@ -48,7 +48,7 @@
                     <h2 class="breadcrumb-title">Profile Settings</h2>
                     <nav aria-label="breadcrumb" class="page-breadcrumb">
                         <ol class="breadcrumb">
-                            <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+                            <li class="breadcrumb-item"><a th:href="@{/}">Home</a></li>
                             <li class="breadcrumb-item" aria-current="page">Profile Settings</li>
                         </ol>
                     </nav>
@@ -250,14 +250,24 @@
                             <div class="card-body">
                                 <h4 class="card-title">Services and Specialization</h4>
                                 <div id="user-service" class="form-group">
-                                    <label>Services</label>
+                                    <label>Services <span class="text-danger">*</span></label>
                                     <input type="text" class="input-tags form-control" th:field="*{service}" th:value="${service}" data-role="tagsinput" placeholder="Enter Services">
                                     <small class="form-text text-muted">Note : Type & Press enter to add new services</small>
                                 </div>
-                                <div id="user-specialist" class="form-group mb-0">
-                                    <label>Specialization </label>
-                                    <input type="text" class="input-tags form-control" th:field="*{specialist}" th:value="${specialist}" data-role="tagsinput" placeholder="Enter Specialization">
-                                    <small class="form-text text-muted">Note : Type & Press  enter to add new specialization</small>
+                                <div class="row">
+                                    <div class="col-md-6 col-sm-12">
+                                        <div id="user-specialist" class="form-group mb-0">
+                                            <label>Specialization <span class="text-danger">*</span></label>
+                                            <select class="form-select form-control" id="specialist" th:field="*{specialist}">
+                                                <option value="">Select</option>
+                                                <th:block th:each="specialistSource: ${specialistSourceList}">
+                                                    <option th:value="${specialistSource.id}" th:attrappend="selected=${specialistSource.id == specialist} ? 'selected'">
+                                                        <th:block th:text="${specialistSource.name}"></th:block>
+                                                    </option>
+                                                </th:block>
+                                            </select>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -481,6 +491,7 @@
 
     </div>
     <!-- /Page Content -->
+
 
     <!-- Footer -->
     <th:block th:include="fragments/footer"></th:block>

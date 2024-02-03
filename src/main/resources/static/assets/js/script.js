@@ -13,7 +13,7 @@ Version      : 1.3
 		if ($('.theiaStickySidebar').length > 0) {
 			$('.theiaStickySidebar').theiaStickySidebar({
 				// Settings
-				additionalMarginTop: 30
+				additionalMarginTop: 110
 			});
 		}
 	}

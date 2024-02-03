@@ -15,6 +15,8 @@ import org.springframework.stereotype.Service;
 import jakarta.servlet.http.HttpSession;
 
 import java.io.IOException;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -24,6 +26,9 @@ import java.util.*;
 public class UserServiceImpl implements UserService {
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private ReviewRepository reviewRepository;
 
     @Autowired
     private PasswordEncoder passwordEncoder;
@@ -36,9 +41,6 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     private ServiceService serviceService;
-
-    @Autowired
-    private SpecialistRepository specialistRepository;
 
     @Autowired
     private SpecialistService specialistService;
@@ -207,7 +209,7 @@ public class UserServiceImpl implements UserService {
         profileDto.setId(userId);
 
         serviceService.updateService(profileDto);
-        specialistService.updateSpecialist(profileDto);
+        userEntity.setSpecialistId(profileDto.getSpecialist());
 
         // delete the removed educations
         if (profileDto.getDeletedEducationList().get(0) != -1) {
@@ -341,7 +343,7 @@ public class UserServiceImpl implements UserService {
 
         // user first and last name
         String extendedName = ((userRole.equals("DOCTOR")) ? RolePrefix.DOCTOR.getPre() : "") + userEntity.getFirstName() + " " + userEntity.getLastName();
-        userBarDto.setUserName(extendedName);
+        userBarDto.setExtendedUserName(extendedName);
 
         // profile photo src
         String imgSrc = fileService.getFileSrc(userEntity.getProfileImgId());
@@ -387,11 +389,11 @@ public class UserServiceImpl implements UserService {
             for(EducationEntity educationEntity: educationEntityList)
                 educationDegrees += ((educationDegrees != "") ? ", " : "") + educationEntity.getDegree();
 
-            SpecialistEntity specialistEntity = specialistRepository.findSpecialistByUserIdLimit1(userId);
-            String specialistName = "";
+            SpecialistEntity specialistEntity = new SpecialistEntity();
+            if (userEntity.getSpecialistId() != null)
+                specialistEntity = specialistService.findById(userEntity.getSpecialistId());
 
-            if (specialistEntity != null && !specialistEntity.equals(""))
-                specialistName = specialistEntity.getName();
+            String specialistName = specialistEntity.getName();
 
             String infoShort = educationDegrees + ((educationDegrees != "" && specialistName != "") ? " - " : "") + specialistName;
 
@@ -483,8 +485,7 @@ public class UserServiceImpl implements UserService {
         profileDto.setService(serviceList);
 
         // specialist
-        String specialistList = specialistService.getSpecialists(userId);
-        profileDto.setSpecialist(specialistList);
+        profileDto.setSpecialist(userEntity.getSpecialistId());
 
         // education
         List<EducationDto> educationList = educationService.getEducationList(userId);
@@ -545,6 +546,52 @@ public class UserServiceImpl implements UserService {
             doctorsDto.setUserImgSrc(imgSrc);
             doctorsDto.setUserImgAlt(fileEntity.getAlt());
 
+            // short information (begin)
+            List<EducationEntity> educationEntityList = educationRepository.findEducationByUserIdLimit2(userEntity.getId());
+            String educationDegrees = "";
+
+            for (EducationEntity educationEntity: educationEntityList)
+                educationDegrees += ((educationDegrees != "") ? ", " : "") + educationEntity.getDegree();
+
+            // specialist (begin)
+            SpecialistEntity specialistEntity = new SpecialistEntity();
+            if (userEntity.getSpecialistId() != null)
+                specialistEntity = specialistService.findById(userEntity.getSpecialistId());
+
+            String specialistName = specialistEntity.getName();
+
+            doctorsDto.setSpecialist(specialistName);
+            // specialist (end)
+
+            String infoShort = educationDegrees + ((educationDegrees != "" && specialistName != "") ? " - " : "") + specialistName;
+
+            doctorsDto.setInfoShort(infoShort);
+            // short information (end)
+
+            // address (begin)
+            String addressShort = "-";
+
+            if ((userEntity.getCity() != null && !userEntity.getCity().equals("")) && (userEntity.getCountry() != null && !userEntity.getCountry().equals(""))) {
+                addressShort = userEntity.getCity() + ", " + userEntity.getCountry();
+            }
+            else if (userEntity.getCity() != null && !userEntity.getCity().equals("")) {
+                addressShort = userEntity.getCity();
+            }
+            else if (userEntity.getCountry() != null && !userEntity.getCountry().equals("")) {
+                addressShort = userEntity.getCountry();
+            }
+
+            doctorsDto.setAddressShort(addressShort);
+            // address (end)
+
+            // review values
+            ReviewsDto reviewsDto = getReview(userEntity.getId());
+            doctorsDto.setReviews(reviewsDto);
+
+            // experience year
+            int experienceYear = experienceService.getExperienceYear(userEntity.getId());
+            doctorsDto.setExperienceYear(experienceYear);
+
             doctorsDtoList.add(doctorsDto);
         }
 
@@ -574,16 +621,6 @@ public class UserServiceImpl implements UserService {
                     upperGenderList.add(GenderCode.FEMALE.getName().toUpperCase());
         }
 
-        // get specialist name
-        List<String> specialityNameList = new ArrayList<>();
-
-        if (searchFilterDto.getSpecialityList() != null && !searchFilterDto.getSpecialityList().isEmpty()) {
-            for (Long id : searchFilterDto.getSpecialityList()) {
-                SpecialistEntity specialistEntity = specialistService.findById(id);
-                specialityNameList.add(specialistEntity.getName().toUpperCase());
-            }
-        }
-
         // get filtered list
         List<UserEntity> userEntityList = new ArrayList<>();
 
@@ -593,7 +630,7 @@ public class UserServiceImpl implements UserService {
                         String.valueOf(Role.DOCTOR),
                         upperGenderList,
                         genderNullCheck,
-                        specialityNameList,
+                        searchFilterDto.getSpecialityList(),
                         specialistNullCheck,
                         experienceYearId,
                         experienceYearNullCheck
@@ -609,7 +646,7 @@ public class UserServiceImpl implements UserService {
                     String.valueOf(Role.DOCTOR),
                     upperGenderList,
                     genderNullCheck,
-                    specialityNameList,
+                    searchFilterDto.getSpecialityList(),
                     specialistNullCheck,
                     -1,
                     experienceYearNullCheck
@@ -637,6 +674,48 @@ public class UserServiceImpl implements UserService {
             doctorsDto.setUserImgSrc(imgSrc);
             doctorsDto.setUserImgAlt(fileEntity.getAlt());
 
+            // short information (begin)
+            List<EducationEntity> educationEntityList = educationRepository.findEducationByUserIdLimit2(userEntity.getId());
+            String educationDegrees = "";
+
+            for(EducationEntity educationEntity: educationEntityList)
+                educationDegrees += ((educationDegrees != "") ? ", " : "") + educationEntity.getDegree();
+
+            SpecialistEntity specialistEntity = new SpecialistEntity();
+            if (userEntity.getSpecialistId() != null)
+                specialistEntity = specialistService.findById(userEntity.getSpecialistId());
+
+            String specialistName = specialistEntity.getName();
+
+            String infoShort = educationDegrees + ((educationDegrees != "" && specialistName != "") ? " - " : "") + specialistName;
+
+            doctorsDto.setInfoShort(infoShort);
+            // short information (end)
+
+            // address (begin)
+            String addressShort = "-";
+
+            if ((userEntity.getCity() != null && !userEntity.getCity().equals("")) && (userEntity.getCountry() != null && !userEntity.getCountry().equals(""))) {
+                addressShort = userEntity.getCity() + ", " + userEntity.getCountry();
+            }
+            else if (userEntity.getCity() != null && !userEntity.getCity().equals("")) {
+                addressShort = userEntity.getCity();
+            }
+            else if (userEntity.getCountry() != null && !userEntity.getCountry().equals("")) {
+                addressShort = userEntity.getCountry();
+            }
+
+            doctorsDto.setAddressShort(addressShort);
+            // address (end)
+
+            // review values
+            ReviewsDto reviewsDto = getReview(userEntity.getId());
+            doctorsDto.setReviews(reviewsDto);
+
+            // experience year
+            int experienceYear = experienceService.getExperienceYear(userEntity.getId());
+            doctorsDto.setExperienceYear(experienceYear);
+
             doctorsDtoList.add(doctorsDto);
         }
 
@@ -650,8 +729,10 @@ public class UserServiceImpl implements UserService {
 
         doctorDto.setUserId(id);
 
+        doctorDto.setUserName(userEntity.getUserName());
+
         String extendedName = RolePrefix.DOCTOR.getPre() + userEntity.getFirstName() + " " + userEntity.getLastName();
-        doctorDto.setUserName(extendedName);
+        doctorDto.setExtendedUserName(extendedName);
 
         // User image (begin)
         FileEntity fileEntity = fileService.findById(userEntity.getProfileImgId());
@@ -694,8 +775,7 @@ public class UserServiceImpl implements UserService {
         doctorDto.setServiceList(serviceList);
 
         // specialist
-        List<SpecializationDto> specializationList = specialistService.getSpecialistList(id);
-        doctorDto.setSpecialistList(specializationList);
+        doctorDto.setSpecialistId(userEntity.getSpecialistId());
 
         // education
         List<EducationDto> educationList = educationService.getEducationList(id);
@@ -720,7 +800,10 @@ public class UserServiceImpl implements UserService {
         for(EducationEntity educationEntity: educationEntityList)
             educationDegrees += ((educationDegrees != "") ? ", " : "") + educationEntity.getDegree();
 
-        SpecialistEntity specialistEntity = specialistRepository.findSpecialistByUserIdLimit1(id);
+        SpecialistEntity specialistEntity = new SpecialistEntity();
+        if (userEntity.getSpecialistId() != null)
+            specialistEntity = specialistService.findById(userEntity.getSpecialistId());
+
         String specialistName = specialistEntity.getName();
 
         String infoShort = educationDegrees + ((educationDegrees != "" && specialistName != "") ? " - " : "") + specialistName;
@@ -728,9 +811,21 @@ public class UserServiceImpl implements UserService {
         doctorDto.setInfoShort(infoShort);
         // short information (end)
 
-        // address
-        String addressShort = userEntity.getCity() + ", " + userEntity.getCountry();
+        // address (begin)
+        String addressShort = "-";
+
+        if ((userEntity.getCity() != null && !userEntity.getCity().equals("")) && (userEntity.getCountry() != null && !userEntity.getCountry().equals(""))) {
+            addressShort = userEntity.getCity() + ", " + userEntity.getCountry();
+        }
+        else if (userEntity.getCity() != null && !userEntity.getCity().equals("")) {
+            addressShort = userEntity.getCity();
+        }
+        else if (userEntity.getCountry() != null && !userEntity.getCountry().equals("")) {
+            addressShort = userEntity.getCountry();
+        }
+
         doctorDto.setAddressShort(addressShort);
+        // address (end)
 
         return doctorDto;
     }
@@ -781,6 +876,21 @@ public class UserServiceImpl implements UserService {
         userEntity.setPassword(passwordEncoder.encode(resetPasswordDto.getPassword()));
 
         userRepository.save(userEntity);
+    }
+
+    private ReviewsDto getReview(Long doctorId) {
+        ReviewsDto reviewsDto = new ReviewsDto();
+
+        reviewsDto.setDoctorId(doctorId);
+
+        double ratingAvg = reviewRepository.findReviewAvgByDoctorId(doctorId);
+        BigDecimal roundedRatingAvg = new BigDecimal(ratingAvg).setScale(1, RoundingMode.HALF_UP);
+        reviewsDto.setRatingAvg(roundedRatingAvg.doubleValue());
+
+        int ratingCount = reviewRepository.findReviewCountByDoctorId(doctorId);
+        reviewsDto.setRatingCount(ratingCount);
+
+        return reviewsDto;
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////

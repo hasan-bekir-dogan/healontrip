@@ -2,6 +2,7 @@ package com.healontrip.controller.crm;
 
 import com.healontrip.dto.*;
 import com.healontrip.service.AuthService;
+import com.healontrip.service.SpecialistService;
 import com.healontrip.service.UserService;
 import com.healontrip.util.IpConfigUtil;
 import jakarta.servlet.http.HttpServletRequest;
@@ -12,14 +13,17 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.text.ParseException;
+import java.util.List;
 
 @Controller("ProfileController")
 public class ProfileController {
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private SpecialistService specialistService;
 
     @Autowired
     private AuthService authService;
@@ -39,6 +43,9 @@ public class ProfileController {
         model.addAttribute("profile", profileDto);
 
         if(role.equals(Role.DOCTOR.toString())) {
+            List<SpecialistDto> specialistDtoList = specialistService.getSpecialists();
+
+            model.addAttribute("specialistSourceList", specialistDtoList);
             model.addAttribute("profileClinicImages", profileDto.getClinicImageList());
             model.addAttribute("profileEducationList", profileDto.getEducationList());
             model.addAttribute("profileExperienceList", profileDto.getExperienceList());
