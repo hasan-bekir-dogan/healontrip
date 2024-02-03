@@ -147,7 +147,9 @@ public class ReviewServiceImpl implements ReviewService {
     @Override
     public ReviewsDto getReview(Long doctorId) {
         ReviewsDto reviewsDto = new ReviewsDto();
+        UserEntity userEntity = userService.findById(doctorId);
 
+        reviewsDto.setDoctorUserName(userEntity.getUserName());
         reviewsDto.setDoctorId(doctorId);
 
         double ratingAvg = reviewRepository.findReviewAvgByDoctorId(doctorId);

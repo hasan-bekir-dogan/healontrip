@@ -2,8 +2,10 @@ package com.healontrip.controller;
 
 import com.healontrip.dto.BlogsDto;
 import com.healontrip.dto.DoctorsDto;
+import com.healontrip.dto.SpecialistDto;
 import com.healontrip.dto.UserBarDto;
 import com.healontrip.service.BlogService;
+import com.healontrip.service.SpecialistService;
 import com.healontrip.service.UserService;
 import com.healontrip.util.IpConfigUtil;
 import jakarta.servlet.http.HttpServletRequest;
@@ -23,6 +25,9 @@ public class PageController {
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private SpecialistService specialistService;
+
     @GetMapping("/")
     public String index(Model model, HttpServletRequest request) throws ParseException {
         // coming soon
@@ -33,7 +38,11 @@ public class PageController {
         UserBarDto userBarDto = userService.getUser();
         List<DoctorsDto> doctorsDtoList = userService.getDoctors();
 
+        // specialist
+        List<SpecialistDto> specialistDtoList = specialistService.getSpecialists();
+
         model.addAttribute("blogs", blogsDtoList);
+        model.addAttribute("specialists", specialistDtoList);
         model.addAttribute("user", userBarDto);
         model.addAttribute("doctors", doctorsDtoList);
 

@@ -57,11 +57,22 @@ public class DoctorController {
         List<ReviewsDto> reviewsDtoList = reviewService.getReviews(userEntity.getId(), 5, 0);
         ReviewsDto reviewsDto = reviewService.getReview(userEntity.getId());
         List<CommunicationDto> communicationDtoList = communicationService.getAllCommunications();
+        List<ServiceDto> serviceDtoList = new ArrayList<>();
+
+        int counter = 0;
+        for (ServiceDto serviceDto: doctorDto.getServiceList()) {
+            if (counter >= 2)
+                break;
+
+            serviceDtoList.add(serviceDto);
+            counter ++;
+        }
 
         model.addAttribute("user", userBarDto);
         model.addAttribute("doctor", doctorDto);
         model.addAttribute("clinicImages", doctorDto.getClinicImageList());
         model.addAttribute("serviceList", doctorDto.getServiceList());
+        model.addAttribute("serviceLimitedList", serviceDtoList);
         model.addAttribute("specialistId", doctorDto.getSpecialistId());
         model.addAttribute("educationList", doctorDto.getEducationList());
         model.addAttribute("experienceList", doctorDto.getExperienceList());

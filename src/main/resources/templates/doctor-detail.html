@@ -90,16 +90,21 @@
 
                                         </ul>
                                     </div>
-                                    <div class="clinic-services">
-                                        <span>Dental Fillings</span>
-                                        <span>Teeth Whitneing</span>
+                                    <div class="clinic-services" th:if="${not #lists.isEmpty(serviceLimitedList)}">
+
+                                        <th:block th:each="service: ${serviceLimitedList}">
+
+                                            <span>[[${service.name}]]</span>
+
+                                        </th:block>
+
                                     </div>
                                 </div>
                             </div>
                             <div class="doc-info-right">
                                 <div class="clini-infos">
                                     <ul>
-                                        <li><i class="fas fa-map-marker-alt"></i> <th:block th:text="${doctor.addressShort}"></th:block></li>
+                                        <li><i class="fas fa-map-marker-alt"></i> [[${doctor.addressShort}]]</li>
                                     </ul>
                                 </div>
                                 <div class="clinic-booking">
@@ -142,9 +147,9 @@
                                     <div class="col-md-12 col-lg-9">
 
                                         <!-- About Details -->
-                                        <div class="widget about-widget" th:if="${doctor.biography != null}">
+                                        <div class="widget about-widget" th:if="${!#strings.isEmpty(doctor.biography)}">
                                             <h4 class="widget-title">About Me</h4>
-                                            <p th:text="${doctor.biography}"></p>
+                                            <p>[[${doctor.biography}]]</p>
                                         </div>
                                         <!-- /About Details -->
 
@@ -493,7 +498,7 @@
                                     <!-- Show All -->
                                     <div class="all-feedback text-center" th:if="${reviewInfo.ratingCount > 5}">
                                         <a id="show-all-reviews-btn" th:href="@{'/doctor/' + ${doctor.userName} + '/reviews'}" class="btn btn-primary btn-sm">
-                                            Show all reviews <strong>(<th:block th:text="${reviewInfo.ratingCount}"></th:block>)</strong>
+                                            Show all reviews <strong>([[${reviewInfo.ratingCount}]])</strong>
                                         </a>
                                     </div>
                                     <!-- /Show All -->
