@@ -94,62 +94,22 @@
                     </div>
                 </div>
                 <div class="owl-carousel specialities-slider-one owl-theme aos" data-aos="fade-up">
-                    <div class="item">
-                        <div class="specialities-item">
-                            <div class="specialities-img">
-                                <span><img src="assets/img/specialities/specialities-01.svg" alt=""></span>
-                            </div>
-                            <p>Cardiology</p>
+
+                    <th:block th:each="specialist: ${specialists}">
+
+                        <div class="item">
+                            <a class="specialities-item" th:href="@{'/search?spe=' + ${specialist.id}}">
+                                <div class="specialities-img">
+                                    <span>
+                                        <img th:src="@{'assets/img/specialities/' + ${specialist.name} + '.png'}" th:alt="${specialist.name}">
+                                    </span>
+                                </div>
+                                <p>[[${specialist.name}]]</p>
+                            </a>
                         </div>
-                    </div>
-                    <div class="item">
-                        <div class="specialities-item">
-                            <div class="specialities-img">
-                                <span><img src="assets/img/specialities/specialities-02.svg" alt=""></span>
-                            </div>
-                            <p>Neurology</p>
-                        </div>
-                    </div>
-                    <div class="item">
-                        <div class="specialities-item">
-                            <div class="specialities-img">
-                                <span><img src="assets/img/specialities/specialities-03.svg" alt=""></span>
-                            </div>
-                            <p>Urology</p>
-                        </div>
-                    </div>
-                    <div class="item">
-                        <div class="specialities-item">
-                            <div class="specialities-img">
-                                <span><img src="assets/img/specialities/specialities-04.svg" alt=""></span>
-                            </div>
-                            <p>Orthopedic</p>
-                        </div>
-                    </div>
-                    <div class="item">
-                        <div class="specialities-item">
-                            <div class="specialities-img">
-                                <span><img src="assets/img/specialities/specialities-05.svg" alt=""></span>
-                            </div>
-                            <p>Dentist</p>
-                        </div>
-                    </div>
-                    <div class="item">
-                        <div class="specialities-item">
-                            <div class="specialities-img">
-                                <span><img src="assets/img/specialities/specialities-06.svg" alt=""></span>
-                            </div>
-                            <p>Ophthalmology</p>
-                        </div>
-                    </div>
-                    <div class="item">
-                        <div class="specialities-item">
-                            <div class="specialities-img">
-                                <span><img src="assets/img/specialities/specialities-02.svg" alt=""></span>
-                            </div>
-                            <p>Neurology</p>
-                        </div>
-                    </div>
+
+                    </th:block>
+
                 </div>
                 <div class="specialities-btn aos" data-aos="fade-up">
                     <a th:href="@{/search}" class="btn">

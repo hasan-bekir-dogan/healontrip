@@ -162,7 +162,19 @@ function addReviewHtml(reviewList, reviewInfo) {
     $('.doctor-widget .doc-info-left .doc-info-cont .rating .rating-avg').html(reviewInfo.ratingAvgStr)
     $('.doctor-widget .doc-info-left .doc-info-cont .rating .review-stars').css('--rating', reviewInfo.ratingAvgStr)
     $('.doctor-widget .doc-info-left .doc-info-cont .rating .rating-count').html(reviewInfo.ratingCount + ' Reviews')
-    $('#show-all-reviews-btn >strong').html(reviewInfo.ratingCount)
+
+    if (reviewInfo.ratingCount > 5) {
+        if ($('#show-all-reviews-btn')) {
+            $('#show-all-reviews-btn >strong').html(reviewInfo.ratingCount)
+        } else {
+            let reviewAllBtn = `<div class="all-feedback text-center">
+                                <a id="show-all-reviews-btn" href="/doctor/${reviewInfo.doctorUserName}/reviews" class="btn btn-primary btn-sm">
+                                    Show all reviews <strong>(${reviewInfo.ratingCount})</strong>
+                                </a>
+                            </div>`
+            $(reviewAllBtn).insertAfter($('#doc_reviews .review-listing .comments-list'))
+        }
+    }
 }
 
 function getReviewData() {
