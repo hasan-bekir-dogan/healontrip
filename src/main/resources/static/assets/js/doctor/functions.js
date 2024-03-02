@@ -368,6 +368,162 @@ function showSuccessMessage() {
     $("html, body").animate({ scrollTop: position }, "slow");
 }
 
+function showProfileHtml(educationList, experienceList, awardList, membershipList) {
+    let educationListHtml = '';
+    let experienceListHtml = '';
+    let awardListHtml = '';
+    let membershipListHtml = '';
+
+    educationList.forEach((education) => {
+
+        educationListHtml += `  <div class="row form-row education-cont saved">
+                                    <div class="col-12 col-md-10 col-lg-11">
+                                        <div class="row form-row">
+                                            <div class="col-12 col-md-6">
+                                                <div class="form-group">
+                                                    <label>Degree</label>
+                                                    <input type="text" class="form-control degree" value="${education.degree}" placeholder="BDS, MDS, etc.">
+                                                </div>
+                                            </div>
+                                            <div class="col-12 col-md-6">
+                                                <div class="form-group">
+                                                    <label>College/Institute</label>
+                                                    <input type="text" class="form-control university" value="${education.university}">
+                                                </div>
+                                            </div>
+                                            <div class="col-12 col-md-6">
+                                                <div class="form-group">
+                                                    <label>From</label>
+                                                    <input type="number" class="form-control from-date" value="${education.fromDate}" placeholder="Example: 2018">
+                                                </div>
+                                            </div>
+                                            <div class="col-12 col-md-6">
+                                                <div class="form-group">
+                                                    <label>To</label>
+                                                    <input type="number" class="form-control to-date" value="${education.toDate}" placeholder="Example: 2022">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-12 col-md-2 col-lg-1 deleteEducationSection">
+                                        <label class="d-md-block d-sm-none d-none">&nbsp;</label>
+                                        <a href="javascript:void(0);" data-id="${education.id}" onclick="setEducationDataIdToModal(this);" class="btn btn-danger trash deleteEducationButton" data-bs-toggle="modal" data-bs-target="#deleteEducationModal">
+                                            <i class="far fa-trash-alt"></i>
+                                        </a>
+                                    </div>
+                                </div>`;
+
+        }
+    )
+
+    experienceList.forEach((experience) => {
+
+        experienceListHtml += `  <div class="row form-row experience-cont saved">
+                                    <div class="col-12 col-md-10 col-lg-11">
+                                        <div class="row form-row">
+                                            <div class="col-12 col-md-6">
+                                                <div class="form-group">
+                                                    <label>Hospital Name</label>
+                                                    <input type="text" class="form-control hospital-name" value="${experience.hospitalName}">
+                                                </div>
+                                            </div>
+                                            <div class="col-12 col-md-6">
+                                                <div class="form-group">
+                                                    <label>Designation</label>
+                                                    <input type="text" class="form-control designation" value="${experience.designation}">
+                                                </div>
+                                            </div>
+                                            <div class="col-12 col-md-6">
+                                                <div class="form-group">
+                                                    <label>From</label>
+                                                    <input type="number" class="form-control from-date" value="${experience.fromDate}" placeholder="Example: 2018">
+                                                </div>
+                                            </div>
+                                            <div class="col-12 col-md-6">
+                                                <div class="form-group">
+                                                    <label>To</label>
+                                                    <input type="number" class="form-control to-date" value="${experience.toDate}" placeholder="Example: 2022">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-12 col-md-2 col-lg-1 deleteExperienceSection">
+                                        <label class="d-md-block d-sm-none d-none">&nbsp;</label>
+                                        <a href="javascript:void(0);" data-id="${experience.id}" onclick="setExperienceDataIdToModal(this);" class="btn btn-danger trash deleteExperienceButton" data-bs-toggle="modal" data-bs-target="#deleteExperienceModal">
+                                            <i class="far fa-trash-alt"></i>
+                                        </a>
+                                    </div>
+                                </div>`;
+
+        }
+    )
+
+    awardList.forEach((award) => {
+
+        awardListHtml += `  <div class="row form-row awards-cont saved">
+                                    <div class="col-12 col-md-10 col-lg-11">
+                                        <div class="row form-row">
+                                            <div class="col-12 col-md-6">
+                                                <div class="form-group">
+                                                    <label>Award</label>
+                                                    <input type="text" class="form-control award-name" value="${award.name}">
+                                                </div>
+                                            </div>
+                                            <div class="col-12 col-md-6">
+                                                <div class="form-group">
+                                                    <label>Year</label>
+                                                    <input type="number" class="form-control award-year" value="${award.year}" placeholder="Example: 2022">
+                                                </div>
+                                            </div>
+                                            <div class="col-12 col-md-12">
+                                                <div class="form-group">
+                                                    <label>Description</label>
+                                                    <textarea class="form-control award-description">${award.description}</textarea>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-12 col-md-2 col-lg-1 deleteAwardSection">
+                                        <label class="d-md-block d-sm-none d-none">&nbsp;</label>
+                                        <a href="javascript:void(0);" data-id="${award.id}" onclick="setAwardDataIdToModal(this);" class="btn btn-danger trash deleteAwardButton" data-bs-toggle="modal" data-bs-target="#deleteAwardModal">
+                                            <i class="far fa-trash-alt"></i>
+                                        </a>
+                                    </div>
+                                </div>`;
+
+        }
+    )
+
+    membershipList.forEach((membership) => {
+
+        membershipListHtml += `  <div class="row form-row membership-cont saved">
+                                    <div class="col-12 col-md-10 col-lg-11">
+                                        <div class="row form-row">
+                                            <div class="col-12 col-md-12">
+                                                <div class="form-group">
+                                                    <label>Membership</label>
+                                                    <input type="text" class="form-control membership-name" value="${membership.name}">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-12 col-md-2 col-lg-1 deleteMembershipSection">
+                                        <label class="d-md-block d-sm-none d-none">&nbsp;</label>
+                                        <a href="javascript:void(0);" data-id="${membership.id}" onclick="setMembershipDataIdToModal(this);" class="btn btn-danger trash deleteMembershipButton" data-bs-toggle="modal" data-bs-target="#deleteMembershipModal">
+                                            <i class="far fa-trash-alt"></i>
+                                        </a>
+                                    </div>
+                                </div>`;
+
+        }
+    )
+
+    $('#profile-settings .card .card-body .education-info').html(educationListHtml)
+    $('#profile-settings .card .card-body .experience-info').html(experienceListHtml)
+    $('#profile-settings .card .card-body .awards-info').html(awardListHtml)
+    $('#profile-settings .card .card-body .membership-info').html(membershipListHtml)
+}
+
 function getProfileData() {
     // define query selector
     let profilePhotoSelector = '#profile-settings #user-profile-photo input[type="file"]'
@@ -626,10 +782,15 @@ async function updateProfile() {
     let res = await response.json()
 
     if (res.status === 'success') { // success
+        let data = res.data
+
         enableItems(affectedItemList)
 
         // hide errors
         hideErrors()
+
+        // show updated data
+        showProfileHtml(data.educationList, data.experienceList, data.awardList, data.membershipList)
 
         // show success message
         showSuccessMessage()

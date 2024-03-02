@@ -107,6 +107,20 @@
                                         <li><i class="fas fa-map-marker-alt"></i> [[${doctor.addressShort}]]</li>
                                     </ul>
                                 </div>
+                                <div class="doctor-action">
+                                    <a th:href="@{#}" class="btn btn-white">
+                                        <i class="fab fa-facebook"></i>
+                                    </a>
+                                    <a th:href="@{#}" class="btn btn-white">
+                                        <i class="fab fa-instagram"></i>
+                                    </a>
+                                    <a th:href="@{#}" class="btn btn-white">
+                                        <i class="fab fa-twitter"></i>
+                                    </a>
+                                    <a th:href="@{#}" class="btn btn-white">
+                                        <i class="fab fa-linkedin-in"></i>
+                                    </a>
+                                </div>
                                 <div class="clinic-booking">
                                     <a href="javascript:void(0);" class="apt-btn" data-bs-toggle="modal" data-bs-target="#bookAppointmentModal">
                                         Book Appointment
@@ -208,9 +222,9 @@
                                         </div>
                                         <!-- /Experience Details -->
 
-                                        <!-- Awards Details -->
+                                        <!-- Academic Studies Details -->
                                         <div class="widget awards-widget" th:if="${not #lists.isEmpty(awardList)}">
-                                            <h4 class="widget-title">Awards</h4>
+                                            <h4 class="widget-title">Academic Studies</h4>
                                             <div class="experience-box">
                                                 <ul class="experience-list">
 
@@ -234,7 +248,7 @@
                                                 </ul>
                                             </div>
                                         </div>
-                                        <!-- /Awards Details -->
+                                        <!-- /Academic Studies Details -->
 
                                         <!-- Membership Details -->
                                         <div class="widget awards-widget membership-list" th:if="${not #lists.isEmpty(membershipList)}">

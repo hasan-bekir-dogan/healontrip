@@ -71,7 +71,9 @@ public class ProfileController {
             else if(role.equals(Role.PATIENT.toString()))
                 userService.updatePatientProfile(profileDto);
 
-            return new ResponseEntity<>(new GeneralResponseWithoutDataDto("success"), HttpStatus.OK);
+            ProfileDto profileDtoUpdated = userService.getProfile();
+
+            return new ResponseEntity<>(new GeneralResponseWithDataDto("success", profileDtoUpdated), HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(e, HttpStatus.INTERNAL_SERVER_ERROR);
         }
