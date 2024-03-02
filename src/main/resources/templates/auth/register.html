@@ -180,28 +180,28 @@
                                             <form method="post" id="create-account" role="form" autocomplete="off" class="form-validation" th:action="@{/check-account-info}">
                                                 <div id="userName" class="form-group">
                                                     <label>Username <span class="text-danger">*</span></label>
-                                                    <input type="text" class="form-control" name="userName" placeholder="Enter an Username">
+                                                    <input type="text" class="form-control" name="userName" placeholder="Enter an Username" autocomplete="nope">
                                                 </div>
                                                 <div id="firstName" class="form-group">
                                                     <label>First Name <span class="text-danger">*</span></label>
-                                                    <input type="text" class="form-control" name="firstName" placeholder="Enter Your First Name">
+                                                    <input type="text" class="form-control" name="firstName" placeholder="Enter Your First Name" autocomplete="nope">
                                                 </div>
                                                 <div id="lastName" class="form-group">
                                                     <label>Last Name <span class="text-danger">*</span></label>
-                                                    <input type="text" class="form-control" name="lastName" placeholder="Enter Your Last Name">
+                                                    <input type="text" class="form-control" name="lastName" placeholder="Enter Your Last Name" autocomplete="nope">
                                                 </div>
                                                 <div id="phoneNumber" class="form-group">
                                                     <label>Phone Number <span class="text-danger">*</span></label>
-                                                    <input type="number" class="form-control form-control-lg group_formcontrol form-control-phone" name="phoneNumber" placeholder="Enter Your Phone Number">
+                                                    <input type="number" class="form-control form-control-lg group_formcontrol form-control-phone" name="phoneNumber" placeholder="Enter Your Phone Number" autocomplete="nope">
                                                 </div>
                                                 <div id="email" class="form-group">
                                                     <label>Email <span class="text-danger">*</span></label>
-                                                    <input type="text" class="form-control" name="email" placeholder="Enter Your Email">
+                                                    <input type="text" class="form-control" name="email" placeholder="Enter Your Email" autocomplete="nope">
                                                 </div>
                                                 <div id="password" class="form-group">
                                                     <label>Password <span class="text-danger">*</span></label>
                                                     <div class="pass-group">
-                                                        <input type="password" class="form-control pass-input-sub" placeholder="*************">
+                                                        <input type="password" class="form-control pass-input-sub" placeholder="*************" autocomplete="new-password">
                                                         <span class="feather-eye toggle-password-sub"></span>
                                                     </div>
                                                 </div>

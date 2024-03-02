@@ -147,7 +147,7 @@ public class UserServiceImpl implements UserService {
         }
 
         // biography
-            userEntity.setBiography(profileDto.getBiography());
+        userEntity.setBiography(profileDto.getBiography());
 
         // clinic
         userEntity.setClinicName(profileDto.getClinicName());
