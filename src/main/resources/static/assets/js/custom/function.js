@@ -1105,3 +1105,21 @@ async function register() {
         return false
     }
 }
+
+function goServices() {
+    window.location.hash = '';
+
+    // tab header
+    $('.doctor-detail-page .card .card-body .user-tabs .nav-tabs .nav-item .nav-link').removeClass('active');
+    $('.doctor-detail-page .card .card-body .user-tabs .nav-tabs .nav-item .nav-link').attr('aria-selected', false);
+    $('.doctor-detail-page .card .card-body .user-tabs .nav-tabs .nav-item .nav-link.overview-tab').addClass('active');
+    $('.doctor-detail-page .card .card-body .user-tabs .nav-tabs .nav-item .nav-link.overview-tab').attr('aria-selected', true);
+
+    // tab body
+    $('.doctor-detail-page .card .card-body .tab-content .tab-pane').removeClass('active');
+    $('.doctor-detail-page .card .card-body .tab-content .tab-pane').removeClass('show');
+    $('.doctor-detail-page .card .card-body .tab-content .tab-pane#doc_overview').addClass('active');
+    $('.doctor-detail-page .card .card-body .tab-content .tab-pane#doc_overview').addClass('show');
+
+    window.location.hash = '#service_list';
+}

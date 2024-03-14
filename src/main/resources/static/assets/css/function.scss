@@ -78,6 +78,16 @@ $breakpoints: (
   -webkit-align-items: center;
   align-content: center;
 }
+%flex-align-center-row-center-column-flex-end{
+  display: flex;
+  display: -webkit-flex;
+  flex-direction: row;
+  justify-content: center;
+  -webkit-justify-content: center;
+  align-items: flex-end;
+  -webkit-align-items: flex-end;
+  align-content: flex-end;
+}
 %flex-align-center-row-flex-start{
   display: flex;
   display: -webkit-flex;

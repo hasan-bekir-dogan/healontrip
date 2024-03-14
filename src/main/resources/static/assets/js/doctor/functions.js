@@ -196,7 +196,7 @@ function addAward() {
                                     <div class="row form-row">
                                         <div class="col-12 col-md-6">
                                             <div class="form-group">
-                                                <label>Award</label>
+                                                <label>Academic Study</label>
                                                 <input type="text" class="form-control award-name">
                                             </div>
                                         </div>
@@ -465,7 +465,7 @@ function showProfileHtml(educationList, experienceList, awardList, membershipLis
                                         <div class="row form-row">
                                             <div class="col-12 col-md-6">
                                                 <div class="form-group">
-                                                    <label>Award</label>
+                                                    <label>Academic Study</label>
                                                     <input type="text" class="form-control award-name" value="${award.name}">
                                                 </div>
                                             </div>

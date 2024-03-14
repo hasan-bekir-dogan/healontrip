@@ -16,6 +16,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
@@ -43,10 +44,13 @@ public class DoctorController {
     @Autowired
     private AppointmentService appointmentService;
 
+    @Autowired
+    private SocialMediaService socialMediaService;
+
     @GetMapping("/doctor/{username}")
     public String detail(Model model,
                          @PathVariable String username,
-                         HttpServletRequest request) throws ParseException {
+                         HttpServletRequest request) throws ParseException, IOException {
         // coming soon
         if(!IpConfigUtil.checkAdminIp(request))
             return IpConfigUtil.getRedirectPage();
@@ -57,9 +61,11 @@ public class DoctorController {
         List<ReviewsDto> reviewsDtoList = reviewService.getReviews(userEntity.getId(), 5, 0);
         ReviewsDto reviewsDto = reviewService.getReview(userEntity.getId());
         List<CommunicationDto> communicationDtoList = communicationService.getAllCommunications();
+        SocialMediaDto socialMediaDto = socialMediaService.getSocialMedia(userEntity.getId());
         List<ServiceDto> serviceDtoList = new ArrayList<>();
 
         int counter = 0;
+        char allServiceLinkYN;
         for (ServiceDto serviceDto: doctorDto.getServiceList()) {
             if (counter >= 2)
                 break;
@@ -67,12 +73,14 @@ public class DoctorController {
             serviceDtoList.add(serviceDto);
             counter ++;
         }
+        allServiceLinkYN = (doctorDto.getServiceList().size() > 2) ? 'Y' : 'N';
 
         model.addAttribute("user", userBarDto);
         model.addAttribute("doctor", doctorDto);
         model.addAttribute("clinicImages", doctorDto.getClinicImageList());
         model.addAttribute("serviceList", doctorDto.getServiceList());
         model.addAttribute("serviceLimitedList", serviceDtoList);
+        model.addAttribute("allServiceLinkYN", allServiceLinkYN);
         model.addAttribute("specialistId", doctorDto.getSpecialistId());
         model.addAttribute("educationList", doctorDto.getEducationList());
         model.addAttribute("experienceList", doctorDto.getExperienceList());
@@ -81,6 +89,7 @@ public class DoctorController {
         model.addAttribute("reviewList", reviewsDtoList);
         model.addAttribute("reviewInfo", reviewsDto);
         model.addAttribute("communications", communicationDtoList);
+        model.addAttribute("socialMedia", socialMediaDto);
 
         return "doctor-detail";
     }

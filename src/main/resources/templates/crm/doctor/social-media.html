@@ -60,59 +60,61 @@
                         <div class="card">
                             <div class="card-body">
 
+                                <div th:if="${param.success}">
+                                    <div class="alert alert-info">You have successfully updated social media!</div>
+                                </div>
+
                                 <!-- Social Form -->
-                                <form>
+                                <form method="post" enctype="multipart/form-data" role="form" autocomplete="off" th:action="@{/social-media}" th:object="${socialMedia}">
+
                                     <div class="row">
                                         <div class="col-md-12 col-lg-8">
-                                            <div class="form-group">
+                                            <div class="form-group" th:classappend="${#fields.hasErrors('facebookLink')} ? 'form-error'">
                                                 <label>Facebook URL</label>
-                                                <input type="text" class="form-control">
+                                                <input type="text" class="form-control" id="facebookLink" name="facebookLink" th:field="*{facebookLink}">
+                                                <p th:errors="*{facebookLink}" class="text-danger"
+                                                   th:if="${#fields.hasErrors('facebookLink')}"></p>
                                             </div>
                                         </div>
                                     </div>
+
                                     <div class="row">
                                         <div class="col-md-12 col-lg-8">
-                                            <div class="form-group">
+                                            <div class="form-group" th:classappend="${#fields.hasErrors('twitterLink')} ? 'form-error'">
                                                 <label>Twitter URL</label>
-                                                <input type="text" class="form-control">
+                                                <input type="text" class="form-control" id="twitterLink" name="twitterLink" th:field="*{twitterLink}">
+                                                <p th:errors="*{twitterLink}" class="text-danger"
+                                                   th:if="${#fields.hasErrors('twitterLink')}"></p>
                                             </div>
                                         </div>
                                     </div>
+
                                     <div class="row">
                                         <div class="col-md-12 col-lg-8">
-                                            <div class="form-group">
+                                            <div class="form-group" th:classappend="${#fields.hasErrors('instagramLink')} ? 'form-error'">
                                                 <label>Instagram URL</label>
-                                                <input type="text" class="form-control">
+                                                <input type="text" class="form-control" id="instagramLink" name="instagramLink" th:field="*{instagramLink}">
+                                                <p th:errors="*{instagramLink}" class="text-danger"
+                                                   th:if="${#fields.hasErrors('instagramLink')}"></p>
                                             </div>
                                         </div>
                                     </div>
+
                                     <div class="row">
                                         <div class="col-md-12 col-lg-8">
-                                            <div class="form-group">
-                                                <label>Pinterest URL</label>
-                                                <input type="text" class="form-control">
+                                            <div class="form-group" th:classappend="${#fields.hasErrors('linkedinLink')} ? 'form-error'">
+                                                <label>LinkedIn URL</label>
+                                                <input type="text" class="form-control" id="linkedinLink" name="linkedinLink" th:field="*{linkedinLink}">
+                                                <p th:errors="*{linkedinLink}" class="text-danger"
+                                                   th:if="${#fields.hasErrors('linkedinLink')}"></p>
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="row">
-                                        <div class="col-md-12 col-lg-8">
-                                            <div class="form-group">
-                                                <label>Linkedin URL</label>
-                                                <input type="text" class="form-control">
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-md-12 col-lg-8">
-                                            <div class="form-group">
-                                                <label>Youtube URL</label>
-                                                <input type="text" class="form-control">
-                                            </div>
-                                        </div>
-                                    </div>
+
                                     <div class="submit-section">
-                                        <button type="submit" class="btn btn-primary submit-btn">Save Changes</button>
+                                        <button type="submit" class="btn btn-primary prime-btn">Save Changes</button>
                                     </div>
+
                                 </form>
                                 <!-- /Social Form -->
 

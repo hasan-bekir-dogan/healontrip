@@ -1,24 +1,35 @@
 package com.healontrip.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
-import org.springframework.data.annotation.CreatedBy;
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.LastModifiedBy;
-import org.springframework.data.annotation.LastModifiedDate;
-import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+import lombok.*;
+import lombok.extern.log4j.Log4j2;
 
-import java.util.Date;
+import java.io.Serializable;
 
-// lombok
-@Getter
-@Setter
+@Data
+@NoArgsConstructor
+@Builder
+@Log4j2
 
-// hibernate jpa
-@MappedSuperclass
+@Entity
+@Table(name = "social_medias")
+public class SocialMediaEntity extends BaseEntity implements Serializable {
+    @Column(name = "facebook_link")
+    private String facebookLink;
 
-public class SocialMediaEntity {
+    @Column(name = "instagram_link")
+    private String instagramLink;
 
+    @Column(name = "twitter_link")
+    private String twitterLink;
+
+    @Column(name = "linkedin_link")
+    private String linkedinLink;
+
+    public SocialMediaEntity(String facebookLink, String instagramLink, String twitterLink, String linkedinLink) {
+        this.facebookLink = facebookLink;
+        this.instagramLink = instagramLink;
+        this.twitterLink = twitterLink;
+        this.linkedinLink = linkedinLink;
+    }
 }

@@ -9,7 +9,7 @@
 }
 
 /*---------------------------------------*/
-.doctor-detail-page .doctor-widget .doc-info-right .doctor-action > a, #rating-star .dot, #book-appointment .submit-section.submit-btn-bottom, #user-profile-photo .change-photo-btn2 label, #changeProfilePhotoModal .modal-body, #profile-settings #user-email .changeEmailButton, .view-all-area, .banner-section.home-banner .container .banner-img, #error-page {
+.doctor-detail-page .card .card-body .doctor-widget .doc-info-left .doc-info-cont .clinic-services .more-button, .doctor-detail-page .doctor-widget .doc-info-right .doctor-action > a, #rating-star .dot, #book-appointment .submit-section.submit-btn-bottom, #user-profile-photo .change-photo-btn2 label, #changeProfilePhotoModal .modal-body, #profile-settings #user-email .changeEmailButton, .view-all-area, .banner-section.home-banner .container .banner-img, #error-page {
   display: flex;
   display: -webkit-flex;
   flex-direction: row;
@@ -304,43 +304,10 @@ header .nav.header-navbar-rht .has-submenu > a:hover {
   right: 112px;
 }
 
-@media only screen and (max-width: 1399.98px) {
-  .banner-content .header-icon {
-    right: 22px;
-  }
-}
-@media only screen and (min-width: 991.98px) {
-  .home-banner .banner-content {
-    padding-bottom: 100px;
-  }
-}
-/*-----------------------------------*/
 .faq-section {
   padding-top: 80px;
 }
 
-@media only screen and (max-width: 767.98px) {
-  .faq-section {
-    padding-top: 40px;
-  }
-}
-/*-----------------------------------*/
-@media only screen and (min-width: 991.98px) {
-  .banner-section .search-box-one {
-    min-width: 700px;
-  }
-}
-@media only screen and (min-width: 767.98px) {
-  .banner-section .search-box-one .search-input.search-line {
-    width: 48%;
-  }
-  .banner-section .search-box-one .search-input.search-map-line {
-    width: 29%;
-  }
-  .banner-section .search-box-one .search-input.search-map-line:before {
-    display: none;
-  }
-}
 /*-----------------------------------*/
 .clinic-section {
   background: white;
@@ -371,11 +338,6 @@ header .nav.header-navbar-rht .has-submenu > a:hover {
   background: #0E82FD;
 }
 
-@media only screen and (max-width: 767.98px) {
-  .doctors-section .owl-nav.nav-control {
-    padding-bottom: 10px;
-  }
-}
 /*-----------------------------------*/
 .view-all-area .btn-view-all {
   font-weight: 500;
@@ -430,11 +392,6 @@ header .nav.header-navbar-rht .has-submenu > a:hover {
   text-overflow: ellipsis;
 }
 
-@media only screen and (max-width: 767.98px) {
-  .articles-section .articles-info .articles-right .articles-content .preface {
-    height: 39px;
-  }
-}
 /*-----------------------------------*/
 .doctors-section .reviews-ratings p {
   margin-bottom: 18px;
@@ -452,11 +409,6 @@ header .nav.header-navbar-rht .has-submenu > a:hover {
   max-width: 165px;
 }
 
-@media only screen and (max-width: 1399.98px) {
-  .doctors-section .owl-stage-outer .owl-item .item .doctor-profile-widget .doc-content .doc-pro-info .doc-pro-name {
-    max-width: 145px;
-  }
-}
 .doctor-filter-select {
   width: 200px;
 }
@@ -579,6 +531,21 @@ header .nav.header-navbar-rht .has-submenu > a:hover {
 
 .doctor-content .search-body .doctor-filter-info .doctors-found {
   padding-bottom: 0;
+}
+.doctor-content .search-body .doctor-card .card-body .doctor-widget-one .doc-info-left {
+  width: calc(100% - 240px);
+}
+.doctor-content .search-body .doctor-card .card-body .doctor-widget-one .doc-info-left .doc-info-cont {
+  width: calc(100% - 184px);
+}
+.doctor-content .search-body .doctor-card .card-body .doctor-widget-one .doc-info-left .doc-info-cont .doc-name {
+  width: 100%;
+}
+.doctor-content .search-body .doctor-card .card-body .doctor-widget-one .doc-info-left .doc-info-cont .doc-name > a {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: calc(100% - 70px);
 }
 
 .doctor-widget-one .doctor-img img {
@@ -836,6 +803,138 @@ fieldset#first .widget-btn > a.disabled {
   height: 38px;
   font-size: 18px;
   padding: 0;
+}
+
+.doctor-detail-page .card .card-body .doctor-widget .doc-info-left .doc-info-cont .clinic-services .more-button {
+  margin-left: 12px;
+  font-size: 12px;
+  line-height: 1.5;
+}
+.doctor-detail-page .card .card-body .doctor-widget .doc-info-left .doc-info-cont .clinic-services .more-button > i {
+  margin-left: 5px;
+  line-height: 1.5;
+}
+
+/********************************************************************************************************************/
+/************************************ ######## Responsive Mobile Screen ######## ************************************/
+/********************************************************************************************************************/
+@media only screen and (max-width: 1399.98px) {
+  .doctors-section .owl-stage-outer .owl-item .item .doctor-profile-widget .doc-content .doc-pro-info .doc-pro-name {
+    max-width: 145px;
+  }
+  .banner-content .header-icon {
+    right: 22px;
+  }
+  .doctor-card .card-body .doctor-widget-one .doc-info-left .doc-info-cont .doc-name > a {
+    max-width: calc(100% - 50px);
+  }
+}
+@media only screen and ((min-width: 991.98px) and (max-width: 1198.98px)) {
+  .doctor-content .search-body .doctor-card .card-body .doctor-widget-one .doc-info-left {
+    width: calc(100% - 200px);
+  }
+  .doctor-content .search-body .doctor-card .card-body .doctor-widget-one .doc-info-left .doctor-img {
+    -ms-flex: 0 0 150px;
+    flex: 0 0 150px;
+    margin-right: 18px;
+    width: 150px;
+    height: 150px;
+  }
+  .doctor-content .search-body .doctor-card .card-body .doctor-widget-one .doc-info-left .doctor-img > a > img {
+    width: 150px;
+    height: 150px;
+  }
+  .doctor-content .search-body .doctor-card .card-body .doctor-widget-one .doc-info-left .doc-info-cont .doc-name {
+    margin-bottom: 4px;
+    font-size: 18px;
+  }
+  .doctor-content .search-body .doctor-card .card-body .doctor-widget-one .doc-info-left .doc-info-cont .doc-name > a {
+    max-width: calc(100% - 40px);
+  }
+  .doctor-content .search-body .doctor-card .card-body .doctor-widget-one .doc-info-left .doc-info-cont .doc-name > i {
+    font-size: 14px;
+    margin-left: 6px;
+  }
+  .doctor-content .search-body .doctor-card .card-body .doctor-widget-one .doc-info-left .doc-info-cont .doc-speciality {
+    font-size: 12px;
+    margin-bottom: 16px;
+  }
+  .doctor-content .search-body .doctor-card .card-body .doctor-widget-one .doc-info-left .doc-info-cont .clinic-details {
+    margin-bottom: 7px;
+  }
+  .doctor-content .search-body .doctor-card .card-body .doctor-widget-one .doc-info-left .doc-info-cont .clinic-details .doc-location {
+    font-size: 13px;
+  }
+  .doctor-content .search-body .doctor-card .card-body .doctor-widget-one .doc-info-left .doc-info-cont .clinic-details .doc-location:not(:last-child) {
+    margin-bottom: 7px;
+  }
+  .doctor-content .search-body .doctor-card .card-body .doctor-widget-one .doc-info-left .doc-info-cont .reviews-ratings > p {
+    font-size: 11px;
+  }
+  .doctor-content .search-body .doctor-card .card-body .doctor-widget-one .doc-info-left .doc-info-cont .reviews-ratings > p > span {
+    font-size: 13px;
+  }
+  .doctor-content .search-body .doctor-card .card-body .doctor-widget-one .doc-info-right {
+    -ms-flex: 0 0 200px;
+    flex: 0 0 200px;
+    max-width: 200px;
+  }
+}
+@media only screen and (min-width: 991.98px) {
+  .home-banner .banner-content {
+    padding-bottom: 100px;
+  }
+  .banner-section .search-box-one {
+    min-width: 700px;
+  }
+}
+@media only screen and (max-width: 767.98px) {
+  .doctor-content .search-body .doctor-card .card-body .doctor-widget-one .doc-info-left {
+    width: 100%;
+  }
+  .doctor-content .search-body .doctor-card .card-body .doctor-widget-one .doc-info-left .doc-info-cont {
+    width: 65%;
+    margin: auto;
+  }
+  .doctor-content .search-body .doctor-card .card-body .doctor-widget-one .doc-info-left .doc-info-cont .doc-name {
+    width: 100%;
+  }
+  .doctor-content .search-body .doctor-card .card-body .doctor-widget-one .doc-info-left .doc-info-cont .doc-name > a {
+    max-width: calc(100% - 24px);
+  }
+  .doctor-content .search-body .doc-info-right .book-appoint {
+    margin-top: 20px;
+  }
+}
+@media only screen and (min-width: 767.98px) {
+  .faq-section {
+    padding-top: 40px;
+  }
+  .doctors-section .owl-nav.nav-control {
+    padding-bottom: 10px;
+  }
+  .articles-section .articles-info .articles-right .articles-content .preface {
+    height: 39px;
+  }
+  .banner-section .search-box-one .search-input.search-line {
+    width: 48%;
+  }
+  .banner-section .search-box-one .search-input.search-map-line {
+    width: 29%;
+  }
+  .banner-section .search-box-one .search-input.search-map-line:before {
+    display: none;
+  }
+}
+@media only screen and (max-width: 580px) {
+  .doctor-content .search-body .doctor-card .card-body .doctor-widget-one .doc-info-left .doc-info-cont {
+    width: 86%;
+  }
+}
+@media only screen and (max-width: 490px) {
+  .doctor-content .search-body .doctor-card .card-body .doctor-widget-one .doc-info-left .doc-info-cont {
+    width: 100%;
+  }
 }
 
 /*# sourceMappingURL=layout.css.map */
