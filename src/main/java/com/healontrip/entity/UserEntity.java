@@ -79,9 +79,12 @@ public class UserEntity extends BaseEntity implements Serializable{
     @Column(name = "specialist_id")
     private Long specialistId;
 
+    @Column(name = "social_media_id")
+    private Long socialMediaId;
+
     public UserEntity(Long profileImgId, String userName, String firstName, String lastName, String phoneNumber, String email, String password,
                       Role role, Gender gender, Date dateOfBirth, String biography, String city, String state, String country, String postalCode,
-                      String addressLine, String clinicName, String clinicAddress, String clinicImgIds, Long specialistId){
+                      String addressLine, String clinicName, String clinicAddress, String clinicImgIds, Long specialistId, Long socialMediaId){
         this.profileImgId = profileImgId;
         this.userName = userName;
         this.firstName = firstName;
@@ -102,5 +105,6 @@ public class UserEntity extends BaseEntity implements Serializable{
         this.clinicAddress = clinicAddress;
         this.clinicImgIds = clinicImgIds;
         this.specialistId = specialistId;
+        this.socialMediaId = socialMediaId;
     }
 }

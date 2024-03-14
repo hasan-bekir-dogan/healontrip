@@ -98,6 +98,10 @@
 
                                         </th:block>
 
+                                        <a class="more-button" onclick="goServices()" th:if="${allServiceLinkYN} == 'Y'">
+                                            All Services <i class="fa-solid fa-angles-right"></i>
+                                        </a>
+
                                     </div>
                                 </div>
                             </div>
@@ -108,16 +112,16 @@
                                     </ul>
                                 </div>
                                 <div class="doctor-action">
-                                    <a th:href="@{#}" class="btn btn-white">
+                                    <a th:href="@{${socialMedia.facebookLink}}" th:target="${socialMedia.facebookLink} == '' ? '_self' : '_blank'" class="btn btn-white">
                                         <i class="fab fa-facebook"></i>
                                     </a>
-                                    <a th:href="@{#}" class="btn btn-white">
+                                    <a th:href="@{${socialMedia.instagramLink}}" th:target="${socialMedia.instagramLink} == '' ? '_self' : '_blank'" class="btn btn-white">
                                         <i class="fab fa-instagram"></i>
                                     </a>
-                                    <a th:href="@{#}" class="btn btn-white">
+                                    <a th:href="@{${socialMedia.twitterLink}}" th:target="${socialMedia.twitterLink} == '' ? '_self' : '_blank'" class="btn btn-white">
                                         <i class="fab fa-twitter"></i>
                                     </a>
-                                    <a th:href="@{#}" class="btn btn-white">
+                                    <a th:href="@{${socialMedia.linkedinLink}}" th:target="${socialMedia.linkedinLink} == '' ? '_self' : '_blank'" class="btn btn-white">
                                         <i class="fab fa-linkedin-in"></i>
                                     </a>
                                 </div>
@@ -140,13 +144,13 @@
                         <nav class="user-tabs mb-4">
                             <ul class="nav nav-tabs nav-tabs-bottom nav-justified">
                                 <li class="nav-item">
-                                    <a class="nav-link active" href="#doc_overview" data-bs-toggle="tab">Overview</a>
+                                    <a class="nav-link overview-tab active" href="#doc_overview" data-bs-toggle="tab">Overview</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link" href="#doc_locations" data-bs-toggle="tab">Locations</a>
+                                    <a class="nav-link locations-tab" href="#doc_locations" data-bs-toggle="tab">Locations</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link" href="#doc_reviews" data-bs-toggle="tab">Reviews</a>
+                                    <a class="nav-link reviews-tab" href="#doc_reviews" data-bs-toggle="tab">Reviews</a>
                                 </li>
                             </ul>
                         </nav>
@@ -274,7 +278,7 @@
                                         <!-- /Membership Details -->
 
                                         <!-- Services List -->
-                                        <div class="service-list" th:if="${not #lists.isEmpty(serviceList)}">
+                                        <div id="service_list" class="service-list" th:if="${not #lists.isEmpty(serviceList)}">
                                             <h4>Services</h4>
                                             <ul class="clearfix">
 
