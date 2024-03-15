@@ -1,7 +1,9 @@
 package com.healontrip.controller.crm;
 
+import com.healontrip.dto.Role;
 import com.healontrip.dto.SocialMediaDto;
 import com.healontrip.dto.UserBarDto;
+import com.healontrip.service.AuthService;
 import com.healontrip.service.SocialMediaService;
 import com.healontrip.service.UserService;
 import com.healontrip.util.IpConfigUtil;
@@ -24,6 +26,9 @@ public class SocialMediaController {
     private UserService userService;
 
     @Autowired
+    private AuthService authService;
+
+    @Autowired
     private SocialMediaService socialMediaService;
 
     @GetMapping("/social-media")
@@ -31,6 +36,10 @@ public class SocialMediaController {
         // coming soon
         if(!IpConfigUtil.checkAdminIp(request))
             return IpConfigUtil.getPage();
+
+        // check doctor or not
+        if (!authService.getRole().equals(Role.DOCTOR.toString()))
+            return "redirect:/profile";
 
         UserBarDto userBarDto = userService.getUser();
         SocialMediaDto socialMediaDto = socialMediaService.getSocialMedia();
@@ -49,6 +58,10 @@ public class SocialMediaController {
         // coming soon
         if(!IpConfigUtil.checkAdminIp(request))
             return IpConfigUtil.getRedirectPage();
+
+        // check doctor or not
+        if (!authService.getRole().equals(Role.DOCTOR.toString()))
+            return "redirect:/profile";
 
         if(result.hasErrors()) {
             UserBarDto userBarDto = userService.getUser();

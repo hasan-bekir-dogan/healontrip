@@ -355,8 +355,16 @@ public class UserServiceImpl implements UserService {
 
         // patient
         if(userRole.equals(Role.PATIENT.toString())) {
-            // address
-            String addressShort = userEntity.getCity() + ", " + userEntity.getCountry();
+            // short address
+            String addressShort = "";
+
+            if (userEntity.getCity() != null && userEntity.getCountry() != null)
+                addressShort = userEntity.getCity() + ", " + userEntity.getCountry();
+            else if (userEntity.getCity() != null && userEntity.getCountry() == null)
+                addressShort = userEntity.getCity();
+            else if (userEntity.getCity() == null && userEntity.getCountry() != null)
+                addressShort = userEntity.getCountry();
+
             userBarDto.setAddressShort(addressShort);
 
             // date of birth

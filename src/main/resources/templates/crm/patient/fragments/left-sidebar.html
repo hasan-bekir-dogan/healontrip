@@ -11,8 +11,8 @@
                     <h3 th:text="${user.userName}"></h3>
 
                     <div class="patient-details">
-                        <h5><i class="fas fa-birthday-cake"></i> <th:block th:text="${user.dateOfBirth}"></th:block></h5>
-                        <h5 class="mb-0"><i class="fas fa-map-marker-alt"></i> <th:block th:text="${user.addressShort}"></th:block></h5>
+                        <h5 th:if="${user.dateOfBirth} != null"><i class="fas fa-birthday-cake"></i> <th:block th:text="${user.dateOfBirth}"></th:block></h5>
+                        <h5 class="mb-0" th:if="${user.addressShort} != null and ${user.addressShort} != ''"><i class="fas fa-map-marker-alt"></i> <th:block th:text="${user.addressShort}"></th:block></h5>
                     </div>
                 </div>
             </div>
@@ -20,18 +20,6 @@
         <div class="dashboard-widget">
             <nav class="dashboard-menu">
                 <ul>
-                    <li th:classappend="${#ctx.springRequestContext.requestUri == '/dashboard'} ? 'active'">
-                        <a th:href="@{/dashboard}">
-                            <i class="fas fa-columns"></i>
-                            <span>Dashboard</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a th:href="@{#}">
-                            <i class="fas fa-file-invoice-dollar"></i>
-                            <span>Accounts</span>
-                        </a>
-                    </li>
                     <li>
                         <a th:href="@{#}">
                             <i class="fas fa-star"></i>
@@ -42,12 +30,6 @@
                         <a th:href="@{/profile}">
                             <i class="fas fa-user-cog"></i>
                             <span>Profile Settings</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a th:href="@{#}">
-                            <i class="fas fa-share-alt"></i>
-                            <span>Social Media</span>
                         </a>
                     </li>
                     <li>

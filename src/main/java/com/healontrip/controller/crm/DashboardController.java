@@ -1,6 +1,8 @@
 package com.healontrip.controller.crm;
 
+import com.healontrip.dto.Role;
 import com.healontrip.dto.UserBarDto;
+import com.healontrip.service.AuthService;
 import com.healontrip.service.UserService;
 import com.healontrip.util.IpConfigUtil;
 import jakarta.servlet.http.HttpServletRequest;
@@ -17,12 +19,19 @@ public class DashboardController {
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private AuthService authService;
+
     @GetMapping("/dashboard")
     public String dashboard(Model model,
                             HttpServletRequest request) throws ParseException {
         // coming soon
         if(!IpConfigUtil.checkAdminIp(request))
             return IpConfigUtil.getRedirectPage();
+
+        // check doctor or not
+        if (!authService.getRole().equals(Role.DOCTOR.toString()))
+            return "redirect:/profile";
 
         UserBarDto userBarDto = userService.getUser();
 
