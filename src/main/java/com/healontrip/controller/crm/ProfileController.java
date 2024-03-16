@@ -39,8 +39,6 @@ public class ProfileController {
         UserBarDto userBarDto = userService.getUser();
         ProfileDto profileDto = userService.getProfile();
 
-        System.out.println(profileDto.getUserName());
-
         model.addAttribute("user", userBarDto);
         model.addAttribute("profile", profileDto);
 

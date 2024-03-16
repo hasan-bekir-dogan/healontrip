@@ -228,7 +228,8 @@ public class AuthController {
                 errorsDto = new GeneralErrorsDto();
                 errorsDto.setField("userName");
                 errorsDto.setDefaultMessage("Username must be between 5 and 29 characters.</br>" +
-                                            "Allowed characters: a-z, A-Z, 0-9, -");
+                                            "Allowed characters: (a-z, A-Z, 0-9, -)</br>" +
+                                            "Turkish characters can't be used.");
                 errors.add(errorsDto);
             } else if (existingUserName != null){
                 errorsDto = new GeneralErrorsDto();

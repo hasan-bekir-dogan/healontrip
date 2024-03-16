@@ -139,7 +139,7 @@ function addReviewHtml(reviewList, reviewInfo) {
                                 <img src="/${reviewList[i].patientProfileImgSrc}" class="avatar avatar-sm rounded-circle" alt="${reviewList[i].patientProfileImgAlt}">
                                 <div class="comment-body">
                                     <div class="meta-data">
-                                        <span class="comment-author">${reviewList[i].patientUserName}</span>
+                                        <span class="comment-author">${reviewList[i].patientFullName}</span>
                                         <span class="comment-date">${reviewList[i].createdDate}</span>
                                         <div class="review-count rating">
                                             <i class="fas fa-star ${(reviewList[i].rating >= 1) ? 'filled' : ''}"></i>
@@ -197,7 +197,7 @@ function getReviewData() {
 
     // get data
     let doctorId = $(doctorIdSelector).val()
-    let ratingStar;
+    /*let ratingStar;
 
     switch ($(ratingStarSelector).val()) {
         case 'star-1':
@@ -217,7 +217,9 @@ function getReviewData() {
             break;
         default:
             ratingStar = 0;
-    }
+    }*/
+
+    let ratingStar = $(ratingStarSelector).val();
 
     let detail = $(detailSelector).val()
 

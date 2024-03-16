@@ -873,6 +873,23 @@ fieldset#first {
   }
 }
 
+/*#review-doctor #review-rating .star-rating input[type=radio]:checked ~ label {
+  color: #bbb;
+}
+#review-doctor #review-rating .star-rating label:hover, .star-rating label:hover ~ label {
+  color: #f2b600;
+}*/
+#review-doctor #review-rating .star-rating label:hover, .star-rating label:hover ~ label {
+  color: #bbb;
+}
+#review-doctor #review-rating .star-rating label {
+  &.fill {
+    color: #f2b600;
+  }
+  &.empty {
+    color: #bbb;
+  }
+}
 
 
 
