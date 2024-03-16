@@ -91,3 +91,20 @@ $('fieldset#third #verify-account').on('submit', function (e) {
 
     verifyAccount()
 })
+
+// rating star
+$('#review-doctor #review-rating .star-rating >label').mouseenter( function () {
+    let current = parseInt($(this).attr('data-id'))
+
+    for (let i = 1; i <= current; i ++)
+        $(`#review-doctor #review-rating .star-rating > label[data-id="${i}"]`).addClass('fill')
+
+    for (let j = current + 1; j <= 5; j ++)
+        $(`#review-doctor #review-rating .star-rating > label[data-id="${j}"]`).addClass('empty')
+})
+$('#review-doctor #review-rating .star-rating >label').mouseleave( function () {
+    for (let j = 1; j <= 5; j ++) {
+        $(`#review-doctor #review-rating .star-rating > label[data-id="${j}"]`).removeClass('fill')
+        $(`#review-doctor #review-rating .star-rating > label[data-id="${j}"]`).removeClass('empty')
+    }
+})

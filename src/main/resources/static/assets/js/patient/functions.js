@@ -59,9 +59,9 @@ function showSuccessMessage() {
 
 function getProfileData() {
     // define query selector
-    let profilePhotoSelector = '#profile-settings #user-profile-photo input[type="file"]'
-    let nameSelector = '#profile-settings #user-name input[type="text"]'
-    let emailSelector = '#profile-settings #user-email input[type="email"]'
+    let userNameSelector = '#profile-settings #user-userName input[type="text"]'
+    let firstNameSelector = '#profile-settings #user-firstName input[type="text"]'
+    let lastNameSelector = '#profile-settings #user-lastName input[type="text"]'
     let phoneSelector = '#profile-settings #user-phone-number input[type="number"]'
     let genderSelector = '#profile-settings #user-gender #gender'
     let birthDateSelector = '#profile-settings #user-birth-date input[type="date"]'
@@ -75,9 +75,9 @@ function getProfileData() {
     // disable input and button
     let affectedItemList = []
 
-    affectedItemList.push(profilePhotoSelector)
-    affectedItemList.push(nameSelector)
-    affectedItemList.push(emailSelector)
+    affectedItemList.push(userNameSelector)
+    affectedItemList.push(firstNameSelector)
+    affectedItemList.push(lastNameSelector)
     affectedItemList.push(phoneSelector)
     affectedItemList.push(genderSelector)
     affectedItemList.push(birthDateSelector)
@@ -92,8 +92,9 @@ function getProfileData() {
 
 
     // get data
-    let name = $(nameSelector).val()
-    let email = $(emailSelector).val()
+    let userName = $(userNameSelector).val()
+    let firstName = $(firstNameSelector).val()
+    let lastName = $(lastNameSelector).val()
     let phone = $(phoneSelector).val()
     let gender = $(genderSelector).val()
     let birthDate = $(birthDateSelector).val()
@@ -107,8 +108,9 @@ function getProfileData() {
     // ********** form data (begin) ********** //
     let formData = new FormData();
 
-    formData.append("name", name);
-    formData.append("email", email);
+    formData.append("userName", userName);
+    formData.append("firstName", firstName);
+    formData.append("lastName", lastName);
     formData.append("phone", phone);
     formData.append("gender", gender);
     formData.append("dateOfBirth", birthDate);

@@ -530,7 +530,6 @@ function getProfileData() {
     let userNameSelector = '#profile-settings #user-userName input[type="text"]'
     let firstNameSelector = '#profile-settings #user-firstName input[type="text"]'
     let lastNameSelector = '#profile-settings #user-lastName input[type="text"]'
-    let emailSelector = '#profile-settings #user-email input[type="email"]'
     let phoneSelector = '#profile-settings #user-phone-number input[type="number"]'
     let genderSelector = '#profile-settings #user-gender #gender'
     let birtDateSelector = '#profile-settings #user-birth-date input[type="date"]'
@@ -580,7 +579,6 @@ function getProfileData() {
     let userName = $(userNameSelector).val()
     let firstName = $(firstNameSelector).val()
     let lastName = $(lastNameSelector).val()
-    let email = $(emailSelector).val()
     let phone = $(phoneSelector).val()
     let gender = $(genderSelector).val()
     let birthDate = $(birtDateSelector).val()

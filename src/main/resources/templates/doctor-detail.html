@@ -493,7 +493,7 @@
                                                     <img th:src="@{'/' + ${review.patientProfileImgSrc}}" class="avatar avatar-sm rounded-circle" th:alt="${review.patientProfileImgAlt}">
                                                     <div class="comment-body">
                                                         <div class="meta-data">
-                                                            <span class="comment-author" th:text="${review.patientUserName}"></span>
+                                                            <span class="comment-author" th:text="${review.patientFullName}"></span>
                                                             <span class="comment-date" th:text="${review.createdDate}"></span>
                                                             <div class="review-count rating">
                                                                 <i class="fas fa-star" th:classappend="${review.rating >= 1} ? 'filled'"></i>
@@ -533,24 +533,24 @@
                                         <div id="review-rating" class="form-group">
                                             <label>Review</label>
                                             <div class="star-rating">
-                                                <input id="star-5" type="radio" class="form-control" value="star-5">
-                                                <label for="star-5" title="5 stars">
+                                                <input id="star-5" type="radio" name="star" class="form-control" value="5">
+                                                <label for="star-5" title="5 stars" data-id="5">
                                                     <i class="active fa fa-star"></i>
                                                 </label>
-                                                <input id="star-4" type="radio" class="form-control" value="star-4">
-                                                <label for="star-4" title="4 stars">
+                                                <input id="star-4" type="radio" name="star" class="form-control" value="4">
+                                                <label for="star-4" title="4 stars" data-id="4">
                                                     <i class="active fa fa-star"></i>
                                                 </label>
-                                                <input id="star-3" type="radio" class="form-control" value="star-3">
-                                                <label for="star-3" title="3 stars">
+                                                <input id="star-3" type="radio" name="star" class="form-control" value="3">
+                                                <label for="star-3" title="3 stars" data-id="3">
                                                     <i class="active fa fa-star"></i>
                                                 </label>
-                                                <input id="star-2" type="radio" class="form-control" value="star-2">
-                                                <label for="star-2" title="2 stars">
+                                                <input id="star-2" type="radio" name="star" class="form-control" value="2">
+                                                <label for="star-2" title="2 stars" data-id="2">
                                                     <i class="active fa fa-star"></i>
                                                 </label>
-                                                <input id="star-1" type="radio" class="form-control" value="star-1">
-                                                <label for="star-1" title="1 star">
+                                                <input id="star-1" type="radio" name="star" class="form-control" value="1">
+                                                <label for="star-1" title="1 star" data-id="1">
                                                     <i class="active fa fa-star"></i>
                                                 </label>
                                             </div>

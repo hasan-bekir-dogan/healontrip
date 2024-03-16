@@ -15,10 +15,12 @@ public class ReviewsDto {
     private Long id;
     private Long doctorId;
     private String doctorUserName;
+    private String doctorFullName;
     private Long patientId;
     private String patientProfileImgSrc;
     private String patientProfileImgAlt;
     private String patientUserName;
+    private String patientFullName;
     private String createdDate;
     private int rating;
     private String detail;

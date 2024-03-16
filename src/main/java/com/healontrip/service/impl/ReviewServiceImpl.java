@@ -122,6 +122,7 @@ public class ReviewServiceImpl implements ReviewService {
             reviewsDto.setPatientId(reviewEntity.getPatientId());
             UserEntity patient = userService.findById(reviewEntity.getPatientId());
             reviewsDto.setPatientUserName(patient.getUserName());
+            reviewsDto.setPatientFullName(patient.getFirstName() + " " + patient.getLastName());
 
             // patient img src
             String imgSrc = fileService.getFileSrc(patient.getProfileImgId());

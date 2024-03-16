@@ -110,7 +110,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void updateProfile(ProfileDto profileDto) throws IOException, ParseException {
-        UserEntity userEntity = findByEmail(profileDto.getEmail());
+        UserEntity userEntity = findById(authService.getUserId());
         Long userId = userEntity.getId();
 
         userEntity.setUserName(profileDto.getUserName());
@@ -123,7 +123,7 @@ public class UserServiceImpl implements UserService {
         SimpleDateFormat format = new SimpleDateFormat(dateOfBirthPattern);
         Date dateOfBirth = null;
 
-        if (profileDto.getDateOfBirth() != null)
+        if (profileDto.getDateOfBirth() != null && !profileDto.getDateOfBirth().equals(""))
             dateOfBirth = format.parse(profileDto.getDateOfBirth());
 
         userEntity.setDateOfBirth(dateOfBirth);
@@ -293,7 +293,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void updatePatientProfile(ProfileDto profileDto) throws IOException, ParseException {
-        UserEntity userEntity = findByEmail(profileDto.getEmail());
+        UserEntity userEntity = findById(authService.getUserId());
         Long userId = userEntity.getId();
 
         userEntity.setUserName(profileDto.getUserName());
@@ -306,7 +306,7 @@ public class UserServiceImpl implements UserService {
         SimpleDateFormat format = new SimpleDateFormat(dateOfBirthPattern);
         Date dateOfBirth = null;
 
-        if (profileDto.getDateOfBirth() != null)
+        if (profileDto.getDateOfBirth() != null && !profileDto.getDateOfBirth().equals(""))
             dateOfBirth = format.parse(profileDto.getDateOfBirth());
 
         userEntity.setDateOfBirth(dateOfBirth);
@@ -358,12 +358,18 @@ public class UserServiceImpl implements UserService {
             // short address
             String addressShort = "";
 
-            if (userEntity.getCity() != null && userEntity.getCountry() != null)
-                addressShort = userEntity.getCity() + ", " + userEntity.getCountry();
-            else if (userEntity.getCity() != null && userEntity.getCountry() == null)
-                addressShort = userEntity.getCity();
-            else if (userEntity.getCity() == null && userEntity.getCountry() != null)
-                addressShort = userEntity.getCountry();
+            if (userEntity.getCity() != null && userEntity.getCountry() != null) {
+                if (!userEntity.getCity().equals("") && !userEntity.getCountry().equals(""))
+                    addressShort = userEntity.getCity() + ", " + userEntity.getCountry();
+            }
+            else if (userEntity.getCity() != null && userEntity.getCountry() == null) {
+                if (!userEntity.getCity().equals("") && !userEntity.getCountry().equals(""))
+                    addressShort = userEntity.getCity();
+            }
+            else if (userEntity.getCity() == null && userEntity.getCountry() != null) {
+                if (!userEntity.getCity().equals("") && !userEntity.getCountry().equals(""))
+                    addressShort = userEntity.getCountry();
+            }
 
             userBarDto.setAddressShort(addressShort);
 
@@ -403,7 +409,14 @@ public class UserServiceImpl implements UserService {
 
             String specialistName = specialistEntity.getName();
 
-            String infoShort = educationDegrees + ((educationDegrees != "" && specialistName != "") ? " - " : "") + specialistName;
+            String infoShort = "";
+
+            if (educationDegrees != "" && specialistName != "")
+                infoShort = educationDegrees + " - " + specialistName;
+            else if (educationDegrees != "" && specialistName == "")
+                infoShort = educationDegrees;
+            else if (educationDegrees == "" && specialistName != "")
+                infoShort = specialistName;
 
             userBarDto.setInfoShort(infoShort);
         }
