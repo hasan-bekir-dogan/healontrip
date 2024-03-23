@@ -35,7 +35,8 @@ public class SpringSecurity {
             "/verify-account",
             "/privacy-policy",
             "/terms-condition",
-            "/social-media"
+            "/social-media",
+            "/change-password"
     };
     public static final String LOGIN_URL = "/login";
     public static final String LOGOUT_URL = "/logout";

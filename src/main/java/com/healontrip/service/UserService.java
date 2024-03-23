@@ -22,7 +22,7 @@ public interface UserService {
     DoctorDto getDoctor(Long id);
     CommunicationInfoDto getCommunicationInfo();
     void createToken(String email, String token, TokenType type);
-    void updatePassword(ResetPasswordDto passwordDto);
+    void updatePassword(NewPasswordDto passwordDto);
 
     // model mapper
     UserBarDto UserEntityToUserBarDto(UserEntity userEntity);

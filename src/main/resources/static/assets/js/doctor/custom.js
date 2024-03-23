@@ -185,5 +185,3 @@ $('#changeProfilePhotoModal .modal-footer #changeProfilePhotoYesButton').on('cli
     var uri = cropperProfilePhoto.getCroppedCanvas().toDataURL("image/jpeg", 0.7);
     previewProfileImage(uri)
 });
-
-

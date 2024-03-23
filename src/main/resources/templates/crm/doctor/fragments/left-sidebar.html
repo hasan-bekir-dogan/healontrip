@@ -49,8 +49,8 @@
                             <span>Social Media</span>
                         </a>
                     </li>
-                    <li>
-                        <a th:href="@{#}">
+                    <li th:classappend="${#ctx.springRequestContext.requestUri.startsWith('/change-password')} ? 'active'">
+                        <a th:href="@{/change-password}">
                             <i class="fas fa-lock"></i>
                             <span>Change Password</span>
                         </a>

@@ -819,5 +819,3 @@ async function updateProfile() {
         enableItems(affectedItemList)
     }
 }
-
-

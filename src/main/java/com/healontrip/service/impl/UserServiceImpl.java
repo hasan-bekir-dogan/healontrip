@@ -890,11 +890,11 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void updatePassword(ResetPasswordDto resetPasswordDto) {
+    public void updatePassword(NewPasswordDto newPasswordDto) {
         // update user password
-        UserEntity userEntity = findById(resetPasswordDto.getUserId());
+        UserEntity userEntity = findById(newPasswordDto.getUserId());
 
-        userEntity.setPassword(passwordEncoder.encode(resetPasswordDto.getPassword()));
+        userEntity.setPassword(passwordEncoder.encode(newPasswordDto.getNewPassword()));
 
         userRepository.save(userEntity);
     }
