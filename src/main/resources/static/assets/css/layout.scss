@@ -891,7 +891,24 @@ fieldset#first {
   }
 }
 
-
+.pass-group .toggle-password-repeat {
+  font-size: 16px;
+  position: absolute;
+  top: 50%;
+  right: 10px;
+  transform: translateY(-50%);
+  -webkit-transform: translateY(-50%);
+  -ms-transform: translateY(-50%);
+  color: #797979;
+  cursor: pointer;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  @extend %flex-align-center;
+  &:hover {
+    background-color: #F3F3F3;
+  }
+}
 
 
 

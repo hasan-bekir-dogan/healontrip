@@ -67,6 +67,7 @@ public class SocialMediaController {
             UserBarDto userBarDto = userService.getUser();
 
             model.addAttribute("user", userBarDto);
+
             return "crm/doctor/social-media";
         }
 

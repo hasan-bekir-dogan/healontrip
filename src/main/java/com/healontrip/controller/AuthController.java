@@ -2,10 +2,7 @@ package com.healontrip.controller;
 
 import com.healontrip.dto.*;
 import com.healontrip.entity.UserEntity;
-import com.healontrip.service.MailService;
-import com.healontrip.service.SecurityService;
-import com.healontrip.service.UserService;
-import com.healontrip.service.ValidationService;
+import com.healontrip.service.*;
 import com.healontrip.util.IpConfigUtil;
 import jakarta.mail.MessagingException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -14,11 +11,11 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-import jakarta.validation.Valid;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.io.UnsupportedEncodingException;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -29,6 +26,9 @@ public class AuthController {
     private UserService userService;
 
     @Autowired
+    private AuthService authService;
+
+    @Autowired
     private SecurityService securityService;
 
     @Autowired
@@ -36,6 +36,9 @@ public class AuthController {
 
     @Autowired
     private MailService mailService;
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     @GetMapping("/login")
     public String login(HttpServletRequest request) {
@@ -86,7 +89,7 @@ public class AuthController {
     }
 
     @PostMapping("/forgot-password")
-    public String resetPassword(HttpServletRequest request,
+    public String forgotPassword(HttpServletRequest request,
                                 @RequestParam("email") String email) throws MessagingException, UnsupportedEncodingException {
         // coming soon
         if(!IpConfigUtil.checkAdminIp(request))
@@ -163,7 +166,99 @@ public class AuthController {
                 return new ResponseEntity<>(new GeneralResponseWithErrorsDto("fail", errors), HttpStatus.BAD_REQUEST);
             // validation (end)
 
-            userService.updatePassword(resetPasswordDto);
+            NewPasswordDto newPasswordDto = new NewPasswordDto();
+            newPasswordDto.setNewPassword(resetPasswordDto.getPassword());
+            newPasswordDto.setUserId(resetPasswordDto.getUserId());
+
+            userService.updatePassword(newPasswordDto);
+
+            return new ResponseEntity<>(new GeneralResponseWithoutDataDto("success"), HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(e, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @GetMapping("/change-password")
+    public String changePassword(Model model,
+                                 HttpServletRequest request) throws ParseException {
+        // coming soon
+        if(!IpConfigUtil.checkAdminIp(request))
+            return IpConfigUtil.getRedirectPage();
+
+        UserBarDto userBarDto = userService.getUser();
+
+        model.addAttribute("user", userBarDto);
+        model.addAttribute("password", new PasswordDto());
+
+        return "crm/" + authService.getRole().toLowerCase() + "/change-password";
+    }
+
+    @PostMapping("/change-password")
+    public ResponseEntity<Object> changePassword(@ModelAttribute("password") PasswordDto passwordDto,
+                                 HttpServletRequest request) {
+        // coming soon
+        if(!IpConfigUtil.checkAdminIp(request))
+            return new ResponseEntity<>(new GeneralResponseWithDataDto("fail", new Object()), HttpStatus.NOT_FOUND);
+
+
+        try {
+            // validation (begin)
+            List<GeneralErrorsDto> errors = new ArrayList<>();
+            GeneralErrorsDto errorsDto;
+
+            Long userId = authService.getUserId();
+            UserEntity userEntity = userService.findById(userId);
+
+            if (passwordDto.getOldPassword() == null || passwordDto.getOldPassword().trim().equals("")) {
+                errorsDto = new GeneralErrorsDto();
+                errorsDto.setField("oldPassword");
+                errorsDto.setDefaultMessage("Old Password must have a value");
+                errors.add(errorsDto);
+            } else if (!passwordEncoder.matches(userEntity.getPassword(), passwordDto.getOldPassword())) {
+                errorsDto = new GeneralErrorsDto();
+                errorsDto.setField("oldPassword");
+                errorsDto.setDefaultMessage("Old Password is not correct");
+                errors.add(errorsDto);
+            }
+
+            if (passwordDto.getNewPassword() == null || passwordDto.getNewPassword().trim().equals("")) {
+                errorsDto = new GeneralErrorsDto();
+                errorsDto.setField("newPassword");
+                errorsDto.setDefaultMessage("New Password must have a value");
+                errors.add(errorsDto);
+            } else if (!validationService.validPassword(passwordDto.getNewPassword())){
+                errorsDto = new GeneralErrorsDto();
+                errorsDto.setField("newPassword");
+                errorsDto.setDefaultMessage("At least one lowercase letter(a - z).</br>" +
+                        "At least one uppercase letter(A - Z).</br>" +
+                        "At least one numeric value(0-9).</br>" +
+                        "At least one special symbol(!@#$%^&*=+-_)</br>" +
+                        "The total length should be greater than or equal to 8 and less or equal to 16.");
+                errors.add(errorsDto);
+            }
+
+            if (passwordDto.getConfirmPassword() == null || passwordDto.getConfirmPassword().trim().equals("")) {
+                errorsDto = new GeneralErrorsDto();
+                errorsDto.setField("confirmPassword");
+                errorsDto.setDefaultMessage("Confirm Password must have a value");
+                errors.add(errorsDto);
+            } else if (!passwordDto.getConfirmPassword().equals(passwordDto.getNewPassword())){
+                errorsDto = new GeneralErrorsDto();
+                errorsDto.setField("newPassword");
+                errorsDto.setDefaultMessage("Confirm password is not matched new password!");
+                errors.add(errorsDto);
+            }
+
+            if (!errors.isEmpty())
+                return new ResponseEntity<>(new GeneralResponseWithErrorsDto("fail", errors), HttpStatus.BAD_REQUEST);
+            // validation (end)
+
+
+            /*NewPasswordDto newPasswordDto = new NewPasswordDto();
+            newPasswordDto.setNewPassword(passwordDto.getNewPassword());
+            newPasswordDto.setUserId(authService.getUserId());
+
+            userService.updatePassword(newPasswordDto);*/
 
             return new ResponseEntity<>(new GeneralResponseWithoutDataDto("success"), HttpStatus.OK);
         } catch (Exception e) {
