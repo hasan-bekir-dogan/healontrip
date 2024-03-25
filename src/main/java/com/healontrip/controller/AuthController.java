@@ -214,7 +214,7 @@ public class AuthController {
                 errorsDto.setField("oldPassword");
                 errorsDto.setDefaultMessage("Old Password must have a value");
                 errors.add(errorsDto);
-            } else if (!passwordEncoder.matches(userEntity.getPassword(), passwordDto.getOldPassword())) {
+            } else if (!passwordEncoder.matches(passwordDto.getOldPassword(), userEntity.getPassword())) {
                 errorsDto = new GeneralErrorsDto();
                 errorsDto.setField("oldPassword");
                 errorsDto.setDefaultMessage("Old Password is not correct");
@@ -225,6 +225,11 @@ public class AuthController {
                 errorsDto = new GeneralErrorsDto();
                 errorsDto.setField("newPassword");
                 errorsDto.setDefaultMessage("New Password must have a value");
+                errors.add(errorsDto);
+            } else if (passwordDto.getNewPassword().equals(passwordDto.getOldPassword())) {
+                errorsDto = new GeneralErrorsDto();
+                errorsDto.setField("newPassword");
+                errorsDto.setDefaultMessage("New Password must be different from old password");
                 errors.add(errorsDto);
             } else if (!validationService.validPassword(passwordDto.getNewPassword())){
                 errorsDto = new GeneralErrorsDto();
@@ -244,7 +249,7 @@ public class AuthController {
                 errors.add(errorsDto);
             } else if (!passwordDto.getConfirmPassword().equals(passwordDto.getNewPassword())){
                 errorsDto = new GeneralErrorsDto();
-                errorsDto.setField("newPassword");
+                errorsDto.setField("confirmPassword");
                 errorsDto.setDefaultMessage("Confirm password is not matched new password!");
                 errors.add(errorsDto);
             }
@@ -254,11 +259,11 @@ public class AuthController {
             // validation (end)
 
 
-            /*NewPasswordDto newPasswordDto = new NewPasswordDto();
+            NewPasswordDto newPasswordDto = new NewPasswordDto();
             newPasswordDto.setNewPassword(passwordDto.getNewPassword());
             newPasswordDto.setUserId(authService.getUserId());
 
-            userService.updatePassword(newPasswordDto);*/
+            userService.updatePassword(newPasswordDto);
 
             return new ResponseEntity<>(new GeneralResponseWithoutDataDto("success"), HttpStatus.OK);
         } catch (Exception e) {

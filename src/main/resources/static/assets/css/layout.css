@@ -9,7 +9,7 @@
 }
 
 /*---------------------------------------*/
-.pass-group .toggle-password-repeat, .doctor-detail-page .card .card-body .doctor-widget .doc-info-left .doc-info-cont .clinic-services .more-button, .doctor-detail-page .doctor-widget .doc-info-right .doctor-action > a, #rating-star .dot, #book-appointment .submit-section.submit-btn-bottom, #user-profile-photo .change-photo-btn2 label, #changeProfilePhotoModal .modal-body, #profile-settings #user-email .changeEmailButton, .view-all-area, .banner-section.home-banner .container .banner-img, #error-page {
+#change-password .pass-area .toggle-password, #change-password .pass-area .toggle-password-new, #change-password .pass-area .toggle-password-repeat, .pass-group .toggle-password-repeat, .doctor-detail-page .card .card-body .doctor-widget .doc-info-left .doc-info-cont .clinic-services .more-button, .doctor-detail-page .doctor-widget .doc-info-right .doctor-action > a, #rating-star .dot, #book-appointment .submit-section.submit-btn-bottom, #user-profile-photo .change-photo-btn2 label, #changeProfilePhotoModal .modal-body, #profile-settings #user-email .changeEmailButton, .view-all-area, .banner-section.home-banner .container .banner-img, #error-page {
   display: flex;
   display: -webkit-flex;
   flex-direction: row;
@@ -847,6 +847,24 @@ fieldset#first .widget-btn > a.disabled {
   border-radius: 50%;
 }
 .pass-group .toggle-password-repeat:hover {
+  background-color: #F3F3F3;
+}
+
+#change-password .pass-area {
+  position: relative;
+}
+#change-password .pass-area .toggle-password, #change-password .pass-area .toggle-password-new, #change-password .pass-area .toggle-password-repeat {
+  font-size: 16px;
+  position: absolute;
+  bottom: 7px;
+  right: 10px;
+  color: #797979;
+  cursor: pointer;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+}
+#change-password .pass-area .toggle-password:hover, #change-password .pass-area .toggle-password-new:hover, #change-password .pass-area .toggle-password-repeat:hover {
   background-color: #F3F3F3;
 }
 
