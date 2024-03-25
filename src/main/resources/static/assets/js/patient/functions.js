@@ -1,12 +1,4 @@
 
-function previewProfileImage() {
-    const [file] = $('#profile-settings #user-profile-photo input[type="file"]')[0].files
-
-    if (file) {
-        $('#profile-settings #user-profile-photo .profile-img >img').attr('src', URL.createObjectURL(file));
-    }
-}
-
 function disableItems(list) {
     for (let i = 0; i < list.length; i++) {
         $(list[i]).prop('disabled', true)

@@ -88,7 +88,7 @@
                                                         </label>
                                                         <input class="upload" type="file" accept="image/jpg, image/jpeg, image/png" id="uploadPhoto">
                                                     </div>
-                                                    <small class="form-text text-muted">Allowed JPG, GIF or PNG. Max size of 2MB</small>
+                                                    <small class="form-text text-muted">Allowed JPG, JPEG or PNG. Max size of 1MB</small>
                                                 </div>
                                             </div>
                                         </div>
@@ -647,6 +647,26 @@
             <div class="modal-footer">
                 <a href="javascript:void(0);" id="deleteMembershipYesButton" class="btn btn-success si_accept_confirm">Yes</a>
                 <button type="button" class="btn btn-danger si_accept_cancel" data-bs-dismiss="modal">Cancel</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- /Model -->
+
+<!-- Alert information for max size photo -->
+<!-- Model -->
+<div class="modal fade" id="maxSizePhotoModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" style="display: none;" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="acc_maxSizePhoto_title">Max File</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p id="acc_maxSizePhoto_msg">Your photo exceeded the max file restriction. You must upload photo smaller than size of 1 Mb!</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-info si_accept_cancel" data-bs-dismiss="modal">Ok</button>
             </div>
         </div>
     </div>

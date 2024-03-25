@@ -139,6 +139,17 @@ $('#profile-settings').on('submit', function (e) {
 
 // crop and upload profile photo
 $('#profile-settings #user-profile-photo .upload-img .change-photo-btn2 input[type="file"]').on('change', function (e) {
+    // max size file control (begin)
+    const fileLimit = 1 // 1 Mb
+    let fileSize = e.target.files[0].size / 1024 / 1024 // converted to Mb
+
+    if (fileSize > fileLimit) {
+        $('#maxSizePhotoModal').modal('show')
+        $(this).val('')
+        return
+    }
+    // max size file control (end)
+
     $('#changeProfilePhotoModal .modal-body').html('<div id="overlay">\n' +
         '                                                   <div class="cv-spinner">\n' +
         '                                                       <div class="spinner">\n' +
@@ -150,6 +161,7 @@ $('#profile-settings #user-profile-photo .upload-img .change-photo-btn2 input[ty
 
     setTimeout(function () {
         const files = e.target.files;
+
         const done = (url) => {
             e.target.value = '';
 
@@ -165,6 +177,7 @@ $('#profile-settings #user-profile-photo .upload-img .change-photo-btn2 input[ty
                 preview: '.preview',
             });
         };
+
         if (files && files.length > 0) {
             const reader = new FileReader();
             reader.onload = (e) => {
@@ -183,5 +196,6 @@ $('#changeProfilePhotoModal .modal-footer #changeProfilePhotoYesButton').on('cli
         $('#changeProfilePhotoModal').modal('hide')
     });
     var uri = cropperProfilePhoto.getCroppedCanvas().toDataURL("image/jpeg", 0.7);
+
     previewProfileImage(uri)
 });
