@@ -2496,6 +2496,18 @@ Version      : 1.3
 		});
 	}
 
+	if ($('.toggle-password-new').length > 0) {
+		$(document).on('click', '.toggle-password-new', function () {
+			$(this).toggleClass("feather-eye-off");
+			var input = $(".pass-input-new");
+			if (input.attr("type") == "password") {
+				input.attr("type", "text");
+			} else {
+				input.attr("type", "password");
+			}
+		});
+	}
+
 	if ($('.toggle-password-sub').length > 0) {
 		$(document).on('click', '.toggle-password-sub', function () {
 			$(this).toggleClass("feather-eye-off");

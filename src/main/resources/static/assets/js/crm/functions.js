@@ -1,4 +1,8 @@
 
+function clearItems() {
+    $('#change-password .form-group input').val('')
+}
+
 function disableItems(list) {
     for (let i = 0; i < list.length; i++) {
         $(list[i]).prop('disabled', true)
@@ -104,6 +108,11 @@ async function changePassword() {
         // show change password success message
         showChangePasswordSuccessMessage()
 
+        // clear items
+        clearItems()
+
+        // enable items
+        enableItems(affectedItemList)
     } else { // error
         // hide change password success message
         hideChangePasswordSuccessMessage()
@@ -112,7 +121,6 @@ async function changePassword() {
         hideChangePasswordErrors()
 
         // show errors
-
         for (let j = 0; j < res.errors.length; j++)
             showChangePasswordErrors(res.errors[j].field, res.errors[j].defaultMessage)
 

@@ -910,6 +910,26 @@ fieldset#first {
   }
 }
 
+#change-password {
+  .pass-area {
+    position: relative;
+    .toggle-password, .toggle-password-new, .toggle-password-repeat {
+      font-size: 16px;
+      position: absolute;
+      bottom: 7px;
+      right: 10px;
+      color: #797979;
+      cursor: pointer;
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      @extend %flex-align-center;
+      &:hover {
+        background-color: #F3F3F3;
+      }
+    }
+  }
+}
 
 
 
