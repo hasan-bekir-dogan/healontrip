@@ -553,7 +553,6 @@ function getProfileData() {
     affectedItemList.push(userNameSelector)
     affectedItemList.push(firstNameSelector)
     affectedItemList.push(lastNameSelector)
-    affectedItemList.push(emailSelector)
     affectedItemList.push(phoneSelector)
     affectedItemList.push(genderSelector)
     affectedItemList.push(birtDateSelector)
@@ -606,7 +605,6 @@ function getProfileData() {
     formData.append("userName", userName);
     formData.append("firstName", firstName);
     formData.append("lastName", lastName);
-    formData.append("email", email);
     formData.append("phone", phone);
     formData.append("gender", gender);
 
