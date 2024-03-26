@@ -20,6 +20,8 @@ public class DoctorDto {
     private String userImgSrc;
     private String userImgAlt;
     private String biography;
+    private String clinicName;
+    private String clinicAddress;
     private List<ImgDto> clinicImageList;
     private List<ServiceDto> serviceList;
     private Long specialistId;

@@ -766,6 +766,12 @@ public class UserServiceImpl implements UserService {
         // biography
         doctorDto.setBiography(userEntity.getBiography());
 
+        // clinic name
+        doctorDto.setClinicName(userEntity.getClinicName());
+
+        // clinic address
+        doctorDto.setClinicAddress(userEntity.getClinicAddress());
+
         // clinic images
         if (userEntity.getClinicImgIds() != null && !userEntity.getClinicImgIds().equals("")) {
             String[] clinicImageIds = userEntity.getClinicImgIds().split(",");
