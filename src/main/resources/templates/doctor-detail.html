@@ -320,11 +320,15 @@
                                     <div class="row">
 
                                         <!-- Clinic Content -->
-                                        <div class="col-md-6">
+                                        <div class="col-md-5">
                                             <div class="clinic-content">
                                                 <h4 class="clinic-name">[[${doctor.clinicName}]]</h4>
                                                 <p class="doc-speciality">[[${doctor.infoShort}]]</p>
                                                 <div class="clinic-details mb-0">
+                                                    <h5 class="clinic-direction">
+                                                        <i class="fas fa-map-marker-alt"></i>
+                                                        [[${doctor.clinicAddress}]]
+                                                    </h5>
                                                     <ul>
 
                                                         <th:block th:each="clinicImage: ${clinicImages}">
@@ -343,7 +347,7 @@
                                         </div>
                                         <!-- /Clinic Content -->
 
-                                        <div class="col-md-6 clinic-maps">
+                                        <div class="col-md-7 clinic-maps">
                                             <div class="mapouter">
                                                 <div class="gmap_canvas">
                                                     <iframe class="gmap_iframe"
@@ -356,7 +360,6 @@
                                                 </div>
                                             </div>
                                         </div>
-
                                     </div>
                                 </div>
                                 <!-- /Location List -->
