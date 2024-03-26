@@ -147,7 +147,7 @@
                                     <a class="nav-link overview-tab active" href="#doc_overview" data-bs-toggle="tab">Overview</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link locations-tab" href="#doc_locations" data-bs-toggle="tab">Locations</a>
+                                    <a class="nav-link locations-tab" href="#doc_locations" data-bs-toggle="tab">Clinic Location</a>
                                 </li>
                                 <li class="nav-item">
                                     <a class="nav-link reviews-tab" href="#doc_reviews" data-bs-toggle="tab">Reviews</a>
@@ -322,155 +322,41 @@
                                         <!-- Clinic Content -->
                                         <div class="col-md-6">
                                             <div class="clinic-content">
-                                                <h4 class="clinic-name"><a href="#">Smile Cute Dental Care Center</a></h4>
-                                                <p class="doc-speciality">MDS - Periodontology and Oral Implantology, BDS</p>
-                                                <div class="rating">
-                                                    <i class="fas fa-star filled"></i>
-                                                    <i class="fas fa-star filled"></i>
-                                                    <i class="fas fa-star filled"></i>
-                                                    <i class="fas fa-star filled"></i>
-                                                    <i class="fas fa-star"></i>
-                                                    <span class="d-inline-block average-rating">(4)</span>
-                                                </div>
+                                                <h4 class="clinic-name">[[${doctor.clinicName}]]</h4>
+                                                <p class="doc-speciality">[[${doctor.infoShort}]]</p>
                                                 <div class="clinic-details mb-0">
-                                                    <h5 class="clinic-direction"> <i class="fas fa-map-marker-alt"></i> 2286  Sundown Lane, Austin, Texas 78749, USA <br><a href="javascript:void(0);">Get Directions</a></h5>
                                                     <ul>
-                                                        <li>
-                                                            <a href="assets/img/features/feature-01.jpg" data-fancybox="gallery2">
-                                                                <img src="assets/img/features/feature-01.jpg" alt="Feature Image">
-                                                            </a>
-                                                        </li>
-                                                        <li>
-                                                            <a href="assets/img/features/feature-02.jpg" data-fancybox="gallery2">
-                                                                <img src="assets/img/features/feature-02.jpg" alt="Feature Image">
-                                                            </a>
-                                                        </li>
-                                                        <li>
-                                                            <a href="assets/img/features/feature-03.jpg" data-fancybox="gallery2">
-                                                                <img src="assets/img/features/feature-03.jpg" alt="Feature Image">
-                                                            </a>
-                                                        </li>
-                                                        <li>
-                                                            <a href="assets/img/features/feature-04.jpg" data-fancybox="gallery2">
-                                                                <img src="assets/img/features/feature-04.jpg" alt="Feature Image">
-                                                            </a>
-                                                        </li>
+
+                                                        <th:block th:each="clinicImage: ${clinicImages}">
+
+                                                            <li>
+                                                                <a th:href="@{'/' + ${clinicImage.imgSrc}}" data-fancybox="gallery2">
+                                                                    <img th:src="@{'/' + ${clinicImage.imgSrc}}" th:alt="${clinicImage.imgAlt}">
+                                                                </a>
+                                                            </li>
+
+                                                        </th:block>
+
                                                     </ul>
                                                 </div>
                                             </div>
                                         </div>
                                         <!-- /Clinic Content -->
 
-                                        <!-- Clinic Timing -->
-                                        <div class="col-md-4">
-                                            <div class="clinic-timing">
-                                                <div>
-                                                    <p class="timings-days">
-                                                        <span> Mon - Sat </span>
-                                                    </p>
-                                                    <p class="timings-times">
-                                                        <span>10:00 AM - 2:00 PM</span>
-                                                        <span>4:00 PM - 9:00 PM</span>
-                                                    </p>
-                                                </div>
-                                                <div>
-                                                    <p class="timings-days">
-                                                        <span>Sun</span>
-                                                    </p>
-                                                    <p class="timings-times">
-                                                        <span>10:00 AM - 2:00 PM</span>
-                                                    </p>
+                                        <div class="col-md-6 clinic-maps">
+                                            <div class="mapouter">
+                                                <div class="gmap_canvas">
+                                                    <iframe class="gmap_iframe"
+                                                            frameborder="0"
+                                                            scrolling="no"
+                                                            marginheight="0"
+                                                            marginwidth="0"
+                                                            th:src="@{'https://maps.google.com/maps?hl=en&amp;q=' + ${doctor.clinicAddress} + '&amp;t=&amp;z=14&amp;ie=UTF8&amp;iwloc=B&amp;output=embed'}">
+                                                    </iframe>
                                                 </div>
                                             </div>
                                         </div>
-                                        <!-- /Clinic Timing -->
 
-                                        <div class="col-md-2">
-                                            <div class="consult-price">
-                                                $250
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <!-- /Location List -->
-
-                                <!-- Location List -->
-                                <div class="location-list">
-                                    <div class="row">
-
-                                        <!-- Clinic Content -->
-                                        <div class="col-md-6">
-                                            <div class="clinic-content">
-                                                <h4 class="clinic-name"><a href="#">The Family Dentistry Clinic</a></h4>
-                                                <p class="doc-speciality">MDS - Periodontology and Oral Implantology, BDS</p>
-                                                <div class="rating">
-                                                    <i class="fas fa-star filled"></i>
-                                                    <i class="fas fa-star filled"></i>
-                                                    <i class="fas fa-star filled"></i>
-                                                    <i class="fas fa-star filled"></i>
-                                                    <i class="fas fa-star"></i>
-                                                    <span class="d-inline-block average-rating">(4)</span>
-                                                </div>
-                                                <div class="clinic-details mb-0">
-                                                    <p class="clinic-direction"> <i class="fas fa-map-marker-alt"></i> 2883  University Street, Seattle, Texas Washington, 98155 <br><a href="javascript:void(0);">Get Directions</a></p>
-                                                    <ul>
-                                                        <li>
-                                                            <a href="assets/img/features/feature-01.jpg" data-fancybox="gallery2">
-                                                                <img src="assets/img/features/feature-01.jpg" alt="Feature Image">
-                                                            </a>
-                                                        </li>
-                                                        <li>
-                                                            <a href="assets/img/features/feature-02.jpg" data-fancybox="gallery2">
-                                                                <img src="assets/img/features/feature-02.jpg" alt="Feature Image">
-                                                            </a>
-                                                        </li>
-                                                        <li>
-                                                            <a href="assets/img/features/feature-03.jpg" data-fancybox="gallery2">
-                                                                <img src="assets/img/features/feature-03.jpg" alt="Feature Image">
-                                                            </a>
-                                                        </li>
-                                                        <li>
-                                                            <a href="assets/img/features/feature-04.jpg" data-fancybox="gallery2">
-                                                                <img src="assets/img/features/feature-04.jpg" alt="Feature Image">
-                                                            </a>
-                                                        </li>
-                                                    </ul>
-                                                </div>
-
-                                            </div>
-                                        </div>
-                                        <!-- /Clinic Content -->
-
-                                        <!-- Clinic Timing -->
-                                        <div class="col-md-4">
-                                            <div class="clinic-timing">
-                                                <div>
-                                                    <p class="timings-days">
-                                                        <span> Tue - Fri </span>
-                                                    </p>
-                                                    <p class="timings-times">
-                                                        <span>11:00 AM - 1:00 PM</span>
-                                                        <span>6:00 PM - 11:00 PM</span>
-                                                    </p>
-                                                </div>
-                                                <div>
-                                                    <p class="timings-days">
-                                                        <span>Sat - Sun</span>
-                                                    </p>
-                                                    <p class="timings-times">
-                                                        <span>8:00 AM - 10:00 AM</span>
-                                                        <span>3:00 PM - 7:00 PM</span>
-                                                    </p>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <!-- /Clinic Timing -->
-
-                                        <div class="col-md-2">
-                                            <div class="consult-price">
-                                                $350
-                                            </div>
-                                        </div>
                                     </div>
                                 </div>
                                 <!-- /Location List -->
