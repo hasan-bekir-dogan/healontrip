@@ -955,6 +955,40 @@ fieldset#first {
   padding: 0;
 }
 
+#doctors-found-area {
+  @extend %flex-align-center-row-flex-start;
+  section {
+    font-weight: 500;
+    font-size: 16px;
+    color: $filter_item_label_color;
+    span {
+      color: $font_black_color;
+    }
+  }
+  .filterItem {
+    margin-left: 12px;
+    border-radius: 15px;
+    padding: 6px 12px;
+    background: $filter_bd_color;
+    font-size: 12px;
+    @extend %flex-align-center;
+    span {
+      margin-left: 4px;
+      font-weight: 600;
+    }
+    .removeFilter {
+      margin-left: 8px;
+      font-size: 14px;
+      @extend %flex-align-column-center;
+      i {
+        color: $filter_item_color;
+        &:hover {
+          color: $filter_item_hover_color;
+        }
+      }
+    }
+  }
+}
 
 
 /********************************************************************************************************************/

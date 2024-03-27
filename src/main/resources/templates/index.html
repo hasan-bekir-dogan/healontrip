@@ -50,24 +50,29 @@
                             <p>Discover skilled medical professionals across Turkey with our easy-to-use search platform.</p>
                         </div>
                         <div class="search-box-one aos" data-aos="fade-up">
-                            <!--<form action="search-2.html">-->
+
+                            <form id="search-doctor" role="form" autocomplete="off" class="form-validation">
+
                                 <div class="search-input search-line">
                                     <i class="feather-search bficon"></i>
                                     <div class="form-group mb-0">
-                                        <input type="text" class="form-control" placeholder="Search doctors, clinics, etc">
+                                        <input type="text" id="search" class="form-control" placeholder="Search doctors">
                                     </div>
                                 </div>
+
                                 <div class="search-input search-map-line">
                                     <i class="feather-map-pin"></i>
                                     <div class="form-group mb-0">
-                                        <input type="text" class="form-control" placeholder="Location">
+                                        <input type="text" id="location" class="form-control" placeholder="Location">
                                     </div>
                                 </div>
+
                                 <div class="form-search-btn">
-                                    <!--<button class="btn" type="submit">Search</button>-->
-                                    <a class="btn" th:href="@{/search}">Search</a>
+                                    <button type="submit" class="btn">Search</button>
                                 </div>
-                            <!--</form>-->
+
+                            </form>
+
                         </div>
                     </div>
                     <div class="col-lg-6">

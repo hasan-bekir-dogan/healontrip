@@ -817,3 +817,124 @@ async function updateProfile() {
         enableItems(affectedItemList)
     }
 }
+
+
+function hideSocialMediaSuccessMessage() {
+    $(`#social-media-success`).remove()
+}
+
+function showSocialMediaSuccessMessage() {
+    let message = ` <div id="social-media-success" class="alert alert-success alert-dismissible fade show" role="alert">
+                        Social media has been changed successfully!
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>`;
+
+    $(message).insertBefore($('#social-media'))
+}
+
+function hideSocialMediaErrors() {
+    $(`#social-media .form-group`).removeClass('form-error')
+    $(`#social-media .form-group .text-danger`).remove()
+}
+
+function showSocialMediaErrors(field, message) {
+    $(`#social-media #${field}Area`).addClass('form-error')
+    $(`#social-media #${field}Area`).append(`<p class="text-danger">${message}</p>`)
+}
+
+function getSocialMediaData() {
+    // define query selector
+    let facebookLinkSelector = '#social-media #facebookLinkArea input'
+    let twitterLinkSelector = '#social-media #twitterLinkArea input'
+    let instagramLinkSelector = '#social-media #instagramLinkArea input'
+    let linkedinLinkSelector = '#social-media #linkedinLinkArea input'
+
+    // disable input and button
+    let affectedItemList = []
+
+    affectedItemList.push(facebookLinkSelector)
+    affectedItemList.push(twitterLinkSelector)
+    affectedItemList.push(instagramLinkSelector)
+    affectedItemList.push(linkedinLinkSelector)
+    affectedItemList.push('#social-media .submit-section button[type="submit"]')
+
+    disableItems(affectedItemList)
+
+
+    // get data
+    let facebookLink = $(facebookLinkSelector).val()
+    let twitterLink = $(twitterLinkSelector).val()
+    let instagramLink = $(instagramLinkSelector).val()
+    let linkedinLink = $(linkedinLinkSelector).val()
+
+
+    // ********** form data (begin) ********** //
+    let formData = new FormData();
+
+    // profile photo
+    formData.append("facebookLink", facebookLink);
+    formData.append("twitterLink", twitterLink);
+    formData.append("instagramLink", instagramLink);
+    formData.append("linkedinLink", linkedinLink);
+    // ********** form data (end) ********** //
+
+
+    return {
+        affectedItemList,
+        formData
+    };
+}
+
+async function socialMedia() {
+    //jQuery
+    var token = $("meta[name='_csrf']").attr("content");
+    var header = $("meta[name='_csrf_header']").attr("content");
+
+    let resultObject = getSocialMediaData();
+    let formData = resultObject.formData;
+    let affectedItemList = resultObject.affectedItemList;
+
+    let response = await fetch($('#social-media').attr('action'), {
+        headers: {
+            'X-CSRF-Token': token,
+            'X-CSRF-HEADER': header
+        },
+        method: $('#social-media').attr('method'),
+        enctype: 'multipart/form-data',
+        body: formData
+    });
+
+    let res = await response.json()
+
+    if (res.status === 'success') { // success
+        // hide change password success message
+        hideSocialMediaSuccessMessage()
+
+        // hide errors
+        hideSocialMediaErrors()
+
+        // show change password success message
+        showSocialMediaSuccessMessage()
+
+        // enable items
+        enableItems(affectedItemList)
+    } else { // error
+        // hide change password success message
+        hideSocialMediaSuccessMessage()
+
+        // hide errors
+        hideSocialMediaErrors()
+
+        // show errors
+        for (let j = 0; j < res.errors.length; j++)
+            showSocialMediaErrors(res.errors[j].field, res.errors[j].defaultMessage)
+
+        let formErrorArea = `#social-media`;
+        let headerHeight = $('.header').height()
+        let position = $(formErrorArea).offset().top - headerHeight;
+        $("html, body").animate({ scrollTop: position }, "slow");
+
+        // enable items
+        enableItems(affectedItemList)
+    }
+}

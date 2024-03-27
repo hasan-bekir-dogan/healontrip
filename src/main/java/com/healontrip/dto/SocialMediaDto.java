@@ -1,6 +1,5 @@
 package com.healontrip.dto;
 
-import jakarta.validation.constraints.NotEmpty;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -18,5 +17,4 @@ public class SocialMediaDto {
     private String twitterLink;
     private String instagramLink;
     private String linkedinLink;
-
 }

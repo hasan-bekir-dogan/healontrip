@@ -270,10 +270,30 @@
                             <div class="col-lg-9 search-body">
                                 <div class="doctor-filter-info">
                                     <div class="doctor-filter-inner">
-                                        <div>
-                                            <div class="doctors-found">
-                                                <p><span>[[${doctorCount}]] Doctors found</span></p>
-                                            </div>
+                                        <div id="doctors-found-area" class="doctors-found">
+
+                                            <section>
+                                                <span>[[${doctorCount}]] Doctors found</span>
+                                            </section>
+
+                                            <section id="search" class="filterItem" th:if="${filterSearchValue != null}">
+                                                <input type="hidden" th:value="${filterSearchValue}">
+                                                Search:
+                                                <span>[[${filterSearchValue}]]</span>
+                                                <a href="javascript:void(0);" class="removeFilter" data-value="q">
+                                                    <i class="fa-solid fa-circle-xmark"></i>
+                                                </a>
+                                            </section>
+
+                                            <section id="location" class="filterItem" th:if="${filterLocationValue != null}">
+                                                <input type="hidden" th:value="${filterLocationValue}">
+                                                Location:
+                                                <span>[[${filterLocationValue}]]</span>
+                                                <a href="javascript:void(0);" class="removeFilter" data-value="loc">
+                                                    <i class="fa-solid fa-circle-xmark"></i>
+                                                </a>
+                                            </section>
+
                                         </div>
                                         <div class="doctor-filter-option">
                                             <div class="doctor-filter-sort">

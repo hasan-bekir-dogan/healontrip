@@ -199,3 +199,10 @@ $('#changeProfilePhotoModal .modal-footer #changeProfilePhotoYesButton').on('cli
 
     previewProfileImage(uri)
 });
+
+// social media
+$('#social-media').on('submit', function (e) {
+    e.preventDefault();
+
+    socialMedia()
+})

@@ -96,6 +96,8 @@ public class DoctorController {
 
     @GetMapping("/search")
     public String search(Model model,
+                         @RequestParam(value = "q", required = false) String search,
+                         @RequestParam(value = "loc", required = false) String location,
                          @RequestParam(value = "gen", required = false) List<String> genderList,
                          @RequestParam(value = "spe", required = false) List<Long> specialityList,
                          @RequestParam(value = "exp", required = false) List<Integer> experienceYearList,
@@ -180,6 +182,8 @@ public class DoctorController {
         model.addAttribute("doctorCount", doctorsDtoList.size());
         model.addAttribute("filterSelectedValues", filterSelectedValues);
         model.addAttribute("filterUnselectedValues", filterUnselectedValues);
+        model.addAttribute("filterSearchValue", search);
+        model.addAttribute("filterLocationValue", location);
 
         return "doctor-search";
     }
