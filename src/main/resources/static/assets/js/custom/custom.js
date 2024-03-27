@@ -108,3 +108,43 @@ $('#review-doctor #review-rating .star-rating >label').mouseleave( function () {
         $(`#review-doctor #review-rating .star-rating > label[data-id="${j}"]`).removeClass('empty')
     }
 })
+
+// search in home page
+$('#search-doctor').on("submit", function (e) {
+    e.preventDefault();
+
+    let search = $(this).find('#search').val()
+    let location = $(this).find('#location').val()
+
+    let pathVariable = '';
+
+    if (search != null && search !== '') {
+        if (pathVariable === '')
+            pathVariable += 'q=' + search;
+        else
+            pathVariable += '&q=' + search;
+    }
+    if (location != null && location !== '') {
+        if (pathVariable === '')
+            pathVariable += 'loc=' + location;
+        else
+            pathVariable += '&loc=' + location;
+    }
+
+    let url = '/search?' + pathVariable;
+
+    window.location.replace(url);
+})
+
+// remove filter item in search page
+$('#doctors-found-area .filterItem .removeFilter').on('click', function () {
+    let query = window.location.search;
+    const params = new URLSearchParams(query)
+    params.delete($(this).attr('data-value'))
+    query = params.toString()
+
+    window.location.replace('/search?' + query);
+})
+
+// social media links on doctor detail
+$('#doctor-social-media-links ')

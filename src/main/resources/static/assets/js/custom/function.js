@@ -2,6 +2,8 @@ let userAccountInfo = new FormData()
 
 function searchFilter() {
     let gender, specialist, experience, rating;
+    let search = $('#doctors-found-area .filterItem#search input').val()
+    let location = $('#doctors-found-area .filterItem#location input').val()
 
     $('.search-filter .filter-details #gender input:checked').each(function () {
         if (gender == null)
@@ -28,8 +30,21 @@ function searchFilter() {
             rating += ',' + $(this).val()
     })
 
+    //let basePathVariable = window.location.search;
     let pathVariable = '';
 
+    if (search != null && search !== '') {
+        if (pathVariable === '')
+            pathVariable += 'q=' + search;
+        else
+            pathVariable += '&q=' + search;
+    }
+    if (location != null && location !== '') {
+        if (pathVariable === '')
+            pathVariable += 'loc=' + location;
+        else
+            pathVariable += '&loc=' + location;
+    }
     if (gender != null) {
         if (pathVariable === '')
             pathVariable += 'gen=' + gender;

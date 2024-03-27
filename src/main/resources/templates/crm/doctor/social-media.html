@@ -65,48 +65,40 @@
                                 </div>
 
                                 <!-- Social Form -->
-                                <form method="post" enctype="multipart/form-data" role="form" autocomplete="off" class="form-validation" th:action="@{/social-media}" th:object="${socialMedia}">
+                                <form method="post" id="social-media" enctype="multipart/form-data" role="form" autocomplete="off" class="form-validation" th:action="@{/social-media}" th:object="${socialMedia}">
 
                                     <div class="row">
                                         <div class="col-md-12 col-lg-8">
-                                            <div class="form-group" th:classappend="${#fields.hasErrors('facebookLink')} ? 'form-error'">
+                                            <div id="facebookLinkArea" class="form-group">
                                                 <label>Facebook URL</label>
-                                                <input type="text" class="form-control" id="facebookLink" name="facebookLink" th:field="*{facebookLink}">
-                                                <p th:errors="*{facebookLink}" class="text-danger"
-                                                   th:if="${#fields.hasErrors('facebookLink')}"></p>
+                                                <input type="text" class="form-control" id="facebookLink" name="facebookLink" th:value="${socialMedia.facebookLink}">
                                             </div>
                                         </div>
                                     </div>
 
                                     <div class="row">
                                         <div class="col-md-12 col-lg-8">
-                                            <div class="form-group" th:classappend="${#fields.hasErrors('twitterLink')} ? 'form-error'">
+                                            <div id="twitterLinkArea" class="form-group">
                                                 <label>Twitter URL</label>
-                                                <input type="text" class="form-control" id="twitterLink" name="twitterLink" th:field="*{twitterLink}">
-                                                <p th:errors="*{twitterLink}" class="text-danger"
-                                                   th:if="${#fields.hasErrors('twitterLink')}"></p>
+                                                <input type="text" class="form-control" id="twitterLink" name="twitterLink" th:value="${socialMedia.twitterLink}">
                                             </div>
                                         </div>
                                     </div>
 
                                     <div class="row">
                                         <div class="col-md-12 col-lg-8">
-                                            <div class="form-group" th:classappend="${#fields.hasErrors('instagramLink')} ? 'form-error'">
+                                            <div id="instagramLinkArea" class="form-group">
                                                 <label>Instagram URL</label>
-                                                <input type="text" class="form-control" id="instagramLink" name="instagramLink" th:field="*{instagramLink}">
-                                                <p th:errors="*{instagramLink}" class="text-danger"
-                                                   th:if="${#fields.hasErrors('instagramLink')}"></p>
+                                                <input type="text" class="form-control" id="instagramLink" name="instagramLink" th:value="${socialMedia.instagramLink}">
                                             </div>
                                         </div>
                                     </div>
 
                                     <div class="row">
                                         <div class="col-md-12 col-lg-8">
-                                            <div class="form-group" th:classappend="${#fields.hasErrors('linkedinLink')} ? 'form-error'">
+                                            <div id="linkedinLinkArea" class="form-group">
                                                 <label>LinkedIn URL</label>
-                                                <input type="text" class="form-control" id="linkedinLink" name="linkedinLink" th:field="*{linkedinLink}">
-                                                <p th:errors="*{linkedinLink}" class="text-danger"
-                                                   th:if="${#fields.hasErrors('linkedinLink')}"></p>
+                                                <input type="text" class="form-control" id="linkedinLink" name="linkedinLink" th:value="${socialMedia.linkedinLink}">
                                             </div>
                                         </div>
                                     </div>
@@ -148,6 +140,8 @@
 
     <!-- Custom JS -->
     <script th:src="@{/assets/js/script.js}"></script>
+    <script th:src="@{/assets/js/doctor/functions.js}"></script>
+    <script th:src="@{/assets/js/doctor/custom.js}"></script>
 
 </body>
 </html>

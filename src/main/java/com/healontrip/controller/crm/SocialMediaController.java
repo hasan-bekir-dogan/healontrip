@@ -1,24 +1,27 @@
 package com.healontrip.controller.crm;
 
-import com.healontrip.dto.Role;
-import com.healontrip.dto.SocialMediaDto;
-import com.healontrip.dto.UserBarDto;
+import com.healontrip.dto.*;
 import com.healontrip.service.AuthService;
 import com.healontrip.service.SocialMediaService;
 import com.healontrip.service.UserService;
 import com.healontrip.util.IpConfigUtil;
 import jakarta.servlet.http.HttpServletRequest;
-import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URISyntaxException;
+import java.net.URL;
 import java.text.ParseException;
+import java.util.ArrayList;
+import java.util.List;
 
 @Controller("SocialMediaController")
 public class SocialMediaController {
@@ -51,29 +54,100 @@ public class SocialMediaController {
     }
 
     @PostMapping("/social-media")
-    public String update(@Valid @ModelAttribute("socialMedia") SocialMediaDto socialMediaDto,
-                         BindingResult result,
-                         Model model,
-                         HttpServletRequest request) throws IOException, ParseException {
+    public ResponseEntity<Object> update(@ModelAttribute("socialMedia") SocialMediaDto socialMediaDto,
+                                         HttpServletRequest request) throws IOException, ParseException {
         // coming soon
         if(!IpConfigUtil.checkAdminIp(request))
-            return IpConfigUtil.getRedirectPage();
+            return new ResponseEntity<>(new GeneralResponseWithDataDto("fail", new Object()), HttpStatus.NOT_FOUND);
 
         // check doctor or not
         if (!authService.getRole().equals(Role.DOCTOR.toString()))
-            return "redirect:/profile";
+            return new ResponseEntity<>(new GeneralResponseWithDataDto("fail", new Object()), HttpStatus.NOT_FOUND);
 
-        if(result.hasErrors()) {
-            UserBarDto userBarDto = userService.getUser();
+        try {
+            // validation (begin)
+            List<GeneralErrorsDto> errors = new ArrayList<>();
+            GeneralErrorsDto errorsDto;
 
-            model.addAttribute("user", userBarDto);
+            if (socialMediaDto.getFacebookLink() != null && !socialMediaDto.getFacebookLink().trim().equals("")) {
+                try {
+                    new URL(socialMediaDto.getFacebookLink()).toURI();
+                } catch (MalformedURLException e) {
+                    errorsDto = new GeneralErrorsDto();
+                    errorsDto.setField("facebookLink");
+                    errorsDto.setDefaultMessage("Facebook link has no legal protocol. It must contain string of 'http://' or 'https://'");
+                    errors.add(errorsDto);
+                } catch (URISyntaxException e) {
+                    errorsDto = new GeneralErrorsDto();
+                    errorsDto.setField("facebookLink");
+                    errorsDto.setDefaultMessage("Facebook link has syntax error.</br>" +
+                                                "Allowed characters: (a-z, A-Z, 0-9, -, _, ~, .)</br>" +
+                                                "Turkish characters can't be used.");
+                    errors.add(errorsDto);
+                }
+            }
+            if (socialMediaDto.getInstagramLink() != null && !socialMediaDto.getInstagramLink().trim().equals("")) {
+                try {
+                    new URL(socialMediaDto.getInstagramLink()).toURI();
+                } catch (MalformedURLException e) {
+                    errorsDto = new GeneralErrorsDto();
+                    errorsDto.setField("instagramLink");
+                    errorsDto.setDefaultMessage("Instagram link has no legal protocol. It must contain string of 'http://' or 'https://'");
+                    errors.add(errorsDto);
+                } catch (URISyntaxException e) {
+                    errorsDto = new GeneralErrorsDto();
+                    errorsDto.setField("instagramLink");
+                    errorsDto.setDefaultMessage("Instagram link has syntax error.</br>" +
+                                                "Allowed characters: (a-z, A-Z, 0-9, -, _, ~, .)</br>" +
+                                                "Turkish characters can't be used.");
+                    errors.add(errorsDto);
+                }
+            }
+            if (socialMediaDto.getTwitterLink() != null && !socialMediaDto.getTwitterLink().trim().equals("")) {
+                try {
+                    new URL(socialMediaDto.getTwitterLink()).toURI();
+                } catch (MalformedURLException e) {
+                    errorsDto = new GeneralErrorsDto();
+                    errorsDto.setField("twitterLink");
+                    errorsDto.setDefaultMessage("Twitter link has no legal protocol. It must contain string of 'http://' or 'https://'");
+                    errors.add(errorsDto);
+                } catch (URISyntaxException e) {
+                    errorsDto = new GeneralErrorsDto();
+                    errorsDto.setField("twitterLink");
+                    errorsDto.setDefaultMessage("Twitter link has syntax error.</br>" +
+                                                "Allowed characters: (a-z, A-Z, 0-9, -, _, ~, .)</br>" +
+                                                "Turkish characters can't be used.");
+                    errors.add(errorsDto);
+                }
+            }
+            if (socialMediaDto.getLinkedinLink() != null && !socialMediaDto.getLinkedinLink().trim().equals("")) {
+                try {
+                    new URL(socialMediaDto.getLinkedinLink()).toURI();
+                } catch (MalformedURLException e) {
+                    errorsDto = new GeneralErrorsDto();
+                    errorsDto.setField("linkedinLink");
+                    errorsDto.setDefaultMessage("Linkedin link has no legal protocol. It must contain string of 'http://' or 'https://'");
+                    errors.add(errorsDto);
+                } catch (URISyntaxException e) {
+                    errorsDto = new GeneralErrorsDto();
+                    errorsDto.setField("linkedinLink");
+                    errorsDto.setDefaultMessage("Linkedin link has syntax error.</br>" +
+                                                "Allowed characters: (a-z, A-Z, 0-9, -, _, ~, .)</br>" +
+                                                "Turkish characters can't be used.");
+                    errors.add(errorsDto);
+                }
+            }
 
-            return "crm/doctor/social-media";
+            if (!errors.isEmpty())
+                return new ResponseEntity<>(new GeneralResponseWithErrorsDto("fail", errors), HttpStatus.BAD_REQUEST);
+            // validation (end)
+
+            socialMediaService.updateSocialMedia(socialMediaDto);
+
+            return new ResponseEntity<>(new GeneralResponseWithoutDataDto("success"), HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(e, HttpStatus.INTERNAL_SERVER_ERROR);
         }
-
-        socialMediaService.updateSocialMedia(socialMediaDto);
-
-        return "redirect:/social-media?success";
     }
 
 }

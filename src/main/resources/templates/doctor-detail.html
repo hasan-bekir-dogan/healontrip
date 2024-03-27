@@ -112,16 +112,16 @@
                                     </ul>
                                 </div>
                                 <div class="doctor-action">
-                                    <a th:href="@{'https://' + ${socialMedia.facebookLink}}" th:target="${socialMedia.facebookLink} == '' ? '_self' : '_blank'" class="btn btn-white">
+                                    <a th:href="@{socialMedia.facebookLink}" th:target="${socialMedia.facebookLink} == '' ? '_self' : '_blank'" class="btn btn-white">
                                         <i class="fab fa-facebook"></i>
                                     </a>
-                                    <a th:href="@{'https://' + ${socialMedia.instagramLink}}" th:target="${socialMedia.instagramLink} == '' ? '_self' : '_blank'" class="btn btn-white">
+                                    <a th:href="@{socialMedia.instagramLink}" th:target="${socialMedia.instagramLink} == '' ? '_self' : '_blank'" class="btn btn-white">
                                         <i class="fab fa-instagram"></i>
                                     </a>
-                                    <a th:href="@{'https://' + ${socialMedia.twitterLink}}" th:target="${socialMedia.twitterLink} == '' ? '_self' : '_blank'" class="btn btn-white">
+                                    <a th:href="@{socialMedia.twitterLink}" th:target="${socialMedia.twitterLink} == '' ? '_self' : '_blank'" class="btn btn-white">
                                         <i class="fab fa-twitter"></i>
                                     </a>
-                                    <a th:href="@{'https://' + ${socialMedia.linkedinLink}}" th:target="${socialMedia.linkedinLink} == '' ? '_self' : '_blank'" class="btn btn-white">
+                                    <a th:href="@{socialMedia.linkedinLink}" th:target="${socialMedia.linkedinLink} == '' ? '_self' : '_blank'" class="btn btn-white">
                                         <i class="fab fa-linkedin-in"></i>
                                     </a>
                                 </div>

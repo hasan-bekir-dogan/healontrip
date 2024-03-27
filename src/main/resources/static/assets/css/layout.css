@@ -9,7 +9,7 @@
 }
 
 /*---------------------------------------*/
-#change-password .pass-area .toggle-password, #change-password .pass-area .toggle-password-new, #change-password .pass-area .toggle-password-repeat, .pass-group .toggle-password-repeat, .doctor-detail-page .card .card-body .doctor-widget .doc-info-left .doc-info-cont .clinic-services .more-button, .doctor-detail-page .doctor-widget .doc-info-right .doctor-action > a, #rating-star .dot, #book-appointment .submit-section.submit-btn-bottom, #user-profile-photo .change-photo-btn2 label, #changeProfilePhotoModal .modal-body, #profile-settings #user-email .changeEmailButton, .view-all-area, .banner-section.home-banner .container .banner-img, #error-page {
+#doctors-found-area .filterItem, #change-password .pass-area .toggle-password, #change-password .pass-area .toggle-password-new, #change-password .pass-area .toggle-password-repeat, .pass-group .toggle-password-repeat, .doctor-detail-page .card .card-body .doctor-widget .doc-info-left .doc-info-cont .clinic-services .more-button, .doctor-detail-page .doctor-widget .doc-info-right .doctor-action > a, #rating-star .dot, #book-appointment .submit-section.submit-btn-bottom, #user-profile-photo .change-photo-btn2 label, #changeProfilePhotoModal .modal-body, #profile-settings #user-email .changeEmailButton, .view-all-area, .banner-section.home-banner .container .banner-img, #error-page {
   display: flex;
   display: -webkit-flex;
   flex-direction: row;
@@ -20,7 +20,7 @@
   align-content: center;
 }
 
-#rating-star, #doc_reviews .rating {
+#doctors-found-area, #rating-star, #doc_reviews .rating {
   display: flex;
   display: -webkit-flex;
   flex-direction: row;
@@ -37,6 +37,17 @@
   flex-direction: row;
   justify-content: space-between;
   -webkit-justify-content: space-between;
+  align-items: center;
+  -webkit-align-items: center;
+  align-content: center;
+}
+
+#doctors-found-area .filterItem .removeFilter {
+  display: flex;
+  display: -webkit-flex;
+  flex-direction: column;
+  justify-content: center;
+  -webkit-justify-content: center;
   align-items: center;
   -webkit-align-items: center;
   align-content: center;
@@ -888,6 +899,36 @@ fieldset#first .widget-btn > a.disabled {
 .doctor-detail-page .location-list {
   border: none;
   padding: 0;
+}
+
+#doctors-found-area section {
+  font-weight: 500;
+  font-size: 16px;
+  color: #8C97B0;
+}
+#doctors-found-area section span {
+  color: #1F2937;
+}
+#doctors-found-area .filterItem {
+  margin-left: 12px;
+  border-radius: 15px;
+  padding: 6px 12px;
+  background: #F2F6F6;
+  font-size: 12px;
+}
+#doctors-found-area .filterItem span {
+  margin-left: 4px;
+  font-weight: 600;
+}
+#doctors-found-area .filterItem .removeFilter {
+  margin-left: 8px;
+  font-size: 14px;
+}
+#doctors-found-area .filterItem .removeFilter i {
+  color: #dcdcdc;
+}
+#doctors-found-area .filterItem .removeFilter i:hover {
+  color: #b2b2b2;
 }
 
 /********************************************************************************************************************/

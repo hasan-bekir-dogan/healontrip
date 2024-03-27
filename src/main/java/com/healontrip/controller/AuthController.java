@@ -200,7 +200,6 @@ public class AuthController {
         if(!IpConfigUtil.checkAdminIp(request))
             return new ResponseEntity<>(new GeneralResponseWithDataDto("fail", new Object()), HttpStatus.NOT_FOUND);
 
-
         try {
             // validation (begin)
             List<GeneralErrorsDto> errors = new ArrayList<>();
