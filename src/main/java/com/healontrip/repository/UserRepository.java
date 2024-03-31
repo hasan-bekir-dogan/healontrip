@@ -35,21 +35,37 @@ public interface UserRepository extends JpaRepository<UserEntity, Long> {
             "       And Case" +
             "               When :experienceYearNullCheck = false Then" +
             "                   u.id in (Select e.user_id" +
-                "                        From experiences e" +
-                "                        Group By e.user_id" +
-                "                        Having Sum(Case" +
-                "                                       When e.to_date is null or e.to_date = '' Then " +
-                "                                           date_format(sysdate(), '%Y') - e.from_date" +
-                "                                       Else" +
-                "                                           e.to_date - e.from_date" +
-                "                                    End) Between" +
-                "                                               (Select ey.from_date" +
-                "                                                From experience_years ey" +
-                "                                                Where ey.id = :experienceYearId)" +
-                "                                               And" +
-                "                                               (Select If(ey.to_date = -1, ~0, to_date)" +
-                "                                                From experience_years ey " +
-                "                                                Where ey.id = :experienceYearId))" +
+            "                        From experiences e" +
+            "                        Group By e.user_id" +
+            "                        Having Sum(Case" +
+            "                                       When e.to_date is null or e.to_date = '' Then " +
+            "                                           date_format(sysdate(), '%Y') - e.from_date" +
+            "                                       Else" +
+            "                                           e.to_date - e.from_date" +
+            "                                    End) Between" +
+            "                                               (Select ey.from_date" +
+            "                                                From experience_years ey" +
+            "                                                Where ey.id = :experienceYearId)" +
+            "                                               And" +
+            "                                               (Select If(ey.to_date = -1, ~0, to_date)" +
+            "                                                From experience_years ey " +
+            "                                                Where ey.id = :experienceYearId))" +
+            "               Else" +
+            "                   True" +
+            "           End" +
+            "       And Case" +
+            "               When Trim(:search) != '' Then" +
+            "                   Upper(u.first_name) like %:search%" +
+            "                       Or" +
+            "                   Upper(u.last_name) like %:search%" +
+            "               Else" +
+            "                   True" +
+            "           End" +
+            "       And Case" +
+            "               When Trim(:location) != '' Then" +
+            "                   Upper(u.city) like %:location%" +
+            "                       Or" +
+            "                   Upper(u.country) like %:location%" +
             "               Else" +
             "                   True" +
             "           End" +
@@ -60,7 +76,9 @@ public interface UserRepository extends JpaRepository<UserEntity, Long> {
                                          @Param("specialist") List<Long> specialist,
                                          @Param("specialistNullCheck") boolean specialistNullCheck,
                                          @Param("experienceYearId") int experienceYearId,
-                                         @Param("experienceYearNullCheck") boolean experienceYearNullCheck);
+                                         @Param("experienceYearNullCheck") boolean experienceYearNullCheck,
+                                         @Param("search") String search,
+                                         @Param("location") String location);
 
     @Query(value = "Select *" +
             "       From users" +

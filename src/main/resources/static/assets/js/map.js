@@ -9,7 +9,7 @@ var slider, infowindow = null;
 var bounds = new google.maps.LatLngBounds();
 var map, current = 0;
 var locations =[{
-	"id":01,
+	"id": 01,
 	"doc_name":"Dr. Ruby Perrin",
 	"speciality":"MDS - Periodontology and Oral Implantology, BDS",
 	"address":"Florida, USA",

@@ -14,6 +14,8 @@ import java.util.List;
 @Builder
 @Log4j2
 public class SearchFilterDto {
+    private String search;
+    private String location;
     private List<String> genderList;
     private List<Long> specialityList;
     private List<Integer> experienceYearList;

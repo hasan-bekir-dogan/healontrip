@@ -123,10 +123,14 @@ public class DoctorController {
         // doctor list
         List<DoctorsDto> doctorsDtoList;
 
-        SearchFilterDto searchFilter = new SearchFilterDto(genderList, specialityList, experienceYearList, ratingList);
+        SearchFilterDto searchFilter = new SearchFilterDto(search, location, genderList, specialityList, experienceYearList, ratingList);
 
-        if((genderList != null && !genderList.isEmpty()) || (specialityList != null && !specialityList.isEmpty()) ||
-                (experienceYearList != null && !experienceYearList.isEmpty()) || (ratingList != null && !ratingList.isEmpty()))
+        if((genderList != null && !genderList.isEmpty()) ||
+                (specialityList != null && !specialityList.isEmpty()) ||
+                (experienceYearList != null && !experienceYearList.isEmpty()) ||
+                (ratingList != null && !ratingList.isEmpty()) ||
+                (search != null && !search.isEmpty() && !search.trim().equals("")) ||
+                (location != null && !location.isEmpty() && !location.trim().equals("")))
             doctorsDtoList = userService.getDoctors(searchFilter);
         else
             doctorsDtoList = userService.getDoctors();
