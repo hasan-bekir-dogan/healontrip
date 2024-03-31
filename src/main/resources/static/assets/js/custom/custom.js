@@ -146,5 +146,16 @@ $('#doctors-found-area .filterItem .removeFilter').on('click', function () {
     window.location.replace('/search?' + query);
 })
 
-// social media links on doctor detail
-$('#doctor-social-media-links ')
+// sort by in search page
+$('.doctor-content .search-body .doctor-filter-info .doctor-filter-inner .doctor-filter-option .doctor-filter-select #sort-by').on('change', function () {
+    let filterValue = $(this).val()
+    let filterName = $(this).attr('data-value')
+
+    let query = window.location.search;
+    const params = new URLSearchParams(query)
+    params.delete(filterName)
+    params.append(filterName, filterValue)
+    query = params.toString()
+
+    window.location.replace('/search?' + query);
+})

@@ -35,21 +35,21 @@ public interface UserRepository extends JpaRepository<UserEntity, Long> {
             "       And Case" +
             "               When :experienceYearNullCheck = false Then" +
             "                   u.id in (Select e.user_id" +
-            "                        From experiences e" +
-            "                        Group By e.user_id" +
-            "                        Having Sum(Case" +
-            "                                       When e.to_date is null or e.to_date = '' Then " +
-            "                                           date_format(sysdate(), '%Y') - e.from_date" +
-            "                                       Else" +
-            "                                           e.to_date - e.from_date" +
-            "                                    End) Between" +
-            "                                               (Select ey.from_date" +
-            "                                                From experience_years ey" +
-            "                                                Where ey.id = :experienceYearId)" +
-            "                                               And" +
-            "                                               (Select If(ey.to_date = -1, ~0, to_date)" +
-            "                                                From experience_years ey " +
-            "                                                Where ey.id = :experienceYearId))" +
+            "                            From experiences e" +
+            "                            Group By e.user_id" +
+            "                            Having Sum(Case" +
+            "                                           When e.to_date is null or e.to_date = '' Then " +
+            "                                               date_format(sysdate(), '%Y') - e.from_date" +
+            "                                           Else" +
+            "                                               e.to_date - e.from_date" +
+            "                                       End) Between" +
+            "                                                   (Select ey.from_date" +
+            "                                                    From experience_years ey" +
+            "                                                    Where ey.id = :experienceYearId)" +
+            "                                                       And" +
+            "                                                   (Select If(ey.to_date = -1, ~0, to_date)" +
+            "                                                    From experience_years ey " +
+            "                                                    Where ey.id = :experienceYearId))" +
             "               Else" +
             "                   True" +
             "           End" +
@@ -69,7 +69,17 @@ public interface UserRepository extends JpaRepository<UserEntity, Long> {
             "               Else" +
             "                   True" +
             "           End" +
-            "       ", nativeQuery = true)
+            "       order by if(:sortBy = 'name_asc', first_name, 0) asc," +
+            "                if(:sortBy = 'name_desc', first_name, 0) desc," +
+            "                if(:sortBy = 'rate_desc', (select avg(rating) as rate_avg" +
+            "                                           from reviews" +
+            "                                           where doctor_id = u.id), 0) desc," +
+            "                if(:sortBy = 'review_desc', (select count(*) as review_sum" +
+            "                                             from reviews" +
+            "                                             where doctor_id = u.id), 0) desc," +
+            "                if(:sortBy = 'exp_desc', (select sum(if(to_date = null Or to_date = '', DATE_FORMAT(now(), '%Y'), to_date) - from_date)" +
+            "                                          from healontrip.experiences" +
+            "                                          where user_id = u.id), 0) desc", nativeQuery = true)
     List<UserEntity> findDoctorsByFilter(@Param("role") String role,
                                          @Param("gender") List<String> gender,
                                          @Param("genderNullCheck") boolean genderNullCheck,
@@ -78,7 +88,8 @@ public interface UserRepository extends JpaRepository<UserEntity, Long> {
                                          @Param("experienceYearId") int experienceYearId,
                                          @Param("experienceYearNullCheck") boolean experienceYearNullCheck,
                                          @Param("search") String search,
-                                         @Param("location") String location);
+                                         @Param("location") String location,
+                                         @Param("sortBy") String sortBy);
 
     @Query(value = "Select *" +
             "       From users" +

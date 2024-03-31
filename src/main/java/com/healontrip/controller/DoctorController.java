@@ -102,6 +102,7 @@ public class DoctorController {
                          @RequestParam(value = "spe", required = false) List<Long> specialityList,
                          @RequestParam(value = "exp", required = false) List<Integer> experienceYearList,
                          @RequestParam(value = "rat", required = false) List<Integer> ratingList,
+                         @RequestParam(value = "sort", required = false) String sortBy,
                          HttpServletRequest request) throws ParseException {
         // coming soon
         if(!IpConfigUtil.checkAdminIp(request))
@@ -123,14 +124,19 @@ public class DoctorController {
         // doctor list
         List<DoctorsDto> doctorsDtoList;
 
-        SearchFilterDto searchFilter = new SearchFilterDto(search, location, genderList, specialityList, experienceYearList, ratingList);
+        // default value to sort by
+        if (sortBy == null || sortBy.isEmpty() || sortBy.trim().equals(""))
+            sortBy = "review_desc";
+
+        SearchFilterDto searchFilter = new SearchFilterDto(search, location, genderList, specialityList, experienceYearList, ratingList, sortBy);
 
         if((genderList != null && !genderList.isEmpty()) ||
                 (specialityList != null && !specialityList.isEmpty()) ||
                 (experienceYearList != null && !experienceYearList.isEmpty()) ||
                 (ratingList != null && !ratingList.isEmpty()) ||
                 (search != null && !search.isEmpty() && !search.trim().equals("")) ||
-                (location != null && !location.isEmpty() && !location.trim().equals("")))
+                (location != null && !location.isEmpty() && !location.trim().equals("")) ||
+                (sortBy != null && !sortBy.isEmpty() && !sortBy.trim().equals("")))
             doctorsDtoList = userService.getDoctors(searchFilter);
         else
             doctorsDtoList = userService.getDoctors();
@@ -178,6 +184,8 @@ public class DoctorController {
         filterUnselectedValues.setExperienceYearList(experienceYearEntityList);
         // filter values (end)
 
+        System.out.println(sortBy);
+
         model.addAttribute("user", userBarDto);
         model.addAttribute("genderList", genderDtoList);
         model.addAttribute("specialists", specialistDtoList);
@@ -188,6 +196,7 @@ public class DoctorController {
         model.addAttribute("filterUnselectedValues", filterUnselectedValues);
         model.addAttribute("filterSearchValue", search);
         model.addAttribute("filterLocationValue", location);
+        model.addAttribute("filterSortByValue", sortBy);
 
         return "doctor-search";
     }
