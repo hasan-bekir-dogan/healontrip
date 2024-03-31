@@ -20,4 +20,5 @@ public class SearchFilterDto {
     private List<Long> specialityList;
     private List<Integer> experienceYearList;
     private List<Integer> ratingList;
+    private String sortBy;
 }

@@ -4,6 +4,8 @@ function searchFilter() {
     let gender, specialist, experience, rating;
     let search = $('#doctors-found-area .filterItem#search input').val()
     let location = $('#doctors-found-area .filterItem#location input').val()
+    let filterSortByValue = $('.doctor-content .search-body .doctor-filter-info .doctor-filter-inner .doctor-filter-option .doctor-filter-select #sort-by').val()
+    let filterSortByName = $('.doctor-content .search-body .doctor-filter-info .doctor-filter-inner .doctor-filter-option .doctor-filter-select #sort-by').attr('data-value')
 
     $('.search-filter .filter-details #gender input:checked').each(function () {
         if (gender == null)
@@ -68,6 +70,12 @@ function searchFilter() {
             pathVariable += 'rat=' + rating;
         else
             pathVariable += '&rat=' + rating;
+    }
+    if (filterSortByValue != null) {
+        if (pathVariable === '')
+            pathVariable += filterSortByName + '=' + filterSortByValue;
+        else
+            pathVariable += '&' + filterSortByName + '=' + filterSortByValue;
     }
 
     let url = '?' + pathVariable;
@@ -1122,6 +1130,7 @@ async function register() {
         return false
     }
 }
+
 
 function goServices() {
     window.location.hash = '';

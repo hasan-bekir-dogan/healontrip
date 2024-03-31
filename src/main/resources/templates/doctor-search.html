@@ -299,12 +299,12 @@
                                             <div class="doctor-filter-sort">
                                                 <p>Sort By</p>
                                                 <div class="doctor-filter-select">
-                                                    <select class="select">
-                                                        <option value="name_asc">Name: A to Z</option>
-                                                        <option value="name_desc">Name: Z to A</option>
-                                                        <option value="rate_desc">Most rated</option>
-                                                        <option value="review_desc">Most reviewed</option>
-                                                        <option value="exp_desc">Most experienced</option>
+                                                    <select id="sort-by" class="select" data-value="sort">
+                                                        <option value="name_asc" th:attrappend="selected=${filterSortByValue == 'name_asc'} ? 'selected'">Name: A to Z</option>
+                                                        <option value="name_desc" th:attrappend="selected=${filterSortByValue == 'name_desc'} ? 'selected'">Name: Z to A</option>
+                                                        <option value="rate_desc" th:attrappend="selected=${filterSortByValue == 'rate_desc'} ? 'selected'">Most rated</option>
+                                                        <option value="review_desc" th:attrappend="selected=${filterSortByValue == 'review_desc'} ? 'selected'">Most reviewed</option>
+                                                        <option value="exp_desc" th:attrappend="selected=${filterSortByValue == 'exp_desc'} ? 'selected'">Most experienced</option>
                                                     </select>
                                                 </div>
                                             </div>

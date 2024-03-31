@@ -654,6 +654,12 @@ public class UserServiceImpl implements UserService {
         if (searchFilterDto.getLocation() != null && !searchFilterDto.getLocation().trim().equals(""))
             locationVal = searchFilterDto.getLocation().toUpperCase();
 
+        // sort by value
+        String sortByVal = "";
+
+        if (searchFilterDto.getSortBy() != null || !searchFilterDto.getSortBy().trim().equals(""))
+            sortByVal = searchFilterDto.getSortBy();
+
         // get filtered list
         List<UserEntity> userEntityList = new ArrayList<>();
 
@@ -668,7 +674,8 @@ public class UserServiceImpl implements UserService {
                         experienceYearId,
                         experienceYearNullCheck,
                         searchVal,
-                        locationVal
+                        locationVal,
+                        sortByVal
                 );
 
                 for (UserEntity userEntity : tempUserEntityList) {
@@ -686,7 +693,8 @@ public class UserServiceImpl implements UserService {
                     -1,
                     experienceYearNullCheck,
                     searchVal,
-                    locationVal
+                    locationVal,
+                    sortByVal
             );
         }
 
