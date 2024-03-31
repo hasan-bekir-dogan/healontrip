@@ -642,6 +642,18 @@ public class UserServiceImpl implements UserService {
                     upperGenderList.add(GenderCode.FEMALE.getName().toUpperCase());
         }
 
+        // upper search value
+        String searchVal = "";
+
+        if (searchFilterDto.getSearch() != null && !searchFilterDto.getSearch().trim().equals(""))
+            searchVal = searchFilterDto.getSearch().toUpperCase();
+
+        // upper location value
+        String locationVal = "";
+
+        if (searchFilterDto.getLocation() != null && !searchFilterDto.getLocation().trim().equals(""))
+            locationVal = searchFilterDto.getLocation().toUpperCase();
+
         // get filtered list
         List<UserEntity> userEntityList = new ArrayList<>();
 
@@ -654,7 +666,9 @@ public class UserServiceImpl implements UserService {
                         searchFilterDto.getSpecialityList(),
                         specialistNullCheck,
                         experienceYearId,
-                        experienceYearNullCheck
+                        experienceYearNullCheck,
+                        searchVal,
+                        locationVal
                 );
 
                 for (UserEntity userEntity : tempUserEntityList) {
@@ -670,7 +684,9 @@ public class UserServiceImpl implements UserService {
                     searchFilterDto.getSpecialityList(),
                     specialistNullCheck,
                     -1,
-                    experienceYearNullCheck
+                    experienceYearNullCheck,
+                    searchVal,
+                    locationVal
             );
         }
 
