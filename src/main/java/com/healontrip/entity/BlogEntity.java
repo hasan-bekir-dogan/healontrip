@@ -23,6 +23,9 @@ public class BlogEntity extends BaseEntity implements Serializable {
     @Column(name = "category_id", nullable = false)
     private Long categoryId;
 
+    @Column(name = "slug", nullable = false, length = 1000)
+    private String slug;
+
     @Column(name = "preface", nullable = false)
     private String preface;
 
@@ -38,9 +41,10 @@ public class BlogEntity extends BaseEntity implements Serializable {
     @Enumerated(EnumType.STRING)
     private BlogStatus status;
 
-    public BlogEntity(String title, Long categoryId, String preface, String detail, Long imgId, Long userId, BlogStatus status) {
+    public BlogEntity(String title, Long categoryId, String slug, String preface, String detail, Long imgId, Long userId, BlogStatus status) {
         this.title = title;
         this.categoryId = categoryId;
+        this.slug = slug;
         this.preface = preface;
         this.detail = detail;
         this.imgId = imgId;

@@ -21,7 +21,11 @@ public class SpecialistEntity extends BaseEntity implements Serializable {
     @Column(name = "name", nullable = false)
     private String name;
 
-    public SpecialistEntity(String name) {
+    @Column(name = "uri")
+    private String uri;
+
+    public SpecialistEntity(String name, String uri) {
         this.name = name;
+        this.uri = uri;
     }
 }

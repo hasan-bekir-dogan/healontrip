@@ -80,38 +80,21 @@ public class DataSeeder implements CommandLineRunner {
 
             // specialist data
             List<SpecialistEntity> specialistEntityList = new ArrayList<>();
-            specialistEntityList.add(new SpecialistEntity("Allergist/immunologist"));
-            specialistEntityList.add(new SpecialistEntity("Anesthesiologist"));
-            specialistEntityList.add(new SpecialistEntity("Cardiologist"));
-            specialistEntityList.add(new SpecialistEntity("Dermatologist"));
-            specialistEntityList.add(new SpecialistEntity("Endocrinologist"));
-            specialistEntityList.add(new SpecialistEntity("Family physician"));
-            specialistEntityList.add(new SpecialistEntity("Gastroenterologist"));
-            specialistEntityList.add(new SpecialistEntity("Geneticist"));
-            specialistEntityList.add(new SpecialistEntity("Hematologist"));
-            specialistEntityList.add(new SpecialistEntity("Hospice and palliative medicine specialist"));
-            specialistEntityList.add(new SpecialistEntity("Infectious disease physician"));
-            specialistEntityList.add(new SpecialistEntity("Internal Medicine"));
-            specialistEntityList.add(new SpecialistEntity("Nephrologist"));
-            specialistEntityList.add(new SpecialistEntity("Neurologist"));
-            specialistEntityList.add(new SpecialistEntity("Obstetrician/gynecologist (OBGYNs)"));
-            specialistEntityList.add(new SpecialistEntity("Oncologist"));
-            specialistEntityList.add(new SpecialistEntity("Ophthalmologist"));
-            specialistEntityList.add(new SpecialistEntity("Orthopedist"));
-            specialistEntityList.add(new SpecialistEntity("Otolaryngologist"));
-            specialistEntityList.add(new SpecialistEntity("Osteopath"));
-            specialistEntityList.add(new SpecialistEntity("Pathologist"));
-            specialistEntityList.add(new SpecialistEntity("Pediatrician"));
-            specialistEntityList.add(new SpecialistEntity("Physician executive"));
-            specialistEntityList.add(new SpecialistEntity("Plastic surgeon"));
-            specialistEntityList.add(new SpecialistEntity("Podiatrist"));
-            specialistEntityList.add(new SpecialistEntity("Psychiatrist"));
-            specialistEntityList.add(new SpecialistEntity("Pulmonologist"));
-            specialistEntityList.add(new SpecialistEntity("Radiologist"));
-            specialistEntityList.add(new SpecialistEntity("Rheumatologist "));
-            specialistEntityList.add(new SpecialistEntity("Sleep medicine specialist "));
-            specialistEntityList.add(new SpecialistEntity("Surgeon"));
-            specialistEntityList.add(new SpecialistEntity("Urologist"));
+            specialistEntityList.add(new SpecialistEntity("Allergy/Immunology", "allergy_immunology.png"));
+            specialistEntityList.add(new SpecialistEntity("Anesthesiology", "anesthesiology.png"));
+            specialistEntityList.add(new SpecialistEntity("Cardiology", "cardiology.png"));
+            specialistEntityList.add(new SpecialistEntity("Dermatology", "dermatology.png"));
+            specialistEntityList.add(new SpecialistEntity("Endocrinology", "endocrinology.png"));
+            specialistEntityList.add(new SpecialistEntity("Family Physician", "family_physician.png"));
+            specialistEntityList.add(new SpecialistEntity("Gastroenterology", "gastroenterology.png"));
+            specialistEntityList.add(new SpecialistEntity("Genetics", "genetics.png"));
+            specialistEntityList.add(new SpecialistEntity("Hematology", "hematology.png"));
+            specialistEntityList.add(new SpecialistEntity("Internal Medicine", "internal_medicine.png"));
+            specialistEntityList.add(new SpecialistEntity("Nephrology", "nephrology.png"));
+            specialistEntityList.add(new SpecialistEntity("Oncology", "oncology.png"));
+            specialistEntityList.add(new SpecialistEntity("Ophthalmology", "ophthalmology.png"));
+            specialistEntityList.add(new SpecialistEntity("Plastic Surgery", "plastic_surgery.png"));
+            specialistEntityList.add(new SpecialistEntity("Surgery", "surgery.png"));
 
             for (SpecialistEntity specialistEntity: specialistEntityList) {
                 specialistRepository.save(specialistEntity);

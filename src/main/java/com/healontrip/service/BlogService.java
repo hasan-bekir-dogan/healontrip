@@ -15,8 +15,11 @@ public interface BlogService {
     List<BlogsDto> getAllBlogs(); // Get all active blogs without auth
     List<BlogsDto> getAllBlogs(int limit, int pageNumber); // Get blogs according to pagination
     BlogsDto getBlogById(Long id);
+    BlogsDto getBlogBySlug(String slug);
+    BlogsDto getBlog(BlogEntity blogEntity);
     void updateBlog(BlogDto blogDto) throws IOException;
     BlogEntity findById(Long id);
+    BlogEntity findBySlug(String slug);
     void changeBlogStatus(Long id, String status) throws IOException;
     FileDto FileEntitytoFileDto(FileEntity fileEntity);
     FileEntity FileDtoToFileEntity(FileDto fileDto);

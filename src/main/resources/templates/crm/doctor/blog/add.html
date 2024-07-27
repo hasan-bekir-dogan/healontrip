@@ -113,9 +113,22 @@
                                         <div class="service-fields mb-3">
                                             <div class="row">
                                                 <div class="col-lg-12">
+                                                    <div class="form-group" th:classappend="${#fields.hasErrors('slug')} ? 'form-error'">
+                                                        <label>URL Slug <span class="text-danger">*</span></label>
+                                                        <input class="form-control" type="text" id="slug" name="slug" th:field="*{slug}">
+                                                        <p th:errors="*{slug}" class="text-danger"
+                                                           th:if="${#fields.hasErrors('slug')}"></p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="service-fields mb-3">
+                                            <div class="row">
+                                                <div class="col-lg-12">
                                                     <div class="form-group" th:classappend="${#fields.hasErrors('preface')} ? 'form-error'">
                                                         <label>Preface <span class="text-danger">*</span></label>
-                                                        <textarea class="form-control service-desc" id="preface" name="description" th:field="*{preface}"></textarea>
+                                                        <textarea class="form-control service-desc" id="preface" name="preface" th:field="*{preface}"></textarea>
                                                         <p th:errors="*{preface}" class="text-danger"
                                                            th:if="${#fields.hasErrors('preface')}"></p>
                                                     </div>

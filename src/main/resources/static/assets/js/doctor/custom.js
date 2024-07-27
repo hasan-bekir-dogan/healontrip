@@ -206,3 +206,10 @@ $('#social-media').on('submit', function (e) {
 
     socialMedia()
 })
+
+$('.doctor-add-blog .form-group #title').on('change', function () {
+    let blogTitle = $(this).val()
+    let slug = slugify(blogTitle)
+
+    $('.doctor-add-blog .form-group #slug').val(slug)
+})

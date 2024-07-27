@@ -337,6 +337,9 @@ public class UserServiceImpl implements UserService {
         UserEntity userEntity = findById(userId);
         String userRole = authService.getRole();
 
+        // user name
+        userBarDto.setUserName(userEntity.getUserName());
+
         // role
         userBarDto.setRole(userRole);
         userBarDto.setRoleInitCap(StringUtils.capitalize(userRole.toLowerCase()));

@@ -14,8 +14,10 @@ import org.springframework.web.multipart.MultipartFile;
 @Log4j2
 public class BlogsDto {
     private Long id;
+    private String slug;
     private String title;
     private Long category;
+    private String categoryName;
     private String preface;
     private String detail;
     private MultipartFile image;
@@ -24,6 +26,7 @@ public class BlogsDto {
     private String userImgSrc;
     private String userImgAlt;
     private String userName;
+    private String extendedUserName;
     private String biography;
     private String createdAt;
 }

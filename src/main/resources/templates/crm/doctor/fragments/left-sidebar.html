@@ -8,7 +8,7 @@
                     <img th:src="@{'/' + ${user.profileImgSrc}}" th:alt="${user.profileImgAlt}">
                 </a>
                 <div class="profile-det-info">
-                    <h3 th:text="${user.userName}"></h3>
+                    <h3 th:text="${user.extendedUserName}"></h3>
 
                     <div class="patient-details">
                         <h5 class="mb-0" th:text="${user.infoShort}"></h5>
@@ -31,8 +31,8 @@
                             <span>Blogs</span>
                         </a>
                     </li>
-                    <li>
-                        <a th:href="@{#}">
+                    <li th:classappend="${#ctx.springRequestContext.requestUri.endsWith('/reviews')} ? 'active'">
+                        <a th:href="@{'/doctor/' + ${user.userName} + '/reviews'}">
                             <i class="fas fa-star"></i>
                             <span>Reviews</span>
                         </a>

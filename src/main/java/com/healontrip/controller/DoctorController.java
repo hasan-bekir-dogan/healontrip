@@ -184,7 +184,6 @@ public class DoctorController {
         filterUnselectedValues.setExperienceYearList(experienceYearEntityList);
         // filter values (end)
 
-        System.out.println(sortBy);
 
         model.addAttribute("user", userBarDto);
         model.addAttribute("genderList", genderDtoList);
