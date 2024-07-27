@@ -16,7 +16,7 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 @Retention(RUNTIME)
 @Documented
 public @interface UsernameUniqueConstraint {
-    String message() default "Field can must be unique";
+    String message() default "Field must be unique";
     Class <?> [] groups() default {};
     Class <? extends Payload> [] payload() default {};
 }

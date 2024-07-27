@@ -67,14 +67,20 @@
                                         <ul>
                                             <li>
                                                 <div class="post-author">
-                                                    <a th:href="@{#}">
-                                                        <img th:src="@{'/' + ${blog.userImgSrc}}" th:alt="${blog.userImgAlt}"> <span th:text="${blog.userName}"></span>
+                                                    <a th:href="@{'/doctor/' + ${blog.userName}}">
+                                                        <img th:src="@{'/' + ${blog.userImgSrc}}" th:alt="${blog.userImgAlt}">
+                                                        <span th:text="${blog.extendedUserName}"></span>
                                                     </a>
                                                 </div>
                                             </li>
-                                            <li><i class="far fa-calendar"></i><x-text th:text="${blog.createdAt}"></x-text></li>
-                                            <li><i class="far fa-comments"></i>12 Comments</li>
-                                            <li><i class="fa fa-tags"></i>Health Tips</li>
+                                            <li>
+                                                <i class="far fa-calendar"></i>
+                                                <x-text th:text="${blog.createdAt}"></x-text>
+                                            </li>
+                                            <li>
+                                                <i class="fa fa-tags"></i>
+                                                <x-text th:text="${blog.categoryName}"></x-text>
+                                            </li>
                                         </ul>
                                     </div>
                                 </div>
@@ -89,14 +95,14 @@
                                     <div class="about-author">
                                         <div class="about-author-img">
                                             <div class="author-img-wrap">
-                                                <a th:href="@{#}">
+                                                <a th:href="@{'/doctor/' + ${blog.userName}}">
                                                     <img class="img-fluid rounded-circle" th:src="@{'/' + ${blog.userImgSrc}}" th:alt="${blog.userImgAlt}">
                                                 </a>
                                             </div>
                                         </div>
                                         <div class="author-details">
-                                            <a th:href="@{#}" class="blog-author-name">
-                                                <span th:text="${blog.userName}"></span>
+                                            <a th:href="@{'/doctor/' + ${blog.userName}}" class="blog-author-name">
+                                                <span th:text="${blog.extendedUserName}"></span>
                                             </a>
                                             <p class="mb-0" th:text="${blog.biography}"></p>
                                         </div>
@@ -108,20 +114,7 @@
                     </div>
 
                     <!-- Blog Sidebar -->
-                    <div class="col-lg-4 col-md-12 sidebar-right theiaStickySidebar">
-
-                        <!-- Search -->
-                        <div class="card search-widget">
-                            <div class="card-body">
-                                <form class="search-form">
-                                    <div class="input-group">
-                                        <input type="text" placeholder="Search..." class="form-control">
-                                        <button type="submit" class="btn btn-primary"><i class="fa fa-search"></i></button>
-                                    </div>
-                                </form>
-                            </div>
-                        </div>
-                        <!-- /Search -->
+                    <div class="col-lg-4 col-md-12 sidebar-right theiaStickySidebar blog-sidebar">
 
                         <!-- Latest Posts -->
                         <div class="card post-widget">
@@ -130,71 +123,27 @@
                             </div>
                             <div class="card-body">
                                 <ul class="latest-posts">
-                                    <li>
-                                        <div class="post-thumb">
-                                            <a href="blog-details.html">
-                                                <img class="img-fluid" src="assets/img/blog/blog-thumb-01.jpg" alt="">
-                                            </a>
-                                        </div>
-                                        <div class="post-info">
-                                            <h4>
-                                                <a href="blog-details.html">Doccure – Making your clinic painless visit?</a>
-                                            </h4>
-                                            <p>4 Dec 2019</p>
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <div class="post-thumb">
-                                            <a href="blog-details.html">
-                                                <img class="img-fluid" src="assets/img/blog/blog-thumb-02.jpg" alt="">
-                                            </a>
-                                        </div>
-                                        <div class="post-info">
-                                            <h4>
-                                                <a href="blog-details.html">What are the benefits of Online Doctor Booking?</a>
-                                            </h4>
-                                            <p>3 Dec 2019</p>
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <div class="post-thumb">
-                                            <a href="blog-details.html">
-                                                <img class="img-fluid" src="assets/img/blog/blog-thumb-03.jpg" alt="">
-                                            </a>
-                                        </div>
-                                        <div class="post-info">
-                                            <h4>
-                                                <a href="blog-details.html">Benefits of consulting with an Online Doctor</a>
-                                            </h4>
-                                            <p>3 Dec 2019</p>
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <div class="post-thumb">
-                                            <a href="blog-details.html">
-                                                <img class="img-fluid" src="assets/img/blog/blog-thumb-04.jpg" alt="">
-                                            </a>
-                                        </div>
-                                        <div class="post-info">
-                                            <h4>
-                                                <a href="blog-details.html">5 Great reasons to use an Online Doctor</a>
-                                            </h4>
-                                            <p>2 Dec 2019</p>
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <div class="post-thumb">
-                                            <a href="blog-details.html">
-                                                <img class="img-fluid" src="assets/img/blog/blog-thumb-05.jpg" alt="">
-                                            </a>
-                                        </div>
-                                        <div class="post-info">
-                                            <h4>
-                                                <a href="blog-details.html">Online Doctor Appointment Scheduling</a>
-                                            </h4>
-                                            <p>1 Dec 2019</p>
-                                        </div>
-                                    </li>
+                                    <th:block th:each="blog: ${latestBlogs}">
+
+                                        <li>
+                                            <div class="post-thumb">
+                                                <a th:href="@{'/blogs/' + ${blog.slug}}">
+                                                    <img class="img-fluid" th:src="@{'/' + ${blog.blogImgSrc}}" th:alt="${blog.title}">
+                                                </a>
+                                            </div>
+                                            <div class="post-info">
+                                                <h4>
+                                                    <a th:href="@{'/blogs/' + ${blog.slug}}">
+                                                        <x-text th:text="${blog.title}"></x-text>
+                                                    </a>
+                                                </h4>
+                                                <p>
+                                                    <i class="far fa-clock"></i> <x-text th:text="${blog.createdAt}"></x-text>
+                                                </p>
+                                            </div>
+                                        </li>
+
+                                    </th:block>
                                 </ul>
                             </div>
                         </div>

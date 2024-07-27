@@ -2,14 +2,12 @@ package com.healontrip.service.impl;
 
 import com.healontrip.dto.*;
 import com.healontrip.entity.BlogEntity;
+import com.healontrip.entity.CategoryEntity;
 import com.healontrip.entity.FileEntity;
 import com.healontrip.entity.UserEntity;
 import com.healontrip.exception.ResourceNotFoundException;
 import com.healontrip.repository.BlogRepository;
-import com.healontrip.service.AuthService;
-import com.healontrip.service.BlogService;
-import com.healontrip.service.FileService;
-import com.healontrip.service.UserService;
+import com.healontrip.service.*;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -36,6 +34,9 @@ public class BlogServiceImpl implements BlogService {
     private UserService userService;
 
     @Autowired
+    private CategoryService categoryService;
+
+    @Autowired
     private ModelMapper modelMapper;
 
     @Override
@@ -45,6 +46,7 @@ public class BlogServiceImpl implements BlogService {
         BlogEntity blogEntity = new BlogEntity();
         blogEntity.setTitle(blogDto.getTitle());
         blogEntity.setCategoryId(blogDto.getCategory());
+        blogEntity.setSlug(blogDto.getSlug());
         blogEntity.setPreface(blogDto.getPreface());
         blogEntity.setDetail(blogDto.getDetail());
         blogEntity.setUserId(userId);
@@ -106,6 +108,7 @@ public class BlogServiceImpl implements BlogService {
             BlogsDto blog = new BlogsDto();
 
             blog.setId(blogEntity.getId());
+            blog.setSlug(blogEntity.getSlug());
             blog.setTitle(blogEntity.getTitle());
             blog.setPreface(blogEntity.getPreface());
 
@@ -135,7 +138,8 @@ public class BlogServiceImpl implements BlogService {
             imgSrc = fileService.getFileSrc(fileEntity.getId());
 
             blog.setUserImgSrc(imgSrc);
-            blog.setUserName(RolePrefix.DOCTOR.getPre() + userEntity.getFirstName() + userEntity.getLastName());
+            blog.setUserName(userEntity.getUserName());
+            blog.setExtendedUserName(RolePrefix.DOCTOR.getPre() + userEntity.getFirstName() + " " + userEntity.getLastName());
             blog.setUserImgAlt(fileEntity.getAlt());
             // User info (end)
 
@@ -149,13 +153,32 @@ public class BlogServiceImpl implements BlogService {
     public BlogsDto getBlogById(Long id) {
         BlogEntity blogEntity = findById(id);
 
+        return getBlog(blogEntity);
+    }
+
+    @Override
+    public BlogsDto getBlogBySlug(String slug) {
+        BlogEntity blogEntity = findBySlug(slug);
+
+        return getBlog(blogEntity);
+    }
+
+    @Override
+    public BlogsDto getBlog(BlogEntity blogEntity) {
         BlogsDto blogsDto = new BlogsDto();
         FileEntity fileEntity;
         String imgSrc;
 
         blogsDto.setId(blogEntity.getId());
         blogsDto.setTitle(blogEntity.getTitle());
+
+        // Category (begin)
         blogsDto.setCategory(blogEntity.getCategoryId());
+
+        CategoryEntity categoryEntity = categoryService.findById(blogEntity.getCategoryId());
+        blogsDto.setCategoryName(categoryEntity.getName());
+        // Category (end)
+
         blogsDto.setPreface(blogEntity.getPreface());
         blogsDto.setDetail(blogEntity.getDetail());
 
@@ -181,7 +204,10 @@ public class BlogServiceImpl implements BlogService {
         // User info (begin)
         UserEntity userEntity = userService.findById(blogEntity.getUserId());
 
-        blogsDto.setUserName(RolePrefix.DOCTOR.getPre() + userEntity.getFirstName() + userEntity.getLastName());
+
+        blogsDto.setUserName(userEntity.getUserName());
+        blogsDto.setExtendedUserName(RolePrefix.DOCTOR.getPre() + userEntity.getFirstName() + " " + userEntity.getLastName());
+
         blogsDto.setBiography(userEntity.getBiography());
 
         // Profile Photo
@@ -198,7 +224,7 @@ public class BlogServiceImpl implements BlogService {
 
     @Override
     public void updateBlog(BlogDto blogDto) throws IOException {
-        BlogEntity blogEntity = findById(blogDto.getId());
+        BlogEntity blogEntity = findBySlug(blogDto.getSlug());
 
         blogEntity.setTitle(blogDto.getTitle());
         blogEntity.setPreface(blogDto.getPreface());
@@ -238,6 +264,11 @@ public class BlogServiceImpl implements BlogService {
     public BlogEntity findById(Long id) {
         return blogRepository.findById(id).orElseThrow(() ->
                 new ResourceNotFoundException("Blog not found with id: " + id));
+    }
+
+    @Override
+    public BlogEntity findBySlug(String slug) {
+        return blogRepository.findBySlug(slug);
     }
 
     @Override

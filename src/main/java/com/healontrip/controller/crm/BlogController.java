@@ -64,15 +64,15 @@ public class BlogController {
         return "crm/doctor/blog/blogs-pending";
     }
 
-    @GetMapping("/edit/{id}")
-    public String editPage(@PathVariable Long id,
+    @GetMapping("/edit/{slug}")
+    public String editPage(@PathVariable String slug,
                            Model model,
                            HttpServletRequest request) throws ParseException {
         // coming soon
         if(!IpConfigUtil.checkAdminIp(request))
             return IpConfigUtil.getRedirectPage();
 
-        BlogsDto blogsDto = blogService.getBlogById(id);
+        BlogsDto blogsDto = blogService.getBlogBySlug(slug);
         List<CategoryDto> categoryDtoList = categoryService.getAllCategories();
         UserBarDto userBarDto = userService.getUser();
 
@@ -82,18 +82,18 @@ public class BlogController {
         return "crm/doctor/blog/edit";
     }
 
-    @PostMapping("/edit/{id}")
+    @PostMapping("/edit/{slug}")
     public String updateBlog(@Valid @ModelAttribute("blog") BlogEditDto blogEditDto,
                              BindingResult result,
                              Model model,
-                             @PathVariable Long id,
+                             @PathVariable String slug,
                              HttpServletRequest request) throws IOException, ParseException {
         // coming soon
         if(!IpConfigUtil.checkAdminIp(request))
             return IpConfigUtil.getRedirectPage();
 
         if(result.hasErrors()) {
-            BlogsDto blogsDto = blogService.getBlogById(id);
+            BlogsDto blogsDto = blogService.getBlogBySlug(slug);
             List<CategoryDto> categoryDtoList = categoryService.getAllCategories();
             UserBarDto userBarDto = userService.getUser();
 
@@ -108,7 +108,7 @@ public class BlogController {
 
         BlogDto blogDto = new BlogDto();
 
-        blogDto.setId(id);
+        blogDto.setSlug(slug);
         blogDto.setTitle(blogEditDto.getTitle());
         blogDto.setPreface(blogEditDto.getPreface());
         blogDto.setDetail(blogEditDto.getDetail());
@@ -117,7 +117,7 @@ public class BlogController {
 
         blogService.updateBlog(blogDto);
 
-        return "redirect:/blogs-crm/edit/" + id + "?success";
+        return "redirect:/blogs-crm/edit/" + slug + "?success";
     }
 
     @GetMapping("/add")

@@ -286,6 +286,16 @@ header .nav.header-navbar-rht .has-submenu >a {
     }
   }
 }
+.blog-sidebar {
+  .latest-posts {
+    .post-thumb {
+      img {
+        aspect-ratio: 1/1;
+        object-fit: cover;
+      }
+    }
+  }
+}
 // blogs (end)
 
 
@@ -372,7 +382,7 @@ header .nav.header-navbar-rht .has-submenu >a {
       height: 38.38px;
       overflow: hidden;
       text-overflow: ellipsis;
-      margin: 0 auto 10px auto;
+      //margin: 0 auto 10px auto;
       >a {
         width: 100%;
         height: 100%;
@@ -1102,20 +1112,20 @@ fieldset#first {
       margin-top: 20px;
     }
   }
-}
-
-@media only screen and (min-width: 767.98px) {
   .faq-section {
     padding-top: 40px;
   }
   .doctors-section {
     .owl-nav.nav-control {
-      padding-bottom: 10px;
+      padding-bottom: 20px;
     }
   }
-  .articles-section .articles-info .articles-right .articles-content .preface{
+}
+
+@media only screen and (min-width: 767.98px) {
+  /*.articles-section .articles-info .articles-right .articles-content .preface{
     height: 39px;
-  }
+  }*/
   .banner-section .search-box-one {
     .search-input.search-line {
       width: 48%;

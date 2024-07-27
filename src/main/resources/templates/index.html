@@ -106,7 +106,7 @@
                             <a class="specialities-item" th:href="@{'/search?spe=' + ${specialist.id}}">
                                 <div class="specialities-img">
                                     <span>
-                                        <img th:src="@{'assets/img/specialities/' + ${specialist.name} + '.png'}" th:alt="${specialist.name}">
+                                        <img th:src="@{'assets/img/specialities/' + ${specialist.uri}}" th:alt="${specialist.name}">
                                     </span>
                                 </div>
                                 <p>[[${specialist.name}]]</p>
@@ -397,7 +397,7 @@
                                     </div>
                                     <div class="work-content">
                                         <h5>Explore Doctor Profiles</h5>
-                                        <p>Gain insights into the professional backgrounds and specialized expertise of healthcare professionals featured in our comprehensive database.</p>
+                                        <p>Explore backgrounds and expertise of healthcare professionals in our database.</p>
                                     </div>
                                 </div>
                             </div>
@@ -408,7 +408,7 @@
                                     </div>
                                     <div class="work-content">
                                         <h5>Schedule Your Appointment</h5>
-                                        <p>Book appointments seamlessly with trusted doctors and clinics, ensuring prompt attention to your health concerns in Turkey.</p>
+                                        <p>Effortlessly schedule appointments with trusted doctors and clinics in Turkey for prompt attention.</p>
                                     </div>
                                 </div>
                             </div>
@@ -418,8 +418,8 @@
                                         <span><img th:src="@{assets/img/icons/work-04.svg}" alt=""></span>
                                     </div>
                                     <div class="work-content">
-                                        <h5>Experience Best Healthcare Solutions</h5>
-                                        <p>Embark on your healthcare journey with confidence, benefiting from our extensive network of medical experts in Turkey for a seamless and effective resolution to your medical needs.</p>
+                                        <h5>Best Healthcare Solutions</h5>
+                                        <p>Benefit from our vast network of Turkish medical experts for seamless care.</p>
                                     </div>
                                 </div>
                             </div>
@@ -580,7 +580,9 @@
                                             <h2>What Our Client Says</h2>
                                         </div>
                                         <div class="testimonial-details">
-                                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.</p>
+                                            <p>
+                                                Thanks to this platform, I can communicate with my patients more quickly and effectively. By answering their questions instantly, I make healthcare services more accessible. Our patients' satisfaction is very important to us!
+                                            </p>
                                             <h6><span>John Doe</span> New York</h6>
                                         </div>
                                     </div>
@@ -597,7 +599,9 @@
                                             <h2>What Our Client Says</h2>
                                         </div>
                                         <div class="testimonial-details">
-                                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.</p>
+                                            <p>
+                                                With online consultations, we can dedicate more time to our patients and respond to their needs immediately. This platform provides a revolutionary innovation in healthcare services, making processes much more efficient.
+                                            </p>
                                             <h6><span>Amanda Warren</span> Florida</h6>
                                         </div>
                                     </div>
@@ -614,7 +618,9 @@
                                             <h2>What Our Client Says</h2>
                                         </div>
                                         <div class="testimonial-details">
-                                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.</p>
+                                            <p>
+                                                At first, I was a bit skeptical about digital platforms, but after my first consultation with a patient, I realized how beneficial this platform is. The ability to provide quick responses and professional support is truly amazing.
+                                            </p>
                                             <h6><span>Betty Carlson</span> Georgia</h6>
                                         </div>
                                     </div>
@@ -631,25 +637,10 @@
                                             <h2>What Our Client Says</h2>
                                         </div>
                                         <div class="testimonial-details">
-                                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.</p>
+                                            <p>
+                                                This platform offers a perfect solution for our patients with busy schedules. It speeds up the appointment process, makes follow-ups easier, and allows us to closely monitor our patients' health status. I am really satisfied.
+                                            </p>
                                             <h6><span>Veronica</span> California</h6>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="testimonial-grid">
-                                <div class="testimonial-info">
-                                    <div class="testimonial-img">
-                                        <img src="assets/img/clients/client-05.jpg" class="img-fluid" alt="">
-                                    </div>
-                                    <div class="testimonial-content">
-                                        <div class="section-header section-inner-header testimonial-header">
-                                            <h5>Testimonials</h5>
-                                            <h2>What Our Client Says</h2>
-                                        </div>
-                                        <div class="testimonial-details">
-                                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.</p>
-                                            <h6><span>Richard</span> Michigan</h6>
                                         </div>
                                     </div>
                                 </div>
@@ -679,7 +670,7 @@
                             <div class="articles-grid w-100">
                                 <div class="articles-info">
                                     <div class="articles-left">
-                                        <a th:href="@{'/blogs/' + ${blog.id}}">
+                                        <a th:href="@{'/blogs/' + ${blog.slug}}">
                                             <div class="articles-img">
                                                 <img class="img-fluid" th:src="@{'/' + ${blog.blogImgSrc}}" th:alt="${blog.blogImgAlt}">
                                             </div>
@@ -689,18 +680,18 @@
                                         <div class="articles-content">
                                             <ul class="articles-list nav">
                                                 <li class="author">
-                                                    <i class="feather-user"></i> <x-text th:text="${blog.userName}"></x-text>
+                                                    <i class="feather-user"></i> <x-text th:text="${blog.extendedUserName}"></x-text>
                                                 </li>
                                                 <li class="date">
                                                     <i class="feather-calendar"></i> <x-text th:text="${blog.createdAt}"></x-text>
                                                 </li>
                                             </ul>
                                             <h4 class="title">
-                                                <a th:href="@{'/blogs/' + ${blog.id}}" th:text="${blog.title}">
+                                                <a th:href="@{'/blogs/' + ${blog.slug}}" th:text="${blog.title}">
                                                 </a>
                                             </h4>
                                             <p class="preface" th:text="${blog.preface}"></p>
-                                            <a th:href="@{'/blogs/' + ${blog.id}}" class="btn">
+                                            <a th:href="@{'/blogs/' + ${blog.slug}}" class="btn">
                                                 View Blog
                                             </a>
                                         </div>

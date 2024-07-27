@@ -1,6 +1,7 @@
 package com.healontrip.dto;
 
 import com.healontrip.constraint.FileNotNullConstraint;
+import com.healontrip.constraint.BlogSlugUniqueConstraint;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -25,6 +26,10 @@ public class BlogDto {
 
     @NotNull(message = "Category must have value")
     private Long category;
+
+    @NotEmpty(message = "URL Slug must have value")
+    //@BlogSlugUniqueConstraint(message = "There is already an blog registered with that URL Slug")
+    private String slug;
 
     @NotEmpty(message = "Preface must have value")
     @Size(max = 255, message = "Preface must be smaller than 255 character")

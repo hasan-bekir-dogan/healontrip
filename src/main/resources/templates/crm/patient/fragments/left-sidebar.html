@@ -8,7 +8,7 @@
                     <img th:src="@{'/' + ${user.profileImgSrc}}" th:alt="${user.profileImgAlt}">
                 </a>
                 <div class="profile-det-info">
-                    <h3 th:text="${user.userName}"></h3>
+                    <h3 th:text="${user.extendedUserName}"></h3>
 
                     <div class="patient-details">
                         <h5 th:if="${user.dateOfBirth} != null"><i class="fas fa-birthday-cake"></i> <th:block th:text="${user.dateOfBirth}"></th:block></h5>

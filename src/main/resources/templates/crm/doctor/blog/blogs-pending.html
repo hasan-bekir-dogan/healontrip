@@ -87,7 +87,7 @@
                                     <!-- Blog Post -->
                                     <div class="blog grid-blog">
                                         <div class="blog-image">
-                                            <a th:href="@{'/blogs-crm/edit/' + ${blog.id}}">
+                                            <a th:href="@{'/blogs-crm/edit/' + ${blog.slug}}">
                                                 <img class="img-fluid" th:src="@{'/' + ${blog.blogImgSrc}}" th:alt="${blog.blogImgAlt}">
                                             </a>
                                         </div>
@@ -103,7 +103,7 @@
                                                 </li>
                                             </ul>
                                             <h3 class="blog-title">
-                                                <a th:href="@{'/blogs-crm/edit/' + ${blog.id}}">
+                                                <a th:href="@{'/blogs-crm/edit/' + ${blog.slug}}">
                                                     <x-text th:text="${blog.title}"></x-text>
                                                 </a>
                                             </h3>
@@ -111,7 +111,7 @@
                                         </div>
                                         <div class="row pt-3">
                                             <div class="col">
-                                                <a th:href="@{'/blogs-crm/edit/' + ${blog.id}}" class="text-success">
+                                                <a th:href="@{'/blogs-crm/edit/' + ${blog.slug}}" class="text-success">
                                                     <i class="far fa-edit"></i> Edit
                                                 </a>
                                             </div>

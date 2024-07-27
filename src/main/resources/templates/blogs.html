@@ -64,16 +64,17 @@
                                     <!-- Blog Post -->
                                     <div class="blog grid-blog">
                                         <div class="blog-image">
-                                            <a th:href="@{'/blogs/' + ${blog.id}}">
-                                                <img class="img-fluid" th:src="@{'/' + ${blog.blogImgSrc}}" alt="Post Image">
+                                            <a th:href="@{'/blogs/' + ${blog.slug}}">
+                                                <img class="img-fluid" th:src="@{'/' + ${blog.blogImgSrc}}" th:alt="${blog.title}">
                                             </a>
                                         </div>
                                         <div class="blog-content">
                                             <ul class="entry-meta meta-item">
                                                 <li class="author">
                                                     <div class="post-author">
-                                                        <a th:href="@{#}" class="doctor-link">
-                                                            <img th:src="@{'/' + ${blog.userImgSrc}}" th:alt="${blog.userImgAlt}"> <span th:text="${blog.userName}"></span>
+                                                        <a th:href="@{'/doctor/' + ${blog.userName}}" class="doctor-link">
+                                                            <img th:src="@{'/' + ${blog.userImgSrc}}" th:alt="${blog.userImgAlt}">
+                                                            <span th:text="${blog.extendedUserName}"></span>
                                                         </a>
                                                     </div>
                                                 </li>
@@ -82,7 +83,7 @@
                                                 </li>
                                             </ul>
                                             <h3 class="blog-title">
-                                                <a th:href="@{'/blogs/' + ${blog.id}}">
+                                                <a th:href="@{'/blogs/' + ${blog.slug}}">
                                                     <x-text th:text="${blog.title}"></x-text>
                                                 </a>
                                             </h3>
@@ -94,6 +95,7 @@
                                 </div>
 
                             </th:block>
+
                         </div>
 
                         <!-- Blog Pagination -->
@@ -127,20 +129,7 @@
                     </div>
 
                     <!-- Blog Sidebar -->
-                    <div class="col-lg-4 col-md-12 sidebar-right theiaStickySidebar">
-
-                        <!-- Search -->
-                        <div class="card search-widget">
-                            <div class="card-body">
-                                <form class="search-form">
-                                    <div class="input-group">
-                                        <input type="text" placeholder="Search..." class="form-control">
-                                        <button type="submit" class="btn btn-primary"><i class="fa fa-search"></i></button>
-                                    </div>
-                                </form>
-                            </div>
-                        </div>
-                        <!-- /Search -->
+                    <div class="col-lg-4 col-md-12 sidebar-right theiaStickySidebar blog-sidebar">
 
                         <!-- Latest Posts -->
                         <div class="card post-widget">
@@ -149,71 +138,29 @@
                             </div>
                             <div class="card-body">
                                 <ul class="latest-posts">
-                                    <li>
-                                        <div class="post-thumb">
-                                            <a href="blog-details.html">
-                                                <img class="img-fluid" src="assets/img/blog/blog-thumb-01.jpg" alt="">
-                                            </a>
-                                        </div>
-                                        <div class="post-info">
-                                            <h4>
-                                                <a href="blog-details.html">Doccure – Making your clinic painless visit?</a>
-                                            </h4>
-                                            <p>4 Dec 2019</p>
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <div class="post-thumb">
-                                            <a href="blog-details.html">
-                                                <img class="img-fluid" src="assets/img/blog/blog-thumb-02.jpg" alt="">
-                                            </a>
-                                        </div>
-                                        <div class="post-info">
-                                            <h4>
-                                                <a href="blog-details.html">What are the benefits of Online Doctor Booking?</a>
-                                            </h4>
-                                            <p>3 Dec 2019</p>
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <div class="post-thumb">
-                                            <a href="blog-details.html">
-                                                <img class="img-fluid" src="assets/img/blog/blog-thumb-03.jpg" alt="">
-                                            </a>
-                                        </div>
-                                        <div class="post-info">
-                                            <h4>
-                                                <a href="blog-details.html">Benefits of consulting with an Online Doctor</a>
-                                            </h4>
-                                            <p>3 Dec 2019</p>
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <div class="post-thumb">
-                                            <a href="blog-details.html">
-                                                <img class="img-fluid" src="assets/img/blog/blog-thumb-04.jpg" alt="">
-                                            </a>
-                                        </div>
-                                        <div class="post-info">
-                                            <h4>
-                                                <a href="blog-details.html">5 Great reasons to use an Online Doctor</a>
-                                            </h4>
-                                            <p>2 Dec 2019</p>
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <div class="post-thumb">
-                                            <a href="blog-details.html">
-                                                <img class="img-fluid" src="assets/img/blog/blog-thumb-05.jpg" alt="">
-                                            </a>
-                                        </div>
-                                        <div class="post-info">
-                                            <h4>
-                                                <a href="blog-details.html">Online Doctor Appointment Scheduling</a>
-                                            </h4>
-                                            <p>1 Dec 2019</p>
-                                        </div>
-                                    </li>
+
+                                    <th:block th:each="blog: ${latestBlogs}">
+
+                                        <li>
+                                            <div class="post-thumb">
+                                                <a th:href="@{'/blogs/' + ${blog.slug}}">
+                                                    <img class="img-fluid" th:src="@{'/' + ${blog.blogImgSrc}}" th:alt="${blog.title}">
+                                                </a>
+                                            </div>
+                                            <div class="post-info">
+                                                <h4>
+                                                    <a th:href="@{'/blogs/' + ${blog.slug}}">
+                                                        <x-text th:text="${blog.title}"></x-text>
+                                                    </a>
+                                                </h4>
+                                                <p>
+                                                    <i class="far fa-clock"></i> <x-text th:text="${blog.createdAt}"></x-text>
+                                                </p>
+                                            </div>
+                                        </li>
+
+                                    </th:block>
+
                                 </ul>
                             </div>
                         </div>
@@ -236,38 +183,6 @@
                             </div>
                         </div>
                         <!-- /Categories -->
-
-                        <!-- Tags -->
-                        <div class="card tags-widget">
-                            <div class="card-header">
-                                <h4 class="card-title">Tags</h4>
-                            </div>
-                            <div class="card-body">
-                                <ul class="tags">
-                                    <li><a href="#" class="tag">Children</a></li>
-                                    <li><a href="#" class="tag">Disease</a></li>
-                                    <li><a href="#" class="tag">Appointment</a></li>
-                                    <li><a href="#" class="tag">Booking</a></li>
-                                    <li><a href="#" class="tag">Kids</a></li>
-                                    <li><a href="#" class="tag">Health</a></li>
-                                    <li><a href="#" class="tag">Family</a></li>
-                                    <li><a href="#" class="tag">Tips</a></li>
-                                    <li><a href="#" class="tag">Shedule</a></li>
-                                    <li><a href="#" class="tag">Treatment</a></li>
-                                    <li><a href="#" class="tag">Dr</a></li>
-                                    <li><a href="#" class="tag">Clinic</a></li>
-                                    <li><a href="#" class="tag">Online</a></li>
-                                    <li><a href="#" class="tag">Health Care</a></li>
-                                    <li><a href="#" class="tag">Consulting</a></li>
-                                    <li><a href="#" class="tag">Doctors</a></li>
-                                    <li><a href="#" class="tag">Neurology</a></li>
-                                    <li><a href="#" class="tag">Dentists</a></li>
-                                    <li><a href="#" class="tag">Specialist</a></li>
-                                    <li><a href="#" class="tag">Doccure</a></li>
-                                </ul>
-                            </div>
-                        </div>
-                        <!-- /Tags -->
 
                     </div>
                     <!-- /Blog Sidebar -->

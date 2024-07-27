@@ -31,26 +31,30 @@ public class BlogController {
             return IpConfigUtil.getRedirectPage();
 
         List<BlogsDto> blogsDtoList = blogService.getAllBlogs();
+        List<BlogsDto> latestBlogsDtoList = blogService.getAllBlogs(5, 1);
         UserBarDto userBarDto = userService.getUser();
 
         model.addAttribute("blogs", blogsDtoList);
+        model.addAttribute("latestBlogs", latestBlogsDtoList);
         model.addAttribute("user", userBarDto);
 
         return "blogs";
     }
 
-    @GetMapping("/blogs/{id}")
+    @GetMapping("/blogs/{slug}")
     public String detail(Model model,
-                         @PathVariable Long id,
+                         @PathVariable String slug,
                          HttpServletRequest request) throws ParseException {
         // coming soon
         if(!IpConfigUtil.checkAdminIp(request))
             return IpConfigUtil.getRedirectPage();
 
-        BlogsDto blogsDto = blogService.getBlogById(id);
+        BlogsDto blogsDto = blogService.getBlogBySlug(slug);
+        List<BlogsDto> latestBlogsDtoList = blogService.getAllBlogs(5, 1);
         UserBarDto userBarDto = userService.getUser();
 
         model.addAttribute("blog", blogsDto);
+        model.addAttribute("latestBlogs", latestBlogsDtoList);
         model.addAttribute("user", userBarDto);
 
         return "blog-detail";

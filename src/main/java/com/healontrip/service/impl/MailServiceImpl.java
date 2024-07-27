@@ -159,7 +159,7 @@ public class MailServiceImpl implements MailService {
         int token = 100000 + generator.nextInt(900000);
         userService.createToken(receiverMail, String.valueOf(token), TokenType.EMAIL_VERIFICATION);
 
-        System.out.println(token);
+        //System.out.println(token);
         ctx.setVariable("verificationCode", token);
 
         final String htmlContent = templateEngine.process(templateName, ctx);
