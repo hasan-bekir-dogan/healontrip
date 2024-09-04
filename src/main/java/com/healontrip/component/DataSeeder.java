@@ -41,13 +41,13 @@ public class DataSeeder implements CommandLineRunner {
             // categories data
             List<CategoryEntity> categoryEntityList = new ArrayList<>();
             categoryEntityList.add(new CategoryEntity("Radiologist"));
-            categoryEntityList.add(new CategoryEntity("Internal medicine"));
+            categoryEntityList.add(new CategoryEntity("Internal Medicine"));
             categoryEntityList.add(new CategoryEntity("Pediatrician"));
             categoryEntityList.add(new CategoryEntity("Pediatrics"));
-            categoryEntityList.add(new CategoryEntity("General practitioner"));
+            categoryEntityList.add(new CategoryEntity("General Practitioner"));
             categoryEntityList.add(new CategoryEntity("Dermatologist"));
             categoryEntityList.add(new CategoryEntity("Ophthalmology"));
-            categoryEntityList.add(new CategoryEntity("Family medicine"));
+            categoryEntityList.add(new CategoryEntity("Family Medicine"));
             categoryEntityList.add(new CategoryEntity("Pathologist"));
             categoryEntityList.add(new CategoryEntity("General Surgeon"));
 

@@ -1,6 +1,7 @@
 package com.healontrip.service;
 
 import com.healontrip.dto.BlogDto;
+import com.healontrip.dto.BlogFilterDto;
 import com.healontrip.dto.BlogsDto;
 import com.healontrip.dto.FileDto;
 import com.healontrip.entity.BlogEntity;
@@ -14,6 +15,7 @@ public interface BlogService {
     List<BlogsDto> getAllBlogs(String status); // Get all blogs according to status using auth
     List<BlogsDto> getAllBlogs(); // Get all active blogs without auth
     List<BlogsDto> getAllBlogs(int limit, int pageNumber); // Get blogs according to pagination
+    List<BlogsDto> getAllBlogs(BlogFilterDto blogFilterDto); // Get blogs by filter
     BlogsDto getBlogById(Long id);
     BlogsDto getBlogBySlug(String slug);
     BlogsDto getBlog(BlogEntity blogEntity);

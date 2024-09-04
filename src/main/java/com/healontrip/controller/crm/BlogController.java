@@ -79,6 +79,7 @@ public class BlogController {
         model.addAttribute("blog", blogsDto);
         model.addAttribute("categories", categoryDtoList);
         model.addAttribute("user", userBarDto);
+
         return "crm/doctor/blog/edit";
     }
 
@@ -103,12 +104,16 @@ public class BlogController {
             model.addAttribute("blog", blogEditDto);
             model.addAttribute("categories", categoryDtoList);
             model.addAttribute("user", userBarDto);
+
             return "crm/doctor/blog/edit";
         }
 
         BlogDto blogDto = new BlogDto();
+        String oldSlug = slug;
+        String newSlug = blogEditDto.getSlug();
 
-        blogDto.setSlug(slug);
+        blogDto.setOldSlug(oldSlug);
+        blogDto.setSlug(newSlug);
         blogDto.setTitle(blogEditDto.getTitle());
         blogDto.setPreface(blogEditDto.getPreface());
         blogDto.setDetail(blogEditDto.getDetail());
@@ -117,7 +122,7 @@ public class BlogController {
 
         blogService.updateBlog(blogDto);
 
-        return "redirect:/blogs-crm/edit/" + slug + "?success";
+        return "redirect:/blogs-crm/edit/" + newSlug + "?success";
     }
 
     @GetMapping("/add")

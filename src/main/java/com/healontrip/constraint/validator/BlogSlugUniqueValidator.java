@@ -2,7 +2,6 @@ package com.healontrip.constraint.validator;
 
 import com.healontrip.constraint.BlogSlugUniqueConstraint;
 import com.healontrip.entity.BlogEntity;
-import com.healontrip.entity.UserEntity;
 import com.healontrip.service.BlogService;
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
@@ -19,6 +18,7 @@ public class BlogSlugUniqueValidator implements ConstraintValidator<BlogSlugUniq
 
         if (requestedBlogEntity == null)
             return true;
-        else return requestedBlogEntity.getSlug().equals(valueToValidate);
+        else
+            return !requestedBlogEntity.getSlug().equals(valueToValidate);
     }
 }

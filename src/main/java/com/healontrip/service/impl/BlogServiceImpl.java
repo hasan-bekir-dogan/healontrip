@@ -97,6 +97,14 @@ public class BlogServiceImpl implements BlogService {
         return getAllBlogs(blogEntityList);
     }
 
+    @Override
+    // Overloading
+    public List<BlogsDto> getAllBlogs(BlogFilterDto blogFilterDto) {
+        List<BlogEntity> blogEntityList = blogRepository.findBlogByStatusAndFilter(BlogStatus.ACTIVE.toString(), blogFilterDto.getCategoryId());
+
+        return getAllBlogs(blogEntityList);
+    }
+
     // Overloading
     private List<BlogsDto> getAllBlogs(List<BlogEntity> blogEntityList) {
         List<BlogsDto> blogs = new ArrayList<>();
@@ -171,6 +179,7 @@ public class BlogServiceImpl implements BlogService {
 
         blogsDto.setId(blogEntity.getId());
         blogsDto.setTitle(blogEntity.getTitle());
+        blogsDto.setSlug(blogEntity.getSlug());
 
         // Category (begin)
         blogsDto.setCategory(blogEntity.getCategoryId());
@@ -224,9 +233,10 @@ public class BlogServiceImpl implements BlogService {
 
     @Override
     public void updateBlog(BlogDto blogDto) throws IOException {
-        BlogEntity blogEntity = findBySlug(blogDto.getSlug());
+        BlogEntity blogEntity = findBySlug(blogDto.getOldSlug());
 
         blogEntity.setTitle(blogDto.getTitle());
+        blogEntity.setSlug(blogDto.getSlug());
         blogEntity.setPreface(blogDto.getPreface());
         blogEntity.setDetail(blogDto.getDetail());
         blogEntity.setCategoryId(blogDto.getCategory());
