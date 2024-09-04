@@ -1,5 +1,6 @@
 package com.healontrip.dto;
 
+import com.healontrip.constraint.BlogSlugUniqueConstraint;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -21,6 +22,10 @@ public class BlogEditDto {
 
     @NotEmpty(message = "Title must have value")
     private String title;
+
+    @NotEmpty(message = "Slug must have value")
+    @BlogSlugUniqueConstraint(message = "There is already an blog registered with that URL Slug. Please change blog title.")
+    private String slug;
 
     @NotNull(message = "Category must have value")
     private Long category;

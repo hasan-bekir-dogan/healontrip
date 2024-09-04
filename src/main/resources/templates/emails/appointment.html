@@ -15,7 +15,8 @@
 
 <body>
 
-    <p>Doctor Name: <b><th:block th:text="${doctorName}"></th:block></b></p>
+    <p th:if="${doctorName} != null and ${doctorName} != ''">Doctor Name: <b><th:block th:text="${doctorName}"></th:block></b></p>
+    <p th:if="${patientName} != null and ${patientName} != ''">Patient Name: <b><th:block th:text="${patientName}"></th:block></b></p>
     <p>Short Explanation: <b><th:block th:text="${shortExplanation}"></th:block></b></p>
 
     <br>

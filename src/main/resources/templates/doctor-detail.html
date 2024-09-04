@@ -499,9 +499,11 @@
                     <form method="post" id="book-appointment" role="form" autocomplete="off" class="form-validation" th:action="@{'/doctor/book-appointment'}">
 
                         <div class="row form-row">
+                            <input id="appointment-doctorId" type="hidden" readonly th:value="${doctor.userId}">
+
                             <div class="col-md-12">
                                 <div class="form-group">
-                                    <label>Name of Doctor or Clinic <span class="text-danger">*</span></label>
+                                    <label>Name of Doctor <span class="text-danger">*</span></label>
                                     <input type="text" class="form-control" th:value="${doctor.extendedUserName}" readonly>
                                 </div>
                             </div>

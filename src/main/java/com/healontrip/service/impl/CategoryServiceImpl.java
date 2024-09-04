@@ -1,5 +1,6 @@
 package com.healontrip.service.impl;
 
+import com.healontrip.dto.CategoryByCountDto;
 import com.healontrip.dto.CategoryDto;
 import com.healontrip.entity.CategoryEntity;
 import com.healontrip.exception.ResourceNotFoundException;
@@ -31,6 +32,13 @@ public class CategoryServiceImpl implements CategoryService {
         }
 
         return categoryDtoList;
+    }
+
+    @Override
+    public List<CategoryByCountDto> getBlogCategories() {
+        List<CategoryByCountDto> categoryByCountDtoList = categoryRepository.findAllByCount();
+
+        return categoryByCountDtoList;
     }
 
     @Override

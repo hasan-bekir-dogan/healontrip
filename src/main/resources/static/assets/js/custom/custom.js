@@ -53,6 +53,15 @@ $('#book-appointment').on('submit', function (e) {
     bookAppointment();
 })
 
+// book appointment on doctor search
+$('.doctor-content #book-appointment-button').on('click', function () {
+    let doctorName = $(this).parent().parent().parent().children('.doc-info-left').children('.doc-info-cont').children('.doc-name').attr('data')
+    let doctorId = $(this).attr('data')
+
+    $('#book-appointment #appointment-doctorName input[type="text"]').val(doctorName)
+    $('#book-appointment #appointment-doctorId').val(doctorId)
+})
+
 // reset password
 $('#reset-password').on('submit', function (e) {
     e.preventDefault();

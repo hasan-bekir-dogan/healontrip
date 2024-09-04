@@ -27,8 +27,10 @@ public class BlogDto {
     @NotNull(message = "Category must have value")
     private Long category;
 
+    private String oldSlug;
+
     @NotEmpty(message = "URL Slug must have value")
-    //@BlogSlugUniqueConstraint(message = "There is already an blog registered with that URL Slug")
+    @BlogSlugUniqueConstraint(message = "There is already an blog registered with that URL Slug. Please change blog title.")
     private String slug;
 
     @NotEmpty(message = "Preface must have value")

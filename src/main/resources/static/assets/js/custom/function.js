@@ -440,7 +440,7 @@ function getAppointmentData() {
     let patientPhoneSelector = '#book-appointment #appointment-patientPhoneNumber input[type="number"]'
     let shortExplanationSelector = '#book-appointment #appointment-shortExplanation textarea'
     let termsAcceptSelector = '#book-appointment #appointment-termsAccept input[type="checkbox"]'
-    let doctorIdSelector = '#doctor-id'
+    let doctorIdSelector = '#book-appointment #appointment-doctorId'
 
     // disable input and button
     let affectedItemList = []
@@ -536,7 +536,6 @@ async function bookAppointment() {
                     res.errors[j].defaultMessage
                 )
             }
-
         }
 
         let formErrorArea = `#book-appointment .form-error`;

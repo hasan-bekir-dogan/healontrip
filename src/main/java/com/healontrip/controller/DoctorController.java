@@ -109,6 +109,7 @@ public class DoctorController {
             return IpConfigUtil.getRedirectPage();
 
         UserBarDto userBarDto = userService.getUser();
+        List<CommunicationDto> communicationDtoList = communicationService.getAllCommunications();
 
         // gender list
         List<GenderDto> genderDtoList = new ArrayList<>();
@@ -196,6 +197,7 @@ public class DoctorController {
         model.addAttribute("filterSearchValue", search);
         model.addAttribute("filterLocationValue", location);
         model.addAttribute("filterSortByValue", sortBy);
+        model.addAttribute("communications", communicationDtoList);
 
         return "doctor-search";
     }
