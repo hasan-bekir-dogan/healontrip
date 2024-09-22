@@ -53,39 +53,9 @@
             <div class="container">
 
                 <div class="row">
-                    <div class="col-md-5 col-lg-4 col-xl-3 theiaStickySidebar">
+                    <th:block th:include="crm/patient/fragments/left-sidebar"></th:block>
 
-                        <!-- Profile Sidebar -->
-                        <div class="profile-sidebar">
-                            <div class="widget-profile pro-widget-content">
-                                <div class="profile-info-widget">
-                                    <a th:href="@{'/doctor/' + ${doctor.userName}}" class="booking-doc-img">
-                                        <img th:src="@{'/' + ${doctor.userImgSrc}}" th:alt="${doctor.userImgAlt}">
-                                    </a>
-                                    <div class="profile-det-info">
-                                        <h3 th:text="${doctor.extendedUserName}"></h3>
 
-                                        <div class="patient-details">
-                                            <h5 class="mb-0" th:text="${doctor.infoShort}"></h5>
-                                        </div>
-
-                                        <div class="rating">
-                                            <span class="d-inline-block average-rating rating-avg" th:text="${reviewInfo.ratingAvg}"></span>
-                                            <i class="fas fa-star filled"></i>
-                                            <i class="fas fa-star filled"></i>
-                                            <i class="fas fa-star filled"></i>
-                                            <i class="fas fa-star filled"></i>
-                                            <i class="fas fa-star"></i>
-                                            <span class="dot"></span>
-                                            <span class="d-inline-block average-rating rating-count"><th:block th:text="${reviewInfo.ratingCount}"></th:block> Reviews</span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- /Profile Sidebar -->
-
-                    </div>
                     <div class="col-md-7 col-lg-8 col-xl-9">
                         <div class="doc-review review-listing">
 
@@ -97,10 +67,10 @@
 
                                     <li>
                                         <div class="comment">
-                                            <img th:src="@{'/' + ${review.patientProfileImgSrc}}" class="avatar avatar-sm rounded-circle" th:alt="${review.patientProfileImgAlt}">
+                                            <img th:src="@{'/' + ${review.doctorProfileImgSrc}}" class="avatar avatar-sm rounded-circle" th:alt="${review.doctorProfileImgAlt}">
                                             <div class="comment-body">
                                                 <div class="meta-data">
-                                                    <span class="comment-author" th:text="${review.patientFullName}"></span>
+                                                    <span class="comment-author" th:text="${review.doctorFullName}"></span>
                                                     <span class="comment-date" th:text="${review.createdDate}"></span>
                                                     <div class="review-count rating">
                                                         <i class="fas fa-star" th:classappend="${review.rating >= 1} ? 'filled'"></i>
@@ -122,7 +92,7 @@
                             <!-- /Review Listing -->
 
                             <!-- Review Pagination -->
-                            <div class="row review-pagination" th:if="${pageCount > 1}">
+                            <!--<div class="row review-pagination" th:if="${pageCount > 1}">
                                 <div class="col-md-12">
                                     <div class="blog-pagination">
                                         <nav>
@@ -152,12 +122,13 @@
                                         </nav>
                                     </div>
                                 </div>
-                            </div>
+                            </div>-->
                             <!-- /Review Pagination -->
 
                         </div>
                     </div>
                 </div>
+
             </div>
 
         </div>
@@ -170,14 +141,11 @@
     </div>
     <!-- /Main Wrapper -->
 
-    <!-- ChatBot Assistant -->
-    <th:block th:include="fragments/chatbot"></th:block>
-    <!-- /ChatBot Assistant -->
 
     <!-- jQuery -->
     <script th:src="@{/assets/js/jquery-3.6.4.min.js}"></script>
 
-    <!-- Bootstrap Bundle JS -->
+    <!-- Bootstrap Core JS -->
     <script th:src="@{/assets/js/bootstrap.bundle.min.js}"></script>
 
     <!-- Sticky Sidebar JS -->
@@ -186,8 +154,12 @@
 
     <!-- Custom JS -->
     <script th:src="@{/assets/js/script.js}"></script>
-    <script th:src="@{/assets/js/custom/function.js}"></script>
-    <script th:src="@{/assets/js/custom/custom.js}"></script>
+    <!--<script th:src="@{/assets/js/doctor/functions.js}"></script>
+    <script th:src="@{/assets/js/doctor/custom.js}"></script>-->
+
+    <!-- CRM JS -->
+    <script th:src="@{/assets/js/crm/functions.js}"></script>
+    <script th:src="@{/assets/js/crm/custom.js}"></script>
 
 </body>
 </html>

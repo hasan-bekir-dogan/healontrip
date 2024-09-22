@@ -14,14 +14,19 @@
                         <h5 th:if="${user.dateOfBirth} != null"><i class="fas fa-birthday-cake"></i> <th:block th:text="${user.dateOfBirth}"></th:block></h5>
                         <h5 class="mb-0" th:if="${user.addressShort} != null and ${user.addressShort} != ''"><i class="fas fa-map-marker-alt"></i> <th:block th:text="${user.addressShort}"></th:block></h5>
                     </div>
+
+
+                    <div class="rating" th:if="${not #lists.isEmpty(reviewInfo)}">
+                        <span class="d-inline-block average-rating rating-count"><th:block th:text="${reviewInfo.ratingCount}"></th:block> Reviews</span>
+                    </div>
                 </div>
             </div>
         </div>
         <div class="dashboard-widget">
             <nav class="dashboard-menu">
                 <ul>
-                    <li>
-                        <a th:href="@{#}">
+                    <li th:classappend="${#ctx.springRequestContext.requestUri.endsWith('/reviews')} ? 'active'">
+                        <a th:href="@{/reviews}">
                             <i class="fas fa-star"></i>
                             <span>Reviews</span>
                         </a>

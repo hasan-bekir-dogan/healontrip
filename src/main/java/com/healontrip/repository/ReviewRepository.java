@@ -12,9 +12,15 @@ import java.util.List;
 public interface ReviewRepository extends JpaRepository<ReviewEntity, Long> {
     @Query(value = "Select *" +
             "       From reviews" +
-            "       Where doctor_id = :doctorId" +
+            "       Where doctor_id = :userId" +
             "       Order By id desc", nativeQuery = true)
-    List<ReviewEntity> findReviewByDoctorId(@Param("doctorId") Long doctorId);
+    List<ReviewEntity> findReviewByDoctorId(@Param("userId") Long userId);
+
+    @Query(value = "Select *" +
+            "       From reviews" +
+            "       Where patient_id = :userId" +
+            "       Order By id desc", nativeQuery = true)
+    List<ReviewEntity> findReviewByPatientId(@Param("userId") Long userId);
 
     @Query(value = "Select *" +
             "       From reviews" +
@@ -28,11 +34,21 @@ public interface ReviewRepository extends JpaRepository<ReviewEntity, Long> {
 
     @Query(value = "Select if(avg(rating) is null, 0, avg(rating)) as ratingAvg" +
             "       From reviews" +
-            "       Where doctor_id = :doctorId", nativeQuery = true)
-    double findReviewAvgByDoctorId(@Param("doctorId") Long doctorId);
+            "       Where doctor_id = :userId", nativeQuery = true)
+    double findReviewAvgByDoctorId(@Param("userId") Long userId);
+
+    @Query(value = "Select if(avg(rating) is null, 0, avg(rating)) as ratingAvg" +
+            "       From reviews" +
+            "       Where patient_id = :userId", nativeQuery = true)
+    double findReviewAvgByPatientId(@Param("userId") Long userId);
 
     @Query(value = "Select count(*) as ratingCount" +
             "       From reviews" +
-            "       Where doctor_id = :doctorId", nativeQuery = true)
-    int findReviewCountByDoctorId(@Param("doctorId") Long doctorId);
+            "       Where doctor_id = :userId", nativeQuery = true)
+    int findReviewCountByDoctorId(@Param("userId") Long userId);
+
+    @Query(value = "Select count(*) as ratingCount" +
+            "       From reviews" +
+            "       Where patient_id = :userId", nativeQuery = true)
+    int findReviewCountByPatientId(@Param("userId") Long userId);
 }
