@@ -7,6 +7,7 @@ import jakarta.validation.ConstraintValidatorContext;
 public class IntegerNotNullValidator implements ConstraintValidator<IntegerNotNullConstraint, Integer> {
     @Override
     public boolean isValid(final Integer valueToValidate, final ConstraintValidatorContext context) {
+        System.out.println("tt1: "+valueToValidate);
         return valueToValidate != 0;
     }
 }

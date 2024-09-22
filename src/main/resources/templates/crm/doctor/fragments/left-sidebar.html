@@ -13,6 +13,17 @@
                     <div class="patient-details">
                         <h5 class="mb-0" th:text="${user.infoShort}"></h5>
                     </div>
+
+                    <div class="rating" th:if="${not #lists.isEmpty(reviewInfo)}">
+                        <span class="d-inline-block average-rating rating-avg" th:text="${reviewInfo.ratingAvg}"></span>
+                        <i class="fas fa-star filled"></i>
+                        <i class="fas fa-star filled"></i>
+                        <i class="fas fa-star filled"></i>
+                        <i class="fas fa-star filled"></i>
+                        <i class="fas fa-star"></i>
+                        <span class="dot"></span>
+                        <span class="d-inline-block average-rating rating-count"><th:block th:text="${reviewInfo.ratingCount}"></th:block> Reviews</span>
+                    </div>
                 </div>
             </div>
         </div>
@@ -32,7 +43,7 @@
                         </a>
                     </li>
                     <li th:classappend="${#ctx.springRequestContext.requestUri.endsWith('/reviews')} ? 'active'">
-                        <a th:href="@{'/doctor/' + ${user.userName} + '/reviews'}">
+                        <a th:href="@{/reviews}">
                             <i class="fas fa-star"></i>
                             <span>Reviews</span>
                         </a>

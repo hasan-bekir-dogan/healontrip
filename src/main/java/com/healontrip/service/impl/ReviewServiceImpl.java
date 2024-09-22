@@ -2,6 +2,8 @@ package com.healontrip.service.impl;
 
 import com.healontrip.dto.ReviewDto;
 import com.healontrip.dto.ReviewsDto;
+import com.healontrip.dto.Role;
+import com.healontrip.dto.RolePrefix;
 import com.healontrip.entity.FileEntity;
 import com.healontrip.entity.ReviewEntity;
 import com.healontrip.entity.UserEntity;
@@ -89,8 +91,15 @@ public class ReviewServiceImpl implements ReviewService {
 
     @Override
     // overloading
-    public List<ReviewsDto> getReviews(Long doctorId) {
-        List<ReviewsDto> reviewsDtoList = getReviews(reviewRepository.findReviewByDoctorId(doctorId));
+    public List<ReviewsDto> getReviews(Long userId) {
+        List<ReviewsDto> reviewsDtoList = new ArrayList<>();
+        String role = authService.getRole();
+
+        if(role.equals(Role.DOCTOR.toString())) {
+            reviewsDtoList = getReviews(reviewRepository.findReviewByDoctorId(userId));
+        } else if(role.equals(Role.PATIENT.toString())) {
+            reviewsDtoList = getReviews(reviewRepository.findReviewByPatientId(userId));
+        }
 
         return reviewsDtoList;
     }
@@ -117,6 +126,15 @@ public class ReviewServiceImpl implements ReviewService {
             reviewsDto.setDoctorId(reviewEntity.getDoctorId());
             UserEntity doctor = userService.findById(reviewEntity.getDoctorId());
             reviewsDto.setDoctorUserName(doctor.getUserName());
+            reviewsDto.setDoctorFullName(RolePrefix.DOCTOR.getPre() + doctor.getFirstName() + " " + doctor.getLastName());
+
+            // doctor img src
+            String doctorImgSrc = fileService.getFileSrc(doctor.getProfileImgId());
+            reviewsDto.setDoctorProfileImgSrc(doctorImgSrc);
+
+            // doctor img alt
+            FileEntity doctorFileEntity = fileService.findById(doctor.getProfileImgId());
+            reviewsDto.setDoctorProfileImgAlt(doctorFileEntity.getAlt());
 
             // patient
             reviewsDto.setPatientId(reviewEntity.getPatientId());
@@ -125,12 +143,12 @@ public class ReviewServiceImpl implements ReviewService {
             reviewsDto.setPatientFullName(patient.getFirstName() + " " + patient.getLastName());
 
             // patient img src
-            String imgSrc = fileService.getFileSrc(patient.getProfileImgId());
-            reviewsDto.setPatientProfileImgSrc(imgSrc);
+            String patientImgSrc = fileService.getFileSrc(patient.getProfileImgId());
+            reviewsDto.setPatientProfileImgSrc(patientImgSrc);
 
             // patient img alt
-            FileEntity fileEntity = fileService.findById(patient.getProfileImgId());
-            reviewsDto.setPatientProfileImgAlt(fileEntity.getAlt());
+            FileEntity patientFileEntity = fileService.findById(patient.getProfileImgId());
+            reviewsDto.setPatientProfileImgAlt(patientFileEntity.getAlt());
 
             // created date
             SimpleDateFormat format = new SimpleDateFormat(reviewCreatedDatePattern);
@@ -146,20 +164,30 @@ public class ReviewServiceImpl implements ReviewService {
     }
 
     @Override
-    public ReviewsDto getReview(Long doctorId) {
+    public ReviewsDto getReview(Long userId) {
         ReviewsDto reviewsDto = new ReviewsDto();
-        UserEntity userEntity = userService.findById(doctorId);
+        UserEntity userEntity = userService.findById(userId);
+        String role = userEntity.getRole().toString().toUpperCase();
 
-        reviewsDto.setDoctorUserName(userEntity.getUserName());
-        reviewsDto.setDoctorId(doctorId);
+        if(role.equals(Role.DOCTOR.toString())) {
+            reviewsDto.setDoctorUserName(userEntity.getUserName());
+            reviewsDto.setDoctorId(userId);
 
-        double ratingAvg = reviewRepository.findReviewAvgByDoctorId(doctorId);
-        BigDecimal roundedRatingAvg = new BigDecimal(ratingAvg).setScale(1, RoundingMode.HALF_UP);
-        reviewsDto.setRatingAvg(roundedRatingAvg.doubleValue());
-        reviewsDto.setRatingAvgStr(Double.toString(roundedRatingAvg.doubleValue()));
+            double ratingAvg = reviewRepository.findReviewAvgByDoctorId(userId);
+            BigDecimal roundedRatingAvg = new BigDecimal(ratingAvg).setScale(1, RoundingMode.HALF_UP);
+            reviewsDto.setRatingAvg(roundedRatingAvg.doubleValue());
+            reviewsDto.setRatingAvgStr(Double.toString(roundedRatingAvg.doubleValue()));
 
-        int ratingCount = reviewRepository.findReviewCountByDoctorId(doctorId);
-        reviewsDto.setRatingCount(ratingCount);
+            int ratingCount = reviewRepository.findReviewCountByDoctorId(userId);
+            reviewsDto.setRatingCount(ratingCount);
+        } else if(role.equals(Role.PATIENT.toString())) {
+            reviewsDto.setPatientUserName(userEntity.getUserName());
+            reviewsDto.setPatientId(userId);
+
+            int ratingCount = reviewRepository.findReviewCountByPatientId(userId);
+            reviewsDto.setRatingCount(ratingCount);
+        }
+
 
         return reviewsDto;
     }

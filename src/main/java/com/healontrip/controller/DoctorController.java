@@ -202,7 +202,7 @@ public class DoctorController {
         return "doctor-search";
     }
 
-    @PostMapping("/review")
+    @PostMapping("/doctor/review")
     public ResponseEntity<Object> review(@ModelAttribute @Valid ReviewDto reviewDto,
                                          HttpServletRequest request){
         // coming soon
@@ -239,7 +239,7 @@ public class DoctorController {
         DoctorDto doctorDto = userService.getDoctor(userEntity.getId());
         ReviewsDto reviewsDto = reviewService.getReview(userEntity.getId());
 
-        List<ReviewsDto> reviewsDtoList = reviewService.getReviews(userEntity.getId(), LIMITPRODUCT, ((pageNumber - 1) * LIMITPRODUCT) + 1);
+        List<ReviewsDto> reviewsDtoList = reviewService.getReviews(userEntity.getId(), LIMITPRODUCT, ((pageNumber - 1) * LIMITPRODUCT)/* + 1 */);
 
         // page count
         Integer reviewCount = reviewsDto.getRatingCount();

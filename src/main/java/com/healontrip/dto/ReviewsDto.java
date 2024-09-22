@@ -14,6 +14,8 @@ import lombok.extern.log4j.Log4j2;
 public class ReviewsDto {
     private Long id;
     private Long doctorId;
+    private String doctorProfileImgSrc;
+    private String doctorProfileImgAlt;
     private String doctorUserName;
     private String doctorFullName;
     private Long patientId;

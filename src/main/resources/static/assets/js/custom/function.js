@@ -220,32 +220,8 @@ function getReviewData() {
 
     // get data
     let doctorId = $(doctorIdSelector).val()
-    /*let ratingStar;
-
-    switch ($(ratingStarSelector).val()) {
-        case 'star-1':
-            ratingStar = 1;
-            break;
-        case 'star-2':
-            ratingStar = 2;
-            break;
-        case 'star-3':
-            ratingStar = 3;
-            break;
-        case 'star-4':
-            ratingStar = 4;
-            break;
-        case 'star-5':
-            ratingStar = 5;
-            break;
-        default:
-            ratingStar = 0;
-    }*/
-
-    let ratingStar = $(ratingStarSelector).val();
-
+    let ratingStar = ($(ratingStarSelector).val() == undefined || $(ratingStarSelector).val() == null || !$(ratingStarSelector).val()) ? 0 : parseInt($(ratingStarSelector).val());
     let detail = $(detailSelector).val()
-
     let termsAccept = $(termsAcceptSelector).prop('checked')
 
     if(termsAccept === undefined)
