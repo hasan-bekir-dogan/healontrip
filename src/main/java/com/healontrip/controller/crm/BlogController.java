@@ -76,6 +76,8 @@ public class BlogController {
         List<CategoryDto> categoryDtoList = categoryService.getAllCategories();
         UserBarDto userBarDto = userService.getUser();
 
+        System.out.println(blogsDto);
+
         model.addAttribute("blog", blogsDto);
         model.addAttribute("categories", categoryDtoList);
         model.addAttribute("user", userBarDto);

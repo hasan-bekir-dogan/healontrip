@@ -324,7 +324,7 @@
                 <div class="row">
                     <div class="col-md-6 aos" data-aos="fade-up">
                         <div class="section-header-one section-header-slider">
-                            <h2 class="section-title">Our Clinics</h2>
+                            <h2 class="section-title">Health Centers</h2>
                         </div>
                     </div>
                     <div class="col-md-6 aos" data-aos="fade-up">
@@ -337,29 +337,27 @@
                     <div class="item">
                         <div class="doctor-profile-widget">
                             <div class="doc-pro-img">
-                                <a href="doctor-profile.html">
+                                <a href="javascript:void(0);">
                                     <div class="doctor-profile-img">
-                                        <img src="assets/img/doctors/doctor-03.jpg" class="img-fluid" alt="">
+                                        <img th:src="@{assets/img/health_centers/Vitalis.jpg}" class="img-fluid" th:alt="${'Vitalis'}">
                                     </div>
                                 </a>
-                                <div class="doctor-amount">
-                                    <span>$ 200</span>
-                                </div>
                             </div>
                             <div class="doc-content">
                                 <div class="doc-pro-info">
                                     <div class="doc-pro-name">
-                                        <a href="doctor-profile.html">Dr. Ruby Perrin</a>
-                                        <p>Cardiology</p>
+                                        <a href="javascript:void(0);">
+                                            Vitalis
+                                        </a>
                                     </div>
                                     <div class="reviews-ratings">
-                                        <p>
-                                            <span><i class="fas fa-star"></i> 4.5</span> (35)
-                                        </p>
+                                        <!--<p>
+                                            <span><i class="fas fa-star"></i> <th:block th:text="${doctor.reviews.ratingAvg}"></th:block></span> (<th:block th:text="${doctor.reviews.ratingCount <= 999} ? ${doctor.reviews.ratingCount} : '999+'"></th:block>)
+                                        </p>-->
                                     </div>
                                 </div>
                                 <div class="doc-pro-location">
-                                    <p><i class="feather-map-pin"></i> Newyork, USA</p>
+                                    <p><i class="feather-map-pin"></i> Bursa, Türkiye</p>
                                 </div>
                             </div>
                         </div>
@@ -370,29 +368,27 @@
                     <div class="item">
                         <div class="doctor-profile-widget">
                             <div class="doc-pro-img">
-                                <a href="doctor-profile.html">
+                                <a href="javascript:void(0);">
                                     <div class="doctor-profile-img">
-                                        <img src="assets/img/doctors/doctor-04.jpg" class="img-fluid" alt="">
+                                        <img th:src="@{assets/img/health_centers/Enternia.jpg}" class="img-fluid" th:alt="${'Enternia'}">
                                     </div>
                                 </a>
-                                <div class="doctor-amount">
-                                    <span>$ 360</span>
-                                </div>
                             </div>
                             <div class="doc-content">
                                 <div class="doc-pro-info">
                                     <div class="doc-pro-name">
-                                        <a href="doctor-profile.html">Dr. Darren Elder</a>
-                                        <p>Neurology</p>
+                                        <a href="javascript:void(0);">
+                                            Enternia
+                                        </a>
                                     </div>
                                     <div class="reviews-ratings">
-                                        <p>
-                                            <span><i class="fas fa-star"></i> 4.0</span> (20)
-                                        </p>
+                                        <!--<p>
+                                            <span><i class="fas fa-star"></i> <th:block th:text="${doctor.reviews.ratingAvg}"></th:block></span> (<th:block th:text="${doctor.reviews.ratingCount <= 999} ? ${doctor.reviews.ratingCount} : '999+'"></th:block>)
+                                        </p>-->
                                     </div>
                                 </div>
                                 <div class="doc-pro-location">
-                                    <p><i class="feather-map-pin"></i> Florida, USA</p>
+                                    <p><i class="feather-map-pin"></i> İstanbul, Türkiye</p>
                                 </div>
                             </div>
                         </div>
@@ -403,29 +399,27 @@
                     <div class="item">
                         <div class="doctor-profile-widget">
                             <div class="doc-pro-img">
-                                <a href="doctor-profile.html">
+                                <a href="javascript:void(0);">
                                     <div class="doctor-profile-img">
-                                        <img src="assets/img/doctors/doctor-05.jpg" class="img-fluid" alt="">
+                                        <img th:src="@{assets/img/health_centers/Neomedicus.jpg}" class="img-fluid" th:alt="${'Neomedicus'}">
                                     </div>
                                 </a>
-                                <div class="doctor-amount">
-                                    <span>$ 450</span>
-                                </div>
                             </div>
                             <div class="doc-content">
                                 <div class="doc-pro-info">
                                     <div class="doc-pro-name">
-                                        <a href="doctor-profile.html">Dr. Sofia Brient</a>
-                                        <p>Urology</p>
+                                        <a href="javascript:void(0);">
+                                            Neomedicus
+                                        </a>
                                     </div>
                                     <div class="reviews-ratings">
-                                        <p>
-                                            <span><i class="fas fa-star"></i> 4.5</span> (30)
-                                        </p>
+                                        <!--<p>
+                                            <span><i class="fas fa-star"></i> <th:block th:text="${doctor.reviews.ratingAvg}"></th:block></span> (<th:block th:text="${doctor.reviews.ratingCount <= 999} ? ${doctor.reviews.ratingCount} : '999+'"></th:block>)
+                                        </p>-->
                                     </div>
                                 </div>
                                 <div class="doc-pro-location">
-                                    <p><i class="feather-map-pin"></i> Georgia, USA</p>
+                                    <p><i class="feather-map-pin"></i> İzmir, Türkiye</p>
                                 </div>
                             </div>
                         </div>
@@ -436,62 +430,27 @@
                     <div class="item">
                         <div class="doctor-profile-widget">
                             <div class="doc-pro-img">
-                                <a href="doctor-profile.html">
+                                <a href="javascript:void(0);">
                                     <div class="doctor-profile-img">
-                                        <img src="assets/img/doctors/doctor-02.jpg" class="img-fluid" alt="">
+                                        <img th:src="@{assets/img/health_centers/Elysium.jpg}" class="img-fluid" th:alt="${'Elysium'}">
                                     </div>
                                 </a>
-                                <div class="doctor-amount">
-                                    <span>$ 570</span>
-                                </div>
                             </div>
                             <div class="doc-content">
                                 <div class="doc-pro-info">
                                     <div class="doc-pro-name">
-                                        <a href="doctor-profile.html">Dr. Paul Richard</a>
-                                        <p>Orthopedic</p>
+                                        <a href="javascript:void(0);">
+                                            Elysium
+                                        </a>
                                     </div>
                                     <div class="reviews-ratings">
-                                        <p>
-                                            <span><i class="fas fa-star"></i> 4.3</span> (45)
-                                        </p>
+                                        <!--<p>
+                                            <span><i class="fas fa-star"></i> <th:block th:text="${doctor.reviews.ratingAvg}"></th:block></span> (<th:block th:text="${doctor.reviews.ratingCount <= 999} ? ${doctor.reviews.ratingCount} : '999+'"></th:block>)
+                                        </p>-->
                                     </div>
                                 </div>
                                 <div class="doc-pro-location">
-                                    <p><i class="feather-map-pin"></i> Michigan, USA</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- /Doctor Item -->
-
-                    <!-- Doctor Item -->
-                    <div class="item">
-                        <div class="doctor-profile-widget">
-                            <div class="doc-pro-img">
-                                <a href="doctor-profile.html">
-                                    <div class="doctor-profile-img">
-                                        <img src="assets/img/doctors/doctor-01.jpg" class="img-fluid" alt="">
-                                    </div>
-                                </a>
-                                <div class="doctor-amount">
-                                    <span>$ 880</span>
-                                </div>
-                            </div>
-                            <div class="doc-content">
-                                <div class="doc-pro-info">
-                                    <div class="doc-pro-name">
-                                        <a href="doctor-profile.html">Dr. John Doe</a>
-                                        <p>Dentist</p>
-                                    </div>
-                                    <div class="reviews-ratings">
-                                        <p>
-                                            <span><i class="fas fa-star"></i> 4.4</span> (50)
-                                        </p>
-                                    </div>
-                                </div>
-                                <div class="doc-pro-location">
-                                    <p><i class="feather-map-pin"></i> California, USA</p>
+                                    <p><i class="feather-map-pin"></i> Ankara, Türkiye</p>
                                 </div>
                             </div>
                         </div>

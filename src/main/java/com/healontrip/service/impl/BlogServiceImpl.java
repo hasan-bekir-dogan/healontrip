@@ -282,6 +282,11 @@ public class BlogServiceImpl implements BlogService {
     }
 
     @Override
+    public BlogEntity findByEditSlugAndId(String slug, Long id) {
+        return blogRepository.findByEditSlugAndId(slug,id);
+    }
+
+    @Override
     public void changeBlogStatus(Long id, String status) {
         BlogEntity blogEntity = findById(id);
 

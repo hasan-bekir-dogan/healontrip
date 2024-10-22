@@ -14,11 +14,19 @@ public class BlogEditSlugUniqueValidator implements ConstraintValidator<BlogEdit
 
     @Override
     public boolean isValid(final String valueToValidate, final ConstraintValidatorContext context) {
-        BlogEntity requestedBlogEntity = blogService.findBySlug(valueToValidate);
+        String[] parts = valueToValidate.split("-");
+        String newSlug = "";
+
+        Long blogId = Long.parseLong(parts[parts.length - 1]);
+
+        for(int i = 0; i < parts.length - 1; i ++)
+            newSlug += parts[i];
+
+        BlogEntity requestedBlogEntity = blogService.findByEditSlugAndId(newSlug, blogId);
 
         if (requestedBlogEntity == null)
             return true;
         else
-            return !requestedBlogEntity.getSlug().equals(valueToValidate);
+            return !requestedBlogEntity.getSlug().equals(newSlug);
     }
 }

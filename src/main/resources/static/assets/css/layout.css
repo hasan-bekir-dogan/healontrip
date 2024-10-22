@@ -955,6 +955,30 @@ fieldset#first .widget-btn > a.disabled {
   max-height: 136px;
 }
 
+.conditions-list-lev-1 {
+  list-style-position: inside;
+  padding-left: 0;
+  font-size: 16px;
+  color: #6B7280;
+  display: inline-block;
+  line-height: 1.5;
+  margin-bottom: 24px;
+}
+.conditions-list-lev-1 > li {
+  margin-bottom: 24px;
+}
+.conditions-list-lev-1 .conditions-list-lev-2 {
+  list-style-type: disc;
+  margin-top: 24px;
+  margin-bottom: 24px;
+}
+.conditions-list-lev-1 .conditions-list-lev-2 > li {
+  margin-bottom: 24px;
+}
+.conditions-list-lev-1.list2-lev1 .list2-lev2 {
+  list-style-type: none;
+}
+
 /********************************************************************************************************************/
 /********************************************************************************************************************/
 /********************************************************************************************************************/

@@ -42,7 +42,7 @@ public class SpringSecurity {
     public static final String LOGOUT_URL = "/logout";
     public static final String LOGOUT_SUCCESS_URL = "/";
     public static final String LOGIN_FAIL_URL = LOGIN_URL + "?error=true";
-    public static final String DEFAULT_SUCCESS_URL = "/dashboard";
+    public static final String DEFAULT_SUCCESS_URL = "/profile";
     public static final String USERNAME = "email";
 
     @Bean

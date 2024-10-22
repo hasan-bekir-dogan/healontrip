@@ -30,12 +30,12 @@
         <div class="dashboard-widget">
             <nav class="dashboard-menu">
                 <ul>
-                    <li th:classappend="${#ctx.springRequestContext.requestUri == '/dashboard'} ? 'active'">
+                    <!--<li th:classappend="${#ctx.springRequestContext.requestUri == '/dashboard'} ? 'active'">
                         <a th:href="@{/dashboard}">
                             <i class="fas fa-columns"></i>
                             <span>Dashboard</span>
                         </a>
-                    </li>
+                    </li>-->
                     <li th:classappend="${#ctx.springRequestContext.requestUri.startsWith('/blogs-crm')} ? 'active'">
                         <a th:href="@{/blogs-crm}">
                             <i class="fas fa-pager"></i>

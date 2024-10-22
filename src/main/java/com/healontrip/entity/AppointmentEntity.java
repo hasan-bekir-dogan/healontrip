@@ -27,7 +27,7 @@ public class AppointmentEntity extends BaseEntity implements Serializable {
     @Column(name = "communication_id", nullable = false)
     private Long communicationId;
 
-    @Column(name = "short_explanation", nullable = false)
+    @Column(name = "short_explanation", nullable = false, columnDefinition = "varchar(4000)")
     private String shortExplanation;
 
     public AppointmentEntity(Long doctorId, Long patientId, Long communicationId, String shortExplanation) {
