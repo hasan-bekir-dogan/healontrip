@@ -25,7 +25,7 @@ public class BlogEditDto {
     private String title;
 
     @NotEmpty(message = "Slug must have value")
-    @BlogEditSlugUniqueConstraint(message = "There is already an blog registered with that URL Slug. Please change blog title.")
+    //@BlogEditSlugUniqueConstraint(message = "There is already an blog registered with that URL Slug. Please change blog title.")
     private String slug;
 
     @NotNull(message = "Category must have value")

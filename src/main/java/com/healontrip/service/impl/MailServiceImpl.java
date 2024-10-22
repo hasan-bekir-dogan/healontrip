@@ -61,6 +61,7 @@ public class MailServiceImpl implements MailService {
         // HTML Body
         final Context ctx = new Context(LocaleContextHolder.getLocale());
         ctx.setVariable("doctorName", "Dr. " + doctorUserEntity.getFirstName() + " " + doctorUserEntity.getLastName());
+        ctx.setVariable("doctorEmail", doctorUserEntity.getEmail());
         ctx.setVariable("shortExplanation", data.getShortExplanation());
         //ctx.setVariable("springLogo", SPRING_LOGO_IMAGE);
 
@@ -94,6 +95,7 @@ public class MailServiceImpl implements MailService {
         // HTML Body
         final Context ctx = new Context(LocaleContextHolder.getLocale());
         ctx.setVariable("patientName", patientUserEntity.getFirstName() + " " + patientUserEntity.getLastName());
+        ctx.setVariable("patientEmail", patientUserEntity.getEmail());
         ctx.setVariable("shortExplanation", data.getShortExplanation());
         //ctx.setVariable("springLogo", SPRING_LOGO_IMAGE);
 

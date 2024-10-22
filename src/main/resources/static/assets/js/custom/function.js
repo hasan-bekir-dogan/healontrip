@@ -220,7 +220,7 @@ function getReviewData() {
 
     // get data
     let doctorId = $(doctorIdSelector).val()
-    let ratingStar = ($(ratingStarSelector).val() == undefined || $(ratingStarSelector).val() == null || !$(ratingStarSelector).val()) ? 0 : parseInt($(ratingStarSelector).val());
+    let ratingStar = ($(ratingStarSelector).val() === undefined || $(ratingStarSelector).val() == null || !$(ratingStarSelector).val()) ? 0 : parseInt($(ratingStarSelector).val());
     let detail = $(detailSelector).val()
     let termsAccept = $(termsAcceptSelector).prop('checked')
 

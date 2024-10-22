@@ -22,6 +22,7 @@ public interface BlogService {
     void updateBlog(BlogDto blogDto) throws IOException;
     BlogEntity findById(Long id);
     BlogEntity findBySlug(String slug);
+    BlogEntity findByEditSlugAndId(String slug, Long id);
     void changeBlogStatus(Long id, String status) throws IOException;
     FileDto FileEntitytoFileDto(FileEntity fileEntity);
     FileEntity FileDtoToFileEntity(FileDto fileDto);

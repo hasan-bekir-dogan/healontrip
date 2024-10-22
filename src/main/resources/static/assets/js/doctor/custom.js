@@ -213,3 +213,15 @@ $('.doctor-add-blog .form-group #title').on('change', function () {
 
     $('.doctor-add-blog .form-group #slug').val(slug)
 })
+
+/*$('#blog-edit').on('submit', function (e) {
+    e.preventDefault();
+
+    let currentSlug = $('#blog-edit #slug').val()
+    let blogId = $('#blog-id').val()
+
+    $('#blog-edit #slug').val(currentSlug + "-" + blogId)
+
+    $(this).unbind("submit");
+})*/
+

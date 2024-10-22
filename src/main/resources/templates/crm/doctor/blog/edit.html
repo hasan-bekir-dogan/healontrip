@@ -87,7 +87,9 @@
                                         <div class="alert alert-info">You have successfully updated blog!</div>
                                     </div>
 
-                                    <form method="post" enctype="multipart/form-data" role="form" autocomplete="off" class="form-validation doctor-add-blog" th:action="@{'/blogs-crm/edit/' + ${slug}}" th:object="${blog}">
+                                    <input type="hidden" id="blog-id" th:value="${blog.id}">
+
+                                    <form method="post" id="blog-edit" enctype="multipart/form-data" role="form" autocomplete="off" class="form-validation doctor-add-blog" th:action="@{'/blogs-crm/edit/' + ${slug}}" th:object="${blog}">
 
                                         <div class="service-fields mb-3">
                                             <div class="row">

@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import java.text.ParseException;
 
 
-@Controller("DashboardController")
+/*@Controller("DashboardController")
 public class DashboardController {
     @Autowired
     private UserService userService;
@@ -39,4 +39,4 @@ public class DashboardController {
 
         return "crm/" + userBarDto.getRole().toLowerCase() + "/dashboard";
     }
-}
+}*/

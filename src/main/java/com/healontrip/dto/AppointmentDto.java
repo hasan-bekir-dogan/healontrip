@@ -4,6 +4,7 @@ import com.healontrip.constraint.BooleanNotNullConstraint;
 import com.healontrip.constraint.PhoneNumberNotNullConstraint;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -22,6 +23,7 @@ public class AppointmentDto {
     private Long communicationId;
 
     @NotEmpty(message = "Short explanation method must have value")
+    @Size(max = 4000, message = "Short explanation must have maximum 4000 character")
     private String shortExplanation;
 
     @BooleanNotNullConstraint(message = "Terms & Conditions must be accepted")

@@ -42,6 +42,14 @@ public interface BlogRepository extends JpaRepository<BlogEntity, Long> {
 
     @Query(value = "Select *" +
             "       From blogs b" +
+            "       Where b.slug = :slug" +
+            "       And b.id != :id" +
+            "       Order By b.id Desc", nativeQuery = true)
+    BlogEntity findByEditSlugAndId(@Param("slug") String slug,
+                                   @Param("id") Long id);
+
+    @Query(value = "Select *" +
+            "       From blogs b" +
             "       Where b.status = :status" +
             "       And b.category_id = :categoryId" +
             "       Order By b.id Desc", nativeQuery = true)
